@@ -8,9 +8,10 @@ public class Portal : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            collision.GetComponent<PlayerController>().ChangeGameMode(targetMode);
+            collision.GetComponentInParent<PlayerController>().ChangeGameMode(targetMode);
         }
     }
 
     // I could add visual and audio effects here
 }
+ 
