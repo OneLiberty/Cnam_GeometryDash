@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     public enum GameMode { Cube, Ship, Wave }
 
-    private GameMode currentGameMode = GameMode.Ship; 
+    private GameMode currentGameMode = GameMode.Wave; 
     private IPlayerMode currentController;
     private Dictionary<GameMode, IPlayerMode> controllers;
 
@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
         controllers = new Dictionary<GameMode, IPlayerMode> {
             { GameMode.Cube, new CubeController(this) },
             { GameMode.Ship, new ShipController(this) },
-            // { GameMode.Wave, new WaveController(this) }
+            { GameMode.Wave, new WaveController(this) }
         };
 
         currentController = controllers[currentGameMode];

@@ -6,6 +6,7 @@ public class CubeController : IPlayerMode
     private Rigidbody2D rb;
 
     private const float baseSpeed = 10.4f; // this is the default speed in GD (10.4 blocks per second)
+    private const float baseGravity = 4f;
     private float jumpForce = 14.0f;
     public float speedModifier = 1f;
 
@@ -21,7 +22,7 @@ public class CubeController : IPlayerMode
         if (rb.linearVelocityY < -6.6f) {
             rb.gravityScale = 0f;
         } else {
-            rb.gravityScale = 4f;
+            rb.gravityScale = baseGravity;
         }
         
         RotateSprite();
