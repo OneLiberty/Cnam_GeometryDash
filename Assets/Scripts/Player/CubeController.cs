@@ -25,11 +25,8 @@ public class CubeController : IPlayerMode
         } else {
             rb.gravityScale = 4f;
         }
-
-        if (!CheckGrounded())
-        {
-            RotateCube();
-        }
+        
+        RotateSprite();
     }
 
     public void Update()
@@ -61,12 +58,23 @@ public class CubeController : IPlayerMode
         return frontHit.collider != null || backHit.collider != null;
     }
 
-    private void RotateCube()
+    private void RotateSprite()
     {
-        // Rotate the cube based on the current velocity
-        float rotationSpeed = -20f; // Adjust this value to control the rotation speed
-        float rotationAmount = rb.linearVelocity.x * rotationSpeed * Time.fixedDeltaTime;
-        rb.MoveRotation(rb.rotation + rotationAmount);
+        SpriteRenderer spriteRenderer = rb.GetComponentInChildren<SpriteRenderer>();
+
+        if (!CheckGrounded())
+        {
+            float rotationAmount = 280f * Time.deltaTime;
+            spriteRenderer.transform.Rotate(0, 0, -rotationAmount);
+        }
+        else // il faudrait un petit timer qu'on reset si on detect un saut pour pas snap tout de suite.
+        {
+            float currentRotation = spriteRenderer.transform.eulerAngles.z;
+            float snappedRotation = Mathf.Round(currentRotation / 90) * 90;
+            float smoothedRotation = Mathf.LerpAngle(currentRotation, snappedRotation, 0.25f);
+
+            spriteRenderer.transform.rotation = Quaternion.Euler(0, 0, smoothedRotation);
+        }
     }
 
     //Debug
