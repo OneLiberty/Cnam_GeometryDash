@@ -1,0 +1,44 @@
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+public class ShipController : IPlayerMode 
+{
+    private Rigidbody2D rb;
+    private const float baseSpeed = 10.4f; // this is the default speed in GD (10.4 blocks per second)
+    private const float baseGravity = 4f; 
+
+    public float speedModifier = 1f;
+
+    public ShipController(PlayerController playerController)
+    {
+        rb = playerController.GetComponent<Rigidbody2D>();
+    }
+
+    public void FixedUpdate() 
+    {
+        rb.linearVelocity = new Vector2(baseSpeed * speedModifier, rb.linearVelocityY);
+        
+        // limiting y velocity to prevent excessive speed
+        if (rb.linearVelocityY > 10f) {
+            rb.linearVelocityY = 10f;
+        } else if (rb.linearVelocityY < -10f) {
+            rb.linearVelocityY = -10f;
+  
+        }
+    }
+
+    public void Update()
+    {
+        if (InputSystem.GetDevice<Keyboard>().spaceKey.isPressed) { // temporarily using space key for testing
+            OnClick(new InputValue()); // Simulate click input
+        } else {
+            rb.gravityScale = baseGravity;
+        }
+    }
+
+    public void OnClick(InputValue value)
+    {
+        rb.gravityScale = -baseGravity;
+    }
+}
+

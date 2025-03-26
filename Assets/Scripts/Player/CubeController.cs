@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 public class CubeController : IPlayerMode 
 {
@@ -8,7 +7,6 @@ public class CubeController : IPlayerMode
 
     private const float baseSpeed = 10.4f; // this is the default speed in GD (10.4 blocks per second)
     private float jumpForce = 14.0f;
-
     public float speedModifier = 1f;
 
     public CubeController(PlayerController playerController)
