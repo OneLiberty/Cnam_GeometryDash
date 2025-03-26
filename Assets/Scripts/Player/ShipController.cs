@@ -3,15 +3,18 @@ using UnityEngine.InputSystem;
 
 public class ShipController : IPlayerMode 
 {
+    private PlayerController playerController;
     private Rigidbody2D rb;
+    
     private const float baseSpeed = 10.4f; // this is the default speed in GD (10.4 blocks per second)
     private const float baseGravity = 4f; 
 
     public float speedModifier = 1f;
 
-    public ShipController(PlayerController playerController)
+    public ShipController(PlayerController playerController, Rigidbody2D rb)
     {
-        rb = playerController.GetComponent<Rigidbody2D>();
+        this.playerController = playerController;
+        this.rb = rb;
     }
 
     public void FixedUpdate() 

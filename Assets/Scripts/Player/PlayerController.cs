@@ -6,41 +6,85 @@ public class PlayerController : MonoBehaviour
 {
     public enum GameMode { Cube, Ship, Wave }
 
-    private GameMode currentGameMode = GameMode.Wave; 
+    [Header("Prefabs")]
+    [SerializeField] private GameObject cubePrefab;
+    [SerializeField] private GameObject shipPrefab;
+    [SerializeField] private GameObject wavePrefab;
+
+    [Header("Settings")]
+    [SerializeField] private GameMode currentGameMode = GameMode.Cube; 
+
+    public Rigidbody2D rb { get; private set; } // public for testing
+
     private IPlayerMode currentController;
+    private GameObject currentCharacterInstance;
     private Dictionary<GameMode, IPlayerMode> controllers;
 
     private void Awake()
     {
+        rb = GetComponent<Rigidbody2D>();
+
         controllers = new Dictionary<GameMode, IPlayerMode> {
-            { GameMode.Cube, new CubeController(this) },
-            { GameMode.Ship, new ShipController(this) },
-            { GameMode.Wave, new WaveController(this) }
+            { GameMode.Cube, new CubeController(this, rb) },
+            { GameMode.Ship, new ShipController(this, rb) },
+            { GameMode.Wave, new WaveController(this, rb) }
         };
 
         currentController = controllers[currentGameMode];
+        SpawnPlayerPrefab(currentGameMode);
     }
 
     public void ChangeGameMode(GameMode newGameMode) {
         currentGameMode = newGameMode;
         currentController = controllers[newGameMode];
+        SpawnPlayerPrefab(newGameMode);
+    }
+
+    private void SpawnPlayerPrefab(GameMode mode)
+    {
+        if (currentCharacterInstance != null) 
+        {
+            Destroy(currentCharacterInstance);
+        }
+            
+        GameObject prefabToSpawn = null;
+        switch (mode)
+        {
+            case GameMode.Cube:
+                prefabToSpawn = cubePrefab;
+                break;
+            case GameMode.Ship:
+                prefabToSpawn = shipPrefab;
+                break;
+            case GameMode.Wave:
+                prefabToSpawn = wavePrefab;
+                break;
+        }
+        
+        if (prefabToSpawn != null)
+        {
+            currentCharacterInstance = Instantiate(prefabToSpawn, transform.position, Quaternion.identity);
+            currentCharacterInstance.transform.SetParent(transform);
+            
+            Rigidbody2D rb = currentCharacterInstance.GetComponent<Rigidbody2D>();
+        }
     }
 
     private void Update()
     {
-        // Main loop, handles input and other updates
+        // main loop, handles input and other updates
         currentController.Update();
     }
 
     private void FixedUpdate()
     {
-        // Physics loop
+        // physics loop
         currentController.FixedUpdate();
     }
 
     public void OnClick(InputValue value)
     {
-        // Handle click input
+        // handle click input
         currentController.OnClick(value);
     }
 }

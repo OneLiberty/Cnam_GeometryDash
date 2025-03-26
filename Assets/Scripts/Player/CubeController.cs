@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 public class CubeController : IPlayerMode 
 {
+    private PlayerController playerController;
     private Rigidbody2D rb;
 
     private const float baseSpeed = 10.4f; // this is the default speed in GD (10.4 blocks per second)
@@ -10,10 +11,12 @@ public class CubeController : IPlayerMode
     private float jumpForce = 14.0f;
     public float speedModifier = 1f;
 
-    public CubeController(PlayerController playerController)
+    public CubeController(PlayerController playerController, Rigidbody2D rb)
     {
-        rb = playerController.GetComponent<Rigidbody2D>();
+        this.playerController = playerController;
+        this.rb = rb;
     }
+
 
     public void FixedUpdate() 
     {
@@ -63,7 +66,7 @@ public class CubeController : IPlayerMode
 
         if (!CheckGrounded())
         {
-            float rotationAmount = 280f * Time.deltaTime;
+            float rotationAmount = 250f * Time.deltaTime;
             spriteRenderer.transform.Rotate(0, 0, -rotationAmount);
         }
         else // il faudrait un petit timer qu'on reset si on detect un saut pour pas snap tout de suite.
