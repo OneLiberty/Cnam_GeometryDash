@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class CubeController : IPlayerMode 
 {
@@ -25,6 +26,10 @@ public class CubeController : IPlayerMode
             rb.gravityScale = 4f;
         }
 
+        if (!CheckGrounded())
+        {
+            RotateCube();
+        }
     }
 
     public void Update()
@@ -56,12 +61,20 @@ public class CubeController : IPlayerMode
         return frontHit.collider != null || backHit.collider != null;
     }
 
+    private void RotateCube()
+    {
+        // Rotate the cube based on the current velocity
+        float rotationSpeed = -20f; // Adjust this value to control the rotation speed
+        float rotationAmount = rb.linearVelocity.x * rotationSpeed * Time.fixedDeltaTime;
+        rb.MoveRotation(rb.rotation + rotationAmount);
+    }
+
     //Debug
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawLine(rb.position + new Vector2(0.5f, 0), rb.position + new Vector2(0.5f, 0) + Vector2.down * 0.55f);
-        Gizmos.DrawLine(rb.position - new Vector2(0.47f, 0), rb.position - new Vector2(0.47f, 0) + Vector2.down * 0.55f);
+        Gizmos.DrawLine(rb.position - new Vector2(0.47f, 0), rb.position - new Vector2(0.47f, 0) + Vector2.down * 0.55f); 
     }
         
 }
