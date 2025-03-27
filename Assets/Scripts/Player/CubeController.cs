@@ -15,8 +15,8 @@ public class CubeController : IPlayerMode
     {
         this.playerController = playerController;
         this.rb = rb;
+        rb.gravityScale = baseGravity; 
     }
-
 
     public void FixedUpdate() 
     {

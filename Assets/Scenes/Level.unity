@@ -301,7 +301,7 @@ MonoBehaviour:
   cubePrefab: {fileID: 1726968030067801148, guid: 0b3cec8e22a48457ea71104dd6ee35d9, type: 3}
   shipPrefab: {fileID: 1726968030067801148, guid: 0286ca76bda5b4f0e9e320f3703eae19, type: 3}
   wavePrefab: {fileID: 1726968030067801148, guid: 5c899ff9ff3d14dd38b3324decb072c5, type: 3}
-  currentGameMode: 0
+  currentGameMode: 1
 --- !u!50 &1164645481
 Rigidbody2D:
   serializedVersion: 5
