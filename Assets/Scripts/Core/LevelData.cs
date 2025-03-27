@@ -16,5 +16,6 @@ public class LevelObjectData {
     public string type;
     public Vector2 position;
     public float rotation; 
+    public string anchor = "bottom"; // "bottom", "top", "center"
     // maybe other properties, we'll see. 
 }
