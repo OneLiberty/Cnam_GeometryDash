@@ -1,17 +1,11 @@
-using UnityEngine;
-
-public class Portal : MonoBehaviour
+public class Portal : InteractiveObject
 {
     public PlayerController.GameMode targetMode;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public override void Interact(PlayerController player)
     {
-        if (collision.CompareTag("Player"))
-        {
-            collision.GetComponentInParent<PlayerController>().ChangeGameMode(targetMode);
-        }
+        player.ChangeGameMode(targetMode);
     }
-
     // I could add visual and audio effects here
 }
  
