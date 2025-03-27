@@ -1,0 +1,31 @@
+{
+    "name": "Test Level",
+    "difficulty": 1,
+    "musicFile": "testMusic",
+    "levelObjects": [
+        {
+            "type": "Tile",
+            "position": {
+                "x": 5,
+                "y": 0
+            },
+            "rotation": 0
+        },
+        {
+            "type": "Spike",
+            "position": {
+                "x": 10,
+                "y": 0
+            },
+            "rotation": 0
+        },
+        {
+            "type": "SmallSpike",
+            "position": {
+                "x": 15,
+                "y": 0
+            },
+            "rotation": 0
+        }
+    ]
+}
