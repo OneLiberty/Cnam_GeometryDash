@@ -4,7 +4,9 @@ using UnityEngine.InputSystem;
 public class CubeController : IPlayerMode 
 {
     private PlayerController playerController;
+    private GameObject characterInstance;
     private Rigidbody2D rb;
+    private ParticleSystem particleSystem;
 
     private const float baseSpeed = 10.4f; // this is the default speed in GD (10.4 blocks per second)
     private const float baseGravity = 4f;
@@ -18,6 +20,17 @@ public class CubeController : IPlayerMode
         rb.gravityScale = baseGravity; 
     }
 
+    public void Initialize(GameObject characterInstance)
+    {
+        this.characterInstance = characterInstance; 
+        particleSystem = characterInstance.GetComponentInChildren<ParticleSystem>();
+        if (particleSystem != null)
+        {
+            Debug.Log("Particle system found, start playing");
+            particleSystem.Play();
+        }
+    }
+
     public void FixedUpdate() 
     {
         rb.linearVelocity = new Vector2(baseSpeed * speedModifier, rb.linearVelocityY);
@@ -26,6 +39,10 @@ public class CubeController : IPlayerMode
             rb.gravityScale = 0f;
         } else {
             rb.gravityScale = baseGravity;
+        }
+
+        if(!particleSystem.isPlaying && CheckGrounded()){
+            particleSystem.Play();
         }
         
         RotateSprite();
@@ -46,6 +63,7 @@ public class CubeController : IPlayerMode
             // Jump
             rb.linearVelocityY = 0;
             rb.linearVelocity = new Vector2(rb.linearVelocityX, jumpForce);
+            particleSystem.Stop(true);
         }
     }
 

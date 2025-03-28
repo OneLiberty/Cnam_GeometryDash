@@ -19,6 +19,8 @@ public class WaveController : IPlayerMode
         rb.gravityScale = baseGravity;
     }
 
+    public void Initialize(GameObject characterInstance) {}
+
     public void FixedUpdate() 
     {
         rb.linearVelocity = new Vector2(baseSpeed * speedModifier, baseSpeed * speedModifier * _movementDirection);

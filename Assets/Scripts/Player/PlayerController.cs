@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 public interface IPlayerMode 
 {
     // Interface for player modes
+    void Initialize(GameObject characterInstance);
     void Update();
     void FixedUpdate();
     void OnClick(InputValue value);
@@ -78,8 +79,9 @@ public class PlayerController : MonoBehaviour
         {
             currentCharacterInstance = Instantiate(prefabToSpawn, transform.position, Quaternion.identity);
             currentCharacterInstance.transform.SetParent(transform);
+
+            currentController.Initialize(currentCharacterInstance);
             
-            Rigidbody2D rb = currentCharacterInstance.GetComponent<Rigidbody2D>();
         }
     }
 

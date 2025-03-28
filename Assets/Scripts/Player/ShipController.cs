@@ -17,6 +17,8 @@ public class ShipController : IPlayerMode
         this.rb = rb;
     }
 
+    public void Initialize(GameObject characterInstance) {}
+
     public void FixedUpdate() 
     {
         rb.linearVelocity = new Vector2(baseSpeed * speedModifier, rb.linearVelocityY);
