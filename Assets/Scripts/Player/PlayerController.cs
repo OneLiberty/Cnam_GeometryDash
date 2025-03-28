@@ -2,6 +2,14 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 
+public interface IPlayerMode 
+{
+    // Interface for player modes
+    void Update();
+    void FixedUpdate();
+    void OnClick(InputValue value);
+}
+
 public class PlayerController : MonoBehaviour
 {
     public enum GameMode { Cube, Ship, Wave }
@@ -38,6 +46,11 @@ public class PlayerController : MonoBehaviour
         currentGameMode = newGameMode;
         currentController = controllers[newGameMode];
         SpawnPlayerPrefab(newGameMode);
+    }
+
+    public void Die()
+    {
+        // Handle player death
     }
 
     private void SpawnPlayerPrefab(GameMode mode)
@@ -87,12 +100,4 @@ public class PlayerController : MonoBehaviour
         // handle click input
         currentController.OnClick(value);
     }
-}
-
-public interface IPlayerMode 
-{
-    // Interface for player modes
-    void Update();
-    void FixedUpdate();
-    void OnClick(InputValue value);
 }
