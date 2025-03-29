@@ -123,7 +123,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.0028806329, y: -0.00019957125}
+  m_Offset: {x: -0.00096818805, y: -0.00019957125}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -133,7 +133,7 @@ BoxCollider2D:
     drawMode: 1
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.0026585, y: 0.45087692}
+  m_Size: {x: 0.9988336, y: 0.45087692}
   m_EdgeRadius: 0
 --- !u!1 &6604922511922555580
 GameObject:
@@ -145,6 +145,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7624645992143995221}
   - component: {fileID: 7732849299399754923}
+  - component: {fileID: 5988175420567339458}
   m_Layer: 6
   m_Name: TileDeathZone
   m_TagString: Untagged
@@ -213,3 +214,15 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.1403785, y: 0.52707607}
   m_EdgeRadius: 0
+--- !u!114 &5988175420567339458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6604922511922555580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35d0434b2fef14748b288ad145b6a300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
