@@ -148,10 +148,10 @@ public class LevelLoader : MonoBehaviour {
         switch (anchor.ToLower())
         {
             case "bottom":
-                finalPosition.y += (cellHeight - objectHeight) * 0.5f;
+                finalPosition.y -= (cellHeight - objectHeight) * 0.5f;
                 break;
             case "top":
-                finalPosition.y -= (cellHeight - objectHeight) * 0.5f;
+                finalPosition.y += (cellHeight - objectHeight) * 0.5f;
                 break;
         }
 
