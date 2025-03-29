@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour
     private GameObject currentCharacterInstance;
     private Dictionary<GameMode, IPlayerMode> controllers;
 
+    public bool isDead {get; private set; } = false;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -52,7 +54,24 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
-        // Handle player death
+        Debug.Log("Player died");
+        isDead = true;
+        rb.simulated = false;
+
+        rb.linearVelocity = Vector2.zero;
+        Destroy(currentCharacterInstance);
+        // play death animation or sound here
+        // animator.SetTrigger("Die");
+        // maybe play a sound
+        Invoke(nameof(Respawn), 1f);
+    }
+
+    public void Respawn()
+    {
+        isDead = false;
+        rb.simulated = true;
+        SpawnPlayerPrefab(currentGameMode);
+        
     }
 
     private void SpawnPlayerPrefab(GameMode mode, float posX = defaultStartingX, float posY = 0)
@@ -91,18 +110,21 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         // main loop, handles input and other updates
+        if (isDead) return;
         currentController.Update();
     }
 
     private void FixedUpdate()
     {
         // physics loop
+        if (isDead) return;
         currentController.FixedUpdate();
     }
 
     public void OnClick(InputValue value)
     {
         // handle click input
+        if (isDead) return; 
         currentController.OnClick(value);
     }
 }
