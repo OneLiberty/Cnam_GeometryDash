@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private GameMode currentGameMode = GameMode.Cube; 
+    [SerializeField] private const float defaultStartingX = -18f;
 
     public Rigidbody2D rb { get; private set; } // public for testing
 
@@ -46,7 +47,7 @@ public class PlayerController : MonoBehaviour
     public void ChangeGameMode(GameMode newGameMode) {
         currentGameMode = newGameMode;
         currentController = controllers[newGameMode];
-        SpawnPlayerPrefab(newGameMode);
+        SpawnPlayerPrefab(newGameMode, transform.position.x, transform.position.y);
     }
 
     public void Die()
@@ -54,13 +55,15 @@ public class PlayerController : MonoBehaviour
         // Handle player death
     }
 
-    private void SpawnPlayerPrefab(GameMode mode)
+    private void SpawnPlayerPrefab(GameMode mode, float posX = defaultStartingX, float posY = 0)
     {
-        if (currentCharacterInstance != null) 
+        if (currentCharacterInstance != null)
         {
             Destroy(currentCharacterInstance);
         }
-            
+
+        transform.position = new Vector2(posX, posY);
+        
         GameObject prefabToSpawn = null;
         switch (mode)
         {
