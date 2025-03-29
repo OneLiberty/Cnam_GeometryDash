@@ -13,6 +13,7 @@ public class LevelLoader : MonoBehaviour {
     [Header("Ground Settings")]
     [SerializeField] private GameObject groundPrefab;
     [SerializeField] private float groundOffset = 10f;
+    [SerializeField] private float endPosition = 1000f; // this is the default value for the end position
     [SerializeField] private string endingObject = "LevelEnd";
 
     private void Awake()
@@ -62,15 +63,16 @@ public class LevelLoader : MonoBehaviour {
         LevelData levelData = JsonUtility.FromJson<LevelData>(json);
 
         // don't forger the AudioManager here
-
+        
         foreach (var gameObj in levelData.levelObjects) 
         {
             if (prefabsDictionnary.TryGetValue(gameObj.type, out GameObject prefab))
             {
                 if(gameObj.type == endingObject) 
                 {
-                    CreateGround(0 - groundOffset , gameObj.position.x + groundOffset);
-                }
+                    endPosition = gameObj.position.x;
+                    continue;
+                } 
 
                 if (!string.IsNullOrEmpty(gameObj.anchor) && gameObj.anchor != "center") 
                 {
@@ -93,22 +95,30 @@ public class LevelLoader : MonoBehaviour {
 
             }      
         }
+        CreateGround(0 - groundOffset, endPosition + groundOffset, groundColor);
     }
 
+    {
     private void CreateGround(float start, float end) {
 
         float groundWidth = end - start;
-        float center = (start + groundWidth) / 2;
-        GameObject ground = Instantiate(groundPrefab, new Vector3(center, 0, 0), Quaternion.identity);
+        float center = (start + end) / 2;
 
-        SpriteRenderer renderer = ground.GetComponent<SpriteRenderer>();
+        GameObject ground = Instantiate(groundPrefab, new Vector3(center -10, -2.5f, 0), Quaternion.identity);
+        SpriteRenderer renderer = ground.GetComponentInChildren<SpriteRenderer>();
 
         if(renderer != null) 
         {
-            float originalWidth = 1f;
-            float scale = groundWidth / originalWidth;
+            renderer.drawMode = SpriteDrawMode.Tiled;
+            ground.transform.localScale = Vector3.one;
 
-            ground.transform.localScale = new Vector3(scale, ground.transform.localScale.y, 1);
+            renderer.size = new Vector2(groundWidth, 5);
+            
+            BoxCollider2D boxCollider = ground.GetComponent<BoxCollider2D>();
+            if(boxCollider != null) {
+                boxCollider.size = new Vector2(groundWidth, 5);
+                boxCollider.offset = Vector2.zero;
+            }
         } 
     }
 
