@@ -1,13 +1,11 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class LevelLoader : MonoBehaviour {
     private Dictionary<string, GameObject> prefabsDictionnary = new Dictionary<string, GameObject>();
 
     [SerializeField] private Grid grid;
-    [SerializeField] private Tilemap tilemap;
 
     [Header("Ground Settings")]
     [SerializeField] private GameObject groundPrefab;
@@ -20,11 +18,6 @@ public class LevelLoader : MonoBehaviour {
         if (grid == null) 
         {
             grid = FindFirstObjectByType<Grid>();
-        }
-
-        if (tilemap == null) 
-        {
-            tilemap = FindFirstObjectByType<Tilemap>();
         }
 
         LoadAllPrefabs();
@@ -62,7 +55,7 @@ public class LevelLoader : MonoBehaviour {
         LevelData levelData = JsonUtility.FromJson<LevelData>(json);
 
         // don't forger the AudioManager here
-        
+
         foreach (var gameObj in levelData.levelObjects) 
         {
             if (prefabsDictionnary.TryGetValue(gameObj.type, out GameObject prefab))
@@ -84,12 +77,12 @@ public class LevelLoader : MonoBehaviour {
                     );
                 } 
                 else 
-                {
+                {   
                     Instantiate(
                         prefab,
                         gameObj.position,
                         Quaternion.Euler(0, 0, gameObj.rotation)
-                    );
+                    ).transform.SetParent(grid.transform);
                 }
 
             }      
@@ -159,6 +152,6 @@ public class LevelLoader : MonoBehaviour {
             prefab, 
             finalPosition, 
             Quaternion.Euler(0, 0, rotation)
-        );
+        ).transform.SetParent(grid.transform);
     }
 }
