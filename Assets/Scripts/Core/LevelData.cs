@@ -8,6 +8,8 @@ public class LevelData {
     public int levelNumber;
     public int difficulty; // 1 to 10
     public string musicFile;
+    public string groundColor;
+    public string backgroundColor;
     public List<LevelObjectData> levelObjects = new List<LevelObjectData>();
 }
 

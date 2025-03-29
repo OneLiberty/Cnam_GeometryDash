@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.IO;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -95,17 +94,31 @@ public class LevelLoader : MonoBehaviour {
 
             }      
         }
+
+        string groundColor = levelData.groundColor;
+        if (string.IsNullOrEmpty(groundColor)) 
+        {
+            groundColor = "#FFFFFF"; // default color
+        }
+
         CreateGround(0 - groundOffset, endPosition + groundOffset, groundColor);
     }
 
+    private void CreateGround(float start, float end, string groundColor) 
     {
-    private void CreateGround(float start, float end) {
-
+        Debug.Log($"Creating ground from {start} to {end}");
         float groundWidth = end - start;
         float center = (start + end) / 2;
 
         GameObject ground = Instantiate(groundPrefab, new Vector3(center -10, -2.5f, 0), Quaternion.identity);
         SpriteRenderer renderer = ground.GetComponentInChildren<SpriteRenderer>();
+
+        Color color;
+        if (ColorUtility.TryParseHtmlString(groundColor, out color))
+        {
+            renderer.color = color;
+        } 
+        
 
         if(renderer != null) 
         {
