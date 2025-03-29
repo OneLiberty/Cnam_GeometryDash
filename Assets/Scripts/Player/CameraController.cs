@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -10,15 +9,30 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float smoothTimeX = 0.3f;
     [SerializeField] private float smoothTimeY = 0.2f;
     [SerializeField] private float startFollowingX = -6f;
+
+    [Header("Respawn Settings")]
+    [SerializeField] private Vector3 startingPosition;
     
     private Vector3 velocity = Vector3.zero;
     private float lowestY = 5f;
 
-    void FixedUpdate()
+    private void Start()
+    {
+        startingPosition = transform.position;
+    }
+
+    private void FixedUpdate()
     {
         if (player == null) return;
-
+        
+        PlayerController playerController = player.GetComponent<PlayerController>();
         Vector3 targetPosition = transform.position;
+
+        if (playerController.isDead)
+        {
+            // if player is dead, move the camera to the starting position
+            Invoke(nameof(HandlePlayerDeath), 1f);
+        }
 
         // follow only if player is beyond startFollowingX
         if (player.position.x > startFollowingX)
@@ -36,6 +50,16 @@ public class CameraController : MonoBehaviour
             ref velocity,
             new Vector2(smoothTimeX, smoothTimeY).magnitude
         );
-
     }
+
+    private void HandlePlayerDeath()
+    {
+        transform.position = Vector3.SmoothDamp(
+            transform.position,
+            startingPosition,
+            ref velocity,
+            new Vector2(0, 0).magnitude
+        );
+    }
+    
 }
