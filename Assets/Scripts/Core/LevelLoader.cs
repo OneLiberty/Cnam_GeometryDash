@@ -27,7 +27,7 @@ public class LevelLoader : MonoBehaviour {
     void Start()
     {
         // Load level 1 automatically for testing
-        LoadLevel(1);
+        LoadLevel(2);
     }
 
     private void LoadAllPrefabs()
@@ -66,7 +66,7 @@ public class LevelLoader : MonoBehaviour {
                     continue;
                 } 
 
-                if (!string.IsNullOrEmpty(gameObj.anchor) && gameObj.anchor != "center") 
+                if (!string.IsNullOrEmpty(gameObj.anchor)) 
                 {
                     Vector3Int cellPosition = grid.WorldToCell(gameObj.position);
                     PlaceObjectWithAnchor(
@@ -76,15 +76,6 @@ public class LevelLoader : MonoBehaviour {
                         gameObj.anchor
                     );
                 } 
-                else 
-                {   
-                    Instantiate(
-                        prefab,
-                        gameObj.position,
-                        Quaternion.Euler(0, 0, gameObj.rotation)
-                    ).transform.SetParent(grid.transform);
-                }
-
             }      
         }
 
@@ -131,7 +122,7 @@ public class LevelLoader : MonoBehaviour {
     private void PlaceObjectWithAnchor(GameObject prefab, Vector3Int cellPosition, float rotation, string anchor)
     {
         Vector3 cellCenter = grid.GetCellCenterWorld(cellPosition);
-        SpriteRenderer spriteRenderer = prefab.GetComponent<SpriteRenderer>();
+        SpriteRenderer spriteRenderer = prefab.GetComponentInChildren<SpriteRenderer>();
 
         Vector3 finalPosition = cellCenter;
 
