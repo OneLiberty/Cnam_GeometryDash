@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4411310492300257881}
   - component: {fileID: 6962405547213657624}
   - component: {fileID: 1322079542119651366}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Tile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 7624645992143995221}
   - component: {fileID: 7732849299399754923}
   - component: {fileID: 8177776942624464808}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: TileDeathZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}

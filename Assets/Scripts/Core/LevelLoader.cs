@@ -7,9 +7,13 @@ public class LevelLoader : MonoBehaviour {
 
     [SerializeField] private Grid grid;
 
-    [Header("Ground Settings")]
+    [Header("General Settings")]
     [SerializeField] private GameObject groundPrefab;
-    [SerializeField] private float groundOffset = 10f;
+    [SerializeField] private GameObject backgroundObject;
+
+    [SerializeField] private float offsetX = 10f;
+
+    [Header("Ending Settings")]
     [SerializeField] private float endPosition = 1000f; // this is the default value for the end position
     [SerializeField] private string endingObject = "LevelEnd";
 
@@ -85,16 +89,22 @@ public class LevelLoader : MonoBehaviour {
             groundColor = "#FFFFFF"; // default color
         }
 
-        CreateGround(0 - groundOffset, endPosition + groundOffset, groundColor);
+        string backgroundColor = levelData.backgroundColor;
+        if (string.IsNullOrEmpty(backgroundColor)) 
+        {
+            backgroundColor = "#000000"; // default color
+        }
+
+        CreateGround(0 - offsetX, endPosition + offsetX, groundColor);
+        ModifyBackground(0 - offsetX / 5, (endPosition + offsetX)/5, backgroundColor);
     }
 
     private void CreateGround(float start, float end, string groundColor) 
     {
-        Debug.Log($"Creating ground from {start} to {end}");
         float groundWidth = end - start;
         float center = (start + end) / 2;
 
-        GameObject ground = Instantiate(groundPrefab, new Vector3(center -10, -2.5f, 0), Quaternion.identity);
+        GameObject ground = Instantiate(groundPrefab, new Vector3(center - offsetX, -2.5f, 0), Quaternion.identity);
         SpriteRenderer renderer = ground.GetComponentInChildren<SpriteRenderer>();
 
         Color color;
@@ -117,6 +127,29 @@ public class LevelLoader : MonoBehaviour {
                 boxCollider.offset = Vector2.zero;
             }
         } 
+    }
+
+    private void ModifyBackground(float start, float end, string backgroundColor) 
+    {
+        float backgroundWidth = end - start;
+        float center = (start + end) / 2;
+
+        SpriteRenderer renderer = backgroundObject.GetComponentInChildren<SpriteRenderer>();
+        backgroundObject.transform.position = new Vector3(center - offsetX*3, 9, 10);
+
+        Color color;
+        if (ColorUtility.TryParseHtmlString(backgroundColor, out color))
+        {
+            renderer.color = color;
+        } 
+
+        if(renderer != null) 
+        {
+            renderer.drawMode = SpriteDrawMode.Tiled;
+            backgroundObject.transform.localScale = Vector3.one;
+
+            renderer.size = new Vector2(backgroundWidth, 20);
+        }
     }
 
     private void PlaceObjectWithAnchor(GameObject prefab, Vector3Int cellPosition, float rotation, string anchor)
