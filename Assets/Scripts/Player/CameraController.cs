@@ -12,13 +12,18 @@ public class CameraController : MonoBehaviour
 
     [Header("Respawn Settings")]
     [SerializeField] private Vector3 startingPosition;
+
+    [Header("Parallax Settings")]
+    [SerializeField] private float parallaxFactor = 0.9f; 
+    [SerializeField] private Transform backgroundTransform; 
     
     private Vector3 velocity = Vector3.zero;
     private float lowestY = 5f;
+    private Vector3 lastPosition;
 
     private void Start()
     {
-        startingPosition = transform.position;
+        startingPosition = lastPosition = transform.position;
     }
 
     private void FixedUpdate()
@@ -40,7 +45,7 @@ public class CameraController : MonoBehaviour
             targetPosition.x = player.position.x + offsetX;
         }
 
-        float targetY =  Mathf.Max(player.position.y, lowestY);
+        float targetY = Mathf.Max(player.position.y, lowestY);
         targetPosition.y = targetY;
 
         // move the camera to the target position, smoothed with the given time 
@@ -50,6 +55,14 @@ public class CameraController : MonoBehaviour
             ref velocity,
             new Vector2(smoothTimeX, smoothTimeY).magnitude
         );
+
+        if (backgroundTransform != null)
+        {
+            Vector3 parallaxMovement = transform.position - lastPosition;
+            backgroundTransform.position += new Vector3(parallaxMovement.x * parallaxFactor, parallaxMovement.y * parallaxFactor, 0);
+        }
+
+        lastPosition = transform.position;
     }
 
     private void HandlePlayerDeath()
