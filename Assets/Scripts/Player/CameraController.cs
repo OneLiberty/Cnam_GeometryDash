@@ -17,13 +17,18 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float parallaxFactor = 0.9f; 
     [SerializeField] private Transform backgroundTransform; 
     
+    private const float DefaultCameraZoom = 8f;
+    
     private Vector3 velocity = Vector3.zero;
     private float lowestY = 5f;
     private Vector3 lastPosition;
+    private Vector2 endPosition;
 
     private void Start()
     {
         startingPosition = lastPosition = transform.position;
+        endPosition = GameObject.Find("LevelEnd(Clone)").transform.position;
+        Camera.main.orthographicSize = DefaultCameraZoom;
     }
 
     private void FixedUpdate()
@@ -37,16 +42,24 @@ public class CameraController : MonoBehaviour
         {
             // if player is dead, move the camera to the starting position
             Invoke(nameof(HandlePlayerDeath), 1f);
+            return; 
         }
 
-        // follow only if player is beyond startFollowingX
-        if (player.position.x > startFollowingX)
+        // follow only if player is beyond startFollowingX and stop when beyond endPosition
+        if (player.position.x >= endPosition.x - offsetX) 
+        {
+            targetPosition.x = endPosition.x;
+            targetPosition.y = endPosition.y;
+
+            Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, 5f, Time.deltaTime * 0.5f);
+        } 
+        else if (player.position.x > startFollowingX)
         {
             targetPosition.x = player.position.x + offsetX;
-        }
-
-        float targetY = Mathf.Max(player.position.y, lowestY);
-        targetPosition.y = targetY;
+            
+            float targetY = Mathf.Max(player.position.y, lowestY);
+            targetPosition.y = targetY;
+        } 
 
         // move the camera to the target position, smoothed with the given time 
         transform.position = Vector3.SmoothDamp(
@@ -73,6 +86,8 @@ public class CameraController : MonoBehaviour
             ref velocity,
             new Vector2(0, 0).magnitude
         );
+        
+        Camera.main.orthographicSize = DefaultCameraZoom;
     }
     
 }
