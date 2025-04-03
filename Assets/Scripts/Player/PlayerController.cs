@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject wavePrefab;
 
     [Header("Settings")]
-    [SerializeField] private GameMode currentGameMode = GameMode.Cube; 
+    [SerializeField] public GameMode currentGameMode { get ; private set ; } = GameMode.Cube; 
     [SerializeField] private const float defaultStartingX = -18f;
 
     public Rigidbody2D rb { get; private set; } // public for testing
@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
     private GameObject currentCharacterInstance;
     private Dictionary<GameMode, IPlayerMode> controllers;
 
-    public bool isDead {get; private set; } = false;
+    public bool isDead { get; private set; } = false;
 
     private void Awake()
     {

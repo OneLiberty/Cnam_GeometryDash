@@ -131,7 +131,7 @@ TextureImporter:
         width: 2044
         height: 2044
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -153,7 +153,7 @@ TextureImporter:
         width: 1019
         height: 1021
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -170,12 +170,12 @@ TextureImporter:
       name: Background01
       rect:
         serializedVersion: 2
-        x: 3
+        x: 2
         y: 1539
-        width: 507
-        height: 508
+        width: 509
+        height: 509
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
