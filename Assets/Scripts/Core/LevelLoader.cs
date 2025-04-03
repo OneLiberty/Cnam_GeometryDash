@@ -10,6 +10,8 @@ public class LevelLoader : MonoBehaviour {
     [Header("General Settings")]
     [SerializeField] private GameObject groundPrefab;
     [SerializeField] private GameObject backgroundObject;
+    [SerializeField] private string backgroundColor = "#000000"; // default color
+    [SerializeField] private string groundColor = "#FFFFFF"; // default color
 
     [SerializeField] private float offsetX = 10f;
 
@@ -31,7 +33,7 @@ public class LevelLoader : MonoBehaviour {
     void Start()
     {
         // Load level 1 automatically for testing
-        LoadLevel(2);
+        LoadLevel(1);
     }
 
     private void LoadAllPrefabs()
@@ -67,33 +69,20 @@ public class LevelLoader : MonoBehaviour {
                 if(gameObj.type == endingObject) 
                 {
                     endPosition = gameObj.position.x;
-                    continue;
                 } 
 
-                if (!string.IsNullOrEmpty(gameObj.anchor)) 
-                {
-                    Vector3Int cellPosition = grid.WorldToCell(gameObj.position);
-                    PlaceObjectWithAnchor(
-                        prefab,
-                        cellPosition, 
-                        gameObj.rotation, 
-                        gameObj.anchor
-                    );
-                } 
+                Vector3Int cellPosition = grid.WorldToCell(gameObj.position);
+                PlaceObjectWithAnchor(
+                    prefab,
+                    cellPosition, 
+                    gameObj.rotation, 
+                    gameObj.anchor
+                );
             }      
         }
 
-        string groundColor = levelData.groundColor;
-        if (string.IsNullOrEmpty(groundColor)) 
-        {
-            groundColor = "#FFFFFF"; // default color
-        }
-
-        string backgroundColor = levelData.backgroundColor;
-        if (string.IsNullOrEmpty(backgroundColor)) 
-        {
-            backgroundColor = "#000000"; // default color
-        }
+        groundColor = levelData.groundColor;
+        backgroundColor = levelData.backgroundColor;
 
         CreateGround(0 - offsetX, endPosition + offsetX, groundColor);
         ModifyBackground(0 - offsetX / 5, (endPosition + offsetX)/5, backgroundColor);
@@ -103,6 +92,11 @@ public class LevelLoader : MonoBehaviour {
     {
         float groundWidth = end - start;
         float center = (start + end) / 2;
+
+        if (groundWidth < 100)  
+        {
+            groundWidth = 100;
+        }
 
         GameObject ground = Instantiate(groundPrefab, new Vector3(center - offsetX, -2.5f, 0), Quaternion.identity);
         SpriteRenderer renderer = ground.GetComponentInChildren<SpriteRenderer>();
@@ -134,8 +128,13 @@ public class LevelLoader : MonoBehaviour {
         float backgroundWidth = end - start;
         float center = (start + end) / 2;
 
+        if (backgroundWidth < 100)  
+        {
+            backgroundWidth = 100;
+        }
+
         SpriteRenderer renderer = backgroundObject.GetComponentInChildren<SpriteRenderer>();
-        backgroundObject.transform.position = new Vector3(center - offsetX*3, 9, 10);
+        backgroundObject.transform.position = new Vector3(center - offsetX*3, 5, 10);
 
         Color color;
         if (ColorUtility.TryParseHtmlString(backgroundColor, out color))

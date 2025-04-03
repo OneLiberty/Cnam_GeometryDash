@@ -29,6 +29,13 @@
       },
       "anchor": "top",
       "rotation": 0
+    },
+    {
+      "type": "LevelEnd",
+      "position": {
+        "x": 20,
+        "y": 2
+      }
     }
   ]
 }
