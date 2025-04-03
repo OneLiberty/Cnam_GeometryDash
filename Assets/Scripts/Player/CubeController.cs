@@ -9,15 +9,15 @@ public class CubeController : IPlayerMode
     private ParticleSystem particleSystem;
 
     private const float baseSpeed = 10.4f; // this is the default speed in GD (10.4 blocks per second)
-    private const float baseGravity = 4f;
-    private float jumpForce = 14.0f;
+    private const float baseGravityScale = 12.41067f;
+    private float jumpForce = 26.6581f;
     public float speedModifier = 1f;
 
     public CubeController(PlayerController playerController, Rigidbody2D rb)
     {
         this.playerController = playerController;
         this.rb = rb;
-        rb.gravityScale = baseGravity; 
+        rb.gravityScale = baseGravityScale; 
     }
 
     public void Initialize(GameObject characterInstance)
@@ -26,7 +26,6 @@ public class CubeController : IPlayerMode
         particleSystem = characterInstance.GetComponentInChildren<ParticleSystem>();
         if (particleSystem != null)
         {
-            Debug.Log("Particle system found, start playing");
             particleSystem.Play();
         }
     }
@@ -35,10 +34,10 @@ public class CubeController : IPlayerMode
     {
         rb.linearVelocity = new Vector2(baseSpeed * speedModifier, rb.linearVelocityY);
 
-        if (rb.linearVelocityY < -6.6f) {
+        if (rb.linearVelocityY < -13.2f) {
             rb.gravityScale = 0f;
         } else {
-            rb.gravityScale = baseGravity;
+            rb.gravityScale = baseGravityScale;
         }
 
         if(!particleSystem.isPlaying && CheckGrounded()){
@@ -61,8 +60,7 @@ public class CubeController : IPlayerMode
         if (CheckGrounded())
         {   
             // Jump
-            rb.linearVelocityY = 0;
-            rb.linearVelocity = new Vector2(rb.linearVelocityX, jumpForce);
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             particleSystem.Stop(true);
         }
     }
@@ -84,7 +82,7 @@ public class CubeController : IPlayerMode
 
         if (!CheckGrounded())
         {
-            float rotationAmount = 250f * Time.deltaTime;
+            float rotationAmount = 360 * Time.deltaTime;
             spriteRenderer.transform.Rotate(0, 0, -rotationAmount);
         }
         else // il faudrait un petit timer qu'on reset si on detect un saut pour pas snap tout de suite.
