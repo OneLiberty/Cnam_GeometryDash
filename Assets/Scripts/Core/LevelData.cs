@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class LevelData {
+public class LevelData
+{
     public string name;
     public int levelNumber;
     public int difficulty; // 1 to 10
@@ -14,10 +15,11 @@ public class LevelData {
 }
 
 [Serializable]
-public class LevelObjectData {
+public class LevelObjectData
+{
     public string type;
     public Vector2 position;
-    public float rotation; 
+    public float rotation;
     public string anchor = "bottom"; // "bottom", "top", "center"
     // maybe other properties, we'll see. 
 }

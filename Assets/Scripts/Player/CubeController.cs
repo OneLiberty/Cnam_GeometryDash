@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CubeController : IPlayerMode 
+public class CubeController : IPlayerMode
 {
     private PlayerController playerController;
     private GameObject characterInstance;
@@ -17,12 +17,12 @@ public class CubeController : IPlayerMode
     {
         this.playerController = playerController;
         this.rb = rb;
-        rb.gravityScale = baseGravityScale; 
+        rb.gravityScale = baseGravityScale;
     }
 
     public void Initialize(GameObject characterInstance)
     {
-        this.characterInstance = characterInstance; 
+        this.characterInstance = characterInstance;
         particleSystem = characterInstance.GetComponentInChildren<ParticleSystem>();
         if (particleSystem != null)
         {
@@ -30,20 +30,24 @@ public class CubeController : IPlayerMode
         }
     }
 
-    public void FixedUpdate() 
+    public void FixedUpdate()
     {
         rb.linearVelocity = new Vector2(baseSpeed * speedModifier, rb.linearVelocityY);
 
-        if (rb.linearVelocityY < -13.2f) {
+        if (rb.linearVelocityY < -13.2f)
+        {
             rb.gravityScale = 0f;
-        } else {
+        }
+        else
+        {
             rb.gravityScale = baseGravityScale;
         }
 
-        if(!particleSystem.isPlaying && CheckGrounded()){
+        if (!particleSystem.isPlaying && CheckGrounded())
+        {
             particleSystem.Play();
         }
-        
+
         RotateSprite();
     }
 
@@ -58,7 +62,7 @@ public class CubeController : IPlayerMode
     public void OnClick(InputValue value)
     {
         if (CheckGrounded())
-        {   
+        {
             // Jump
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             particleSystem.Stop(true);
@@ -100,7 +104,7 @@ public class CubeController : IPlayerMode
     {
         Gizmos.color = Color.red;
         Gizmos.DrawLine(rb.position + new Vector2(0.5f, 0), rb.position + new Vector2(0.5f, 0) + Vector2.down * 0.55f);
-        Gizmos.DrawLine(rb.position - new Vector2(0.47f, 0), rb.position - new Vector2(0.47f, 0) + Vector2.down * 0.55f); 
+        Gizmos.DrawLine(rb.position - new Vector2(0.47f, 0), rb.position - new Vector2(0.47f, 0) + Vector2.down * 0.55f);
     }
-        
+
 }

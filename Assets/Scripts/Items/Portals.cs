@@ -11,4 +11,3 @@ public class Portal : InteractiveObject
     }
     // I could add visual and audio effects here
 }
- 

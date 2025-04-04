@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 
-public interface IPlayerMode 
+public interface IPlayerMode
 {
     // Interface for player modes
     void Initialize(GameObject characterInstance);
@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject wavePrefab;
 
     [Header("Settings")]
-    [SerializeField] public GameMode currentGameMode { get ; private set ; } = GameMode.Cube; 
+    [SerializeField] public GameMode currentGameMode { get; private set; } = GameMode.Cube;
     [SerializeField] private const float defaultStartingX = -18f;
 
     public Rigidbody2D rb { get; private set; } // public for testing
@@ -46,7 +46,8 @@ public class PlayerController : MonoBehaviour
         SpawnPlayerPrefab(currentGameMode);
     }
 
-    public void ChangeGameMode(GameMode newGameMode) {
+    public void ChangeGameMode(GameMode newGameMode)
+    {
         currentGameMode = newGameMode;
         currentController = controllers[newGameMode];
         SpawnPlayerPrefab(newGameMode, transform.position.x, transform.position.y);
@@ -71,7 +72,7 @@ public class PlayerController : MonoBehaviour
         isDead = false;
         rb.simulated = true;
         SpawnPlayerPrefab(currentGameMode);
-        
+
     }
 
     private void SpawnPlayerPrefab(GameMode mode, float posX = defaultStartingX, float posY = 0)
@@ -82,7 +83,7 @@ public class PlayerController : MonoBehaviour
         }
 
         transform.position = new Vector2(posX, posY);
-        
+
         GameObject prefabToSpawn = null;
         switch (mode)
         {
@@ -96,14 +97,14 @@ public class PlayerController : MonoBehaviour
                 prefabToSpawn = wavePrefab;
                 break;
         }
-        
+
         if (prefabToSpawn != null)
         {
             currentCharacterInstance = Instantiate(prefabToSpawn, transform.position, Quaternion.identity);
             currentCharacterInstance.transform.SetParent(transform);
 
             currentController.Initialize(currentCharacterInstance);
-            
+
         }
     }
 
@@ -124,7 +125,7 @@ public class PlayerController : MonoBehaviour
     public void OnClick(InputValue value)
     {
         // handle click input
-        if (isDead) return; 
+        if (isDead) return;
         currentController.OnClick(value);
     }
 }

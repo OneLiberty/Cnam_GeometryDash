@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class LevelLoader : MonoBehaviour {
+public class LevelLoader : MonoBehaviour
+{
     private Dictionary<string, GameObject> prefabsDictionnary = new Dictionary<string, GameObject>();
 
     [SerializeField] private Grid grid;
@@ -21,7 +22,7 @@ public class LevelLoader : MonoBehaviour {
 
     private void Awake()
     {
-        if (grid == null) 
+        if (grid == null)
         {
             grid = FindFirstObjectByType<Grid>();
         }
@@ -38,7 +39,7 @@ public class LevelLoader : MonoBehaviour {
 
     private void LoadAllPrefabs()
     {
-        GameObject[] prefabs = Resources.LoadAll<GameObject>("Prefabs/"); 
+        GameObject[] prefabs = Resources.LoadAll<GameObject>("Prefabs/");
 
         foreach (GameObject prefab in prefabs)
         {
@@ -62,38 +63,38 @@ public class LevelLoader : MonoBehaviour {
 
         // don't forger the AudioManager here
 
-        foreach (var gameObj in levelData.levelObjects) 
+        foreach (var gameObj in levelData.levelObjects)
         {
             if (prefabsDictionnary.TryGetValue(gameObj.type, out GameObject prefab))
             {
-                if(gameObj.type == endingObject) 
+                if (gameObj.type == endingObject)
                 {
                     endPosition = gameObj.position.x;
-                } 
+                }
 
                 Vector3Int cellPosition = grid.WorldToCell(gameObj.position);
                 PlaceObjectWithAnchor(
                     prefab,
-                    cellPosition, 
-                    gameObj.rotation, 
+                    cellPosition,
+                    gameObj.rotation,
                     gameObj.anchor
                 );
-            }      
+            }
         }
 
         groundColor = levelData.groundColor;
         backgroundColor = levelData.backgroundColor;
 
         CreateGround(0 - offsetX, endPosition + offsetX, groundColor);
-        ModifyBackground(0 - offsetX / 5, (endPosition + offsetX)/5, backgroundColor);
+        ModifyBackground(0 - offsetX / 5, (endPosition + offsetX) / 5, backgroundColor);
     }
 
-    private void CreateGround(float start, float end, string groundColor) 
+    private void CreateGround(float start, float end, string groundColor)
     {
         float groundWidth = end - start;
         float center = (start + end) / 2;
 
-        if (groundWidth < 100)  
+        if (groundWidth < 100)
         {
             groundWidth = 100;
         }
@@ -105,44 +106,45 @@ public class LevelLoader : MonoBehaviour {
         if (ColorUtility.TryParseHtmlString(groundColor, out color))
         {
             renderer.color = color;
-        } 
-        
+        }
 
-        if(renderer != null) 
+
+        if (renderer != null)
         {
             renderer.drawMode = SpriteDrawMode.Tiled;
             ground.transform.localScale = Vector3.one;
 
             renderer.size = new Vector2(groundWidth, 5);
-            
+
             BoxCollider2D boxCollider = ground.GetComponent<BoxCollider2D>();
-            if(boxCollider != null) {
+            if (boxCollider != null)
+            {
                 boxCollider.size = new Vector2(groundWidth, 5);
                 boxCollider.offset = Vector2.zero;
             }
-        } 
+        }
     }
 
-    private void ModifyBackground(float start, float end, string backgroundColor) 
+    private void ModifyBackground(float start, float end, string backgroundColor)
     {
         float backgroundWidth = end - start;
         float center = (start + end) / 2;
 
-        if (backgroundWidth < 100)  
+        if (backgroundWidth < 100)
         {
             backgroundWidth = 100;
         }
 
         SpriteRenderer renderer = backgroundObject.GetComponentInChildren<SpriteRenderer>();
-        backgroundObject.transform.position = new Vector3(center - offsetX*3, 5, 10);
+        backgroundObject.transform.position = new Vector3(center - offsetX * 3, 5, 10);
 
         Color color;
         if (ColorUtility.TryParseHtmlString(backgroundColor, out color))
         {
             renderer.color = color;
-        } 
+        }
 
-        if(renderer != null) 
+        if (renderer != null)
         {
             renderer.drawMode = SpriteDrawMode.Tiled;
             backgroundObject.transform.localScale = Vector3.one;
@@ -172,8 +174,8 @@ public class LevelLoader : MonoBehaviour {
         }
 
         Instantiate(
-            prefab, 
-            finalPosition, 
+            prefab,
+            finalPosition,
             Quaternion.Euler(0, 0, rotation)
         ).transform.SetParent(grid.transform);
     }
