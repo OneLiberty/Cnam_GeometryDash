@@ -32,7 +32,11 @@ public class EndPortal : InteractiveObject
     private IEnumerator AttractPlayer(PlayerController player) {  
         float initialTime = Time.time;  
         Vector2 targetPosition = transform.position;
+
         SpriteRenderer spriteRenderer = player.GetComponentInChildren<SpriteRenderer>();
+        ParticleSystem particleSystem = player.GetComponentInChildren<ParticleSystem>();
+
+        particleSystem.Stop(true);
 
         while(Vector2.Distance(player.transform.position, targetPosition) > 0.1f) {
         
@@ -45,12 +49,12 @@ public class EndPortal : InteractiveObject
                 attractionSpeed * Time.deltaTime
             );
             
-            player.transform.localScale = Vector2.Lerp(player.transform.localScale, new Vector2(0.1f, 0.1f), Time.deltaTime * 0.2f);
+            player.transform.localScale = Vector2.Lerp(player.transform.localScale, new Vector2(0.01f, 0.01f), Time.deltaTime * 0.3f);
 
             attractionRadius -= Time.deltaTime * 1.2f; // Decrease the radius over time
             yield return null; 
         }
 
-        spriteRenderer.enabled = false;
+        spriteRenderer.enabled = false; 
     }
 }  
