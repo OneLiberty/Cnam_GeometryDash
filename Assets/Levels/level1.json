@@ -31,7 +31,7 @@
       "rotation": 0
     },
     {
-      "type": "LevelEnd",
+      "type": "EndPortal",
       "position": {
         "x": 20,
         "y": 2

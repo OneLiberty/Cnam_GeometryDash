@@ -195,9 +195,11 @@ MonoBehaviour:
   grid: {fileID: 560768014}
   groundPrefab: {fileID: 8359773978881231276, guid: 66e86c91f205509419c8afefa5b9945d, type: 3}
   backgroundObject: {fileID: 811559478}
+  backgroundColor: '#000000'
+  groundColor: '#FFFFFF'
   offsetX: 10
   endPosition: 1000
-  endingObject: LevelEnd
+  endingObject: EndPortal
 --- !u!4 &715637952
 Transform:
   m_ObjectHideFlags: 0

@@ -27,7 +27,7 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         startingPosition = lastPosition = transform.position;
-        endPosition = GameObject.Find("LevelEnd(Clone)").transform.position;
+        endPosition = GameObject.Find("EndPortal(Clone)").transform.position;
         Camera.main.orthographicSize = DefaultCameraZoom;
     }
 

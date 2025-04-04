@@ -17,7 +17,7 @@ public class LevelLoader : MonoBehaviour {
 
     [Header("Ending Settings")]
     [SerializeField] private float endPosition = 1000f; // this is the default value for the end position
-    [SerializeField] private string endingObject = "LevelEnd";
+    [SerializeField] private string endingObject = "EndPortal";
 
     private void Awake()
     {
