@@ -6,34 +6,16 @@
   "backgroundColor": "#0000FF",
   "levelObjects": [
     {
-      "type": "Tile",
-      "position": {
-        "x": 5,
-        "y": 0
-      },
-      "rotation": 0
-    },
-    {
-      "type": "Spike",
+      "type": "WavePortal",
       "position": {
         "x": 10,
-        "y": 0
-      },
-      "rotation": 0
-    },
-    {
-      "type": "SmallSpike",
-      "position": {
-        "x": 15,
-        "y": 0
-      },
-      "anchor": "top",
-      "rotation": 0
+        "y": 2
+      }
     },
     {
       "type": "EndPortal",
       "position": {
-        "x": 20,
+        "x": 200,
         "y": 2
       }
     }
