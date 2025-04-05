@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.InputSystem;
 
 public interface IPlayerMode
 {
@@ -8,7 +7,7 @@ public interface IPlayerMode
     void Initialize(GameObject characterInstance);
     void Update();
     void FixedUpdate();
-    void OnClick(InputValue value);
+    void OnClick();
 }
 
 public class PlayerController : MonoBehaviour
@@ -24,6 +23,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public GameMode currentGameMode { get; private set; } = GameMode.Cube;
     [SerializeField] private const float defaultStartingX = -18f;
 
+    [Header("Input Settings")]
+    [SerializeField] private InputSettings inputSettings = GameManager.Instance.inputSettings;
+
     public Rigidbody2D rb { get; private set; } // public for testing
 
     private IPlayerMode currentController;
@@ -31,6 +33,7 @@ public class PlayerController : MonoBehaviour
     private Dictionary<GameMode, IPlayerMode> controllers;
 
     public bool isDead { get; private set; } = false;
+    public bool isButtonPressed { get ; private set; } = false;
 
     private void Awake()
     {
@@ -72,7 +75,6 @@ public class PlayerController : MonoBehaviour
         isDead = false;
         rb.simulated = true;
         SpawnPlayerPrefab(currentGameMode);
-
     }
 
     private void SpawnPlayerPrefab(GameMode mode, float posX = defaultStartingX, float posY = 0)
@@ -112,6 +114,14 @@ public class PlayerController : MonoBehaviour
     {
         // main loop, handles input and other updates
         if (isDead) return;
+
+        if (Input.GetKey(inputSettings.jumpButton_0) || Input.GetKey(inputSettings.jumpButton_1))
+        {
+            OnClick();
+            isButtonPressed = true;
+        } 
+        else { isButtonPressed = false; }
+
         currentController.Update();
     }
 
@@ -122,10 +132,11 @@ public class PlayerController : MonoBehaviour
         currentController.FixedUpdate();
     }
 
-    public void OnClick(InputValue value)
+    public void OnClick()
     {
         // handle click input
         if (isDead) return;
-        currentController.OnClick(value);
+
+        currentController.OnClick();
     }
 }

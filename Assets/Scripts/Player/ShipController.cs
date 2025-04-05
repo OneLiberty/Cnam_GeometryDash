@@ -37,19 +37,19 @@ public class ShipController : IPlayerMode
 
     public void Update()
     {
-        if (InputSystem.GetDevice<Keyboard>().spaceKey.isPressed)
-        { // temporarily using space key for testing
-            OnClick(new InputValue()); // Simulate click input
+    }
+
+    public void OnClick()
+    {
+        if (playerController.isButtonPressed)
+        {
+            rb.gravityScale = -baseGravity;
         }
         else
         {
             rb.gravityScale = baseGravity;
         }
-    }
-
-    public void OnClick(InputValue value)
-    {
-        rb.gravityScale = -baseGravity;
+       
     }
 }
 

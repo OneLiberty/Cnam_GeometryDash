@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class CubeController : IPlayerMode
 {
@@ -10,6 +9,7 @@ public class CubeController : IPlayerMode
 
     private const float baseSpeed = 10.4f; // this is the default speed in GD (10.4 blocks per second)
     private const float baseGravityScale = 12.41067f;
+    private bool isGrounded = false;
     private float jumpForce = 26.6581f;
     public float speedModifier = 1f;
 
@@ -24,6 +24,8 @@ public class CubeController : IPlayerMode
     {
         this.characterInstance = characterInstance;
         particleSystem = characterInstance.GetComponentInChildren<ParticleSystem>();
+        rb.gravityScale = baseGravityScale;
+
         if (particleSystem != null)
         {
             particleSystem.Play();
@@ -32,16 +34,15 @@ public class CubeController : IPlayerMode
 
     public void FixedUpdate()
     {
-        rb.linearVelocity = new Vector2(baseSpeed * speedModifier, rb.linearVelocityY);
-
-        if (rb.linearVelocityY < -13.2f)
-        {
-            rb.gravityScale = 0f;
-        }
-        else
-        {
-            rb.gravityScale = baseGravityScale;
-        }
+        rb.linearVelocityX= baseSpeed * speedModifier;
+        // if (rb.linearVelocityY < -13.2f)
+        // {
+        //     rb.gravityScale = 0f;
+        // }
+        // else
+        // {
+        //     rb.gravityScale = baseGravityScale;
+        // }
 
         if (!particleSystem.isPlaying && CheckGrounded())
         {
@@ -53,19 +54,20 @@ public class CubeController : IPlayerMode
 
     public void Update()
     {
-        if (InputSystem.GetDevice<Keyboard>().spaceKey.wasPressedThisFrame && CheckGrounded())
-        {
-            OnClick(new InputValue()); // Simulate click input
-        }
+        isGrounded = CheckGrounded();
     }
 
-    public void OnClick(InputValue value)
+    public void OnClick()
     {
-        if (CheckGrounded())
+        if (isGrounded && playerController.isButtonPressed)
         {
+            isGrounded = false;
             // Jump
-            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            particleSystem.Stop(true);
+            rb.linearVelocityY = jumpForce;
+            
+            if (particleSystem.isPlaying) {
+                particleSystem.Stop(true);
+            }
         }
     }
 
@@ -74,8 +76,8 @@ public class CubeController : IPlayerMode
         Vector2 frontRayOrigin = rb.position + new Vector2(0.5f, 0);
         Vector2 backRayOrigin = rb.position - new Vector2(0.47f, 0);
 
-        RaycastHit2D frontHit = Physics2D.Raycast(frontRayOrigin, Vector2.down, 0.55f, LayerMask.GetMask("Ground"));
-        RaycastHit2D backHit = Physics2D.Raycast(backRayOrigin, Vector2.down, 0.55f, LayerMask.GetMask("Ground"));
+        RaycastHit2D frontHit = Physics2D.Raycast(frontRayOrigin, Vector2.down, 0.52f, LayerMask.GetMask("Ground"));
+        RaycastHit2D backHit = Physics2D.Raycast(backRayOrigin, Vector2.down, 0.52f, LayerMask.GetMask("Ground"));
 
         return frontHit.collider != null || backHit.collider != null;
     }
@@ -100,7 +102,7 @@ public class CubeController : IPlayerMode
     }
 
     //Debug
-    private void OnDrawGizmos()
+    protected virtual void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawLine(rb.position + new Vector2(0.5f, 0), rb.position + new Vector2(0.5f, 0) + Vector2.down * 0.55f);
