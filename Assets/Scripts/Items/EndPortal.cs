@@ -58,5 +58,7 @@ public class EndPortal : InteractiveObject
         }
 
         spriteRenderer.enabled = false;
+
+        GameManager.Instance.ReturnToMainMenu();
     }
 }

@@ -30,13 +30,6 @@ public class LevelLoader : MonoBehaviour
         LoadAllPrefabs();
     }
 
-    // test 
-    void Start()
-    {
-        // Load level 1 automatically for testing
-        LoadLevel(1);
-    }
-
     private void LoadAllPrefabs()
     {
         GameObject[] prefabs = Resources.LoadAll<GameObject>("Prefabs/");
