@@ -71,6 +71,7 @@ public class PlayerController : MonoBehaviour
         // maybe play a sound
         Invoke(nameof(Respawn), 1f);
         AudioManager.Instance.StopMusic();
+        AudioManager.Instance.PlaySFX("deathSfx");
     }
 
     public void Respawn()

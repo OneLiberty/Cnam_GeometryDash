@@ -65,9 +65,13 @@ public class AudioManager : MonoBehaviour
         musicSource.Stop();
     }
 
-    public void PlaySFX(AudioClip clip)
+    public void PlaySFX(string clipName)
     {
-        sfxSource.PlayOneShot(clip);
+        AudioClip clip = Resources.Load<AudioClip>("Audio/sfx/" + clipName);
+        if (clip != null)
+        {
+            sfxSource.PlayOneShot(clip);
+        }
     }
 
 /// <summary>
