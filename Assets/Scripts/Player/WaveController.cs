@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class WaveController : IPlayerMode
 {
@@ -9,7 +8,7 @@ public class WaveController : IPlayerMode
     private const float baseSpeed = 10.4f;
     private const float baseGravity = 0f; // Wave mode has no gravity
 
-    private float _movementDirection = -1f; // 1 for up, -1 for down 
+    private float _movementDirection = 1f; // 1 for up, -1 for down 
     public float speedModifier = 1f;
 
     public WaveController(PlayerController playerController, Rigidbody2D rb)
@@ -24,26 +23,24 @@ public class WaveController : IPlayerMode
 
     public void FixedUpdate()
     {
-        Vector2 movement = baseSpeed * speedModifier * Time.deltaTime * new Vector2(1, 1);
-        movement.y *= _movementDirection;
-
-        playerController.transform.Translate(movement);
+        rb.linearVelocityX = baseSpeed * speedModifier;
+        rb.linearVelocityY = _movementDirection * baseSpeed * speedModifier;
     }
 
     public void Update()
     {
+        if (!playerController.isButtonPressed)
+        {
+            _movementDirection = -1;
+        }
     }
 
     public void OnClick()
     { 
         if (playerController.isButtonPressed)
         {
-            _movementDirection = -1;
-        } 
-        else
-        {
             _movementDirection = 1;
-        }
+        } 
     }
 }
 
