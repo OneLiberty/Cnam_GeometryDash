@@ -54,8 +54,19 @@ public class LevelLoader : MonoBehaviour
         string json = File.ReadAllText(LevelPath);
         LevelData levelData = JsonUtility.FromJson<LevelData>(json);
 
-        // don't forger the AudioManager here
+        AudioManager.Instance.StopMusic();
+        AudioClip musicClip = Resources.Load<AudioClip>("Audio/" + levelData.musicFile);
 
+        if (musicClip == null) // safety check, si l'user à bidouillé le json
+        {
+            Debug.LogError("Music clip not found in Resources/Audio/menuLoop");
+            musicClip = Resources.Load<AudioClip>("Audio/menuLoop"); 
+            return;
+        }
+
+        AudioManager.Instance.SetMusicClip(musicClip);
+        AudioManager.Instance.PlayMusic();
+        
         foreach (var gameObj in levelData.levelObjects)
         {
             if (prefabsDictionnary.TryGetValue(gameObj.type, out GameObject prefab))

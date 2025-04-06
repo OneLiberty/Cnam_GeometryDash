@@ -1,12 +1,12 @@
 {
   "name": "Test Level",
   "difficulty": 1,
-  "musicFile": "testMusic",
+  "musicFile": "Electrodinamix",
   "groundColor": "#00FF00",
   "backgroundColor": "#0000FF",
   "levelObjects": [
     {
-      "type": "WavePortal",
+      "type": "ShipPortal",
       "position": {
         "x": 10,
         "y": 2

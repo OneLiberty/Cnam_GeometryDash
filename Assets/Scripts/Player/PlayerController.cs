@@ -70,6 +70,7 @@ public class PlayerController : MonoBehaviour
         // animator.SetTrigger("Die");
         // maybe play a sound
         Invoke(nameof(Respawn), 1f);
+        AudioManager.Instance.StopMusic();
     }
 
     public void Respawn()
@@ -77,6 +78,7 @@ public class PlayerController : MonoBehaviour
         isDead = false;
         rb.simulated = true;
         SpawnPlayerPrefab(currentGameMode);
+        AudioManager.Instance.PlayMusic();
     }
 
     private void SpawnPlayerPrefab(GameMode mode, float posX = defaultStartingX, float posY = 0)

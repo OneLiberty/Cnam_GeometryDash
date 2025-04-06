@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public enum GameState { MainMenu, LevelSelection, Playing, Paused, GameOver, Victory }
     public GameState CurrentGameState { get; private set; } = GameState.MainMenu;
+    public AudioManager audioManager { get { return AudioManager.Instance; } }
 
     [Header("Input Settings")]
     public InputSettings inputSettings;
