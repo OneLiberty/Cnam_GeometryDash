@@ -37,19 +37,15 @@ public class ShipController : IPlayerMode
 
     public void Update()
     {
+        if(!playerController.isButtonPressed)
+        {
+            rb.gravityScale = baseGravity;
+        }
     }
 
     public void OnClick()
     {
-        if (playerController.isButtonPressed)
-        {
-            rb.gravityScale = -baseGravity;
-        }
-        else
-        {
-            rb.gravityScale = baseGravity;
-        }
-       
+        rb.gravityScale = -baseGravity;
     }
 }
 
