@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private const float defaultStartingX = -18f;
 
     [Header("Input Settings")]
-    [SerializeField] private InputSettings inputSettings = GameManager.Instance.inputSettings;
+    [SerializeField] private InputSettings inputSettings;
 
     public Rigidbody2D rb { get; private set; } // public for testing
 
@@ -47,6 +47,8 @@ public class PlayerController : MonoBehaviour
 
         currentController = controllers[currentGameMode];
         SpawnPlayerPrefab(currentGameMode);
+
+        inputSettings = GameManager.Instance.inputSettings;
     }
 
     public void ChangeGameMode(GameMode newGameMode)

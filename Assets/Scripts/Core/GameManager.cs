@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    public enum GameState { MainMenu, LevelSlection, Playing, Paused, GameOver, Victory }
+    public enum GameState { MainMenu, LevelSelection, Playing, Paused, GameOver, Victory }
     public GameState CurrentGameState { get; private set; } = GameState.MainMenu;
 
     [Header("Input Settings")]
@@ -31,7 +31,6 @@ public class GameManager : MonoBehaviour
         CurrentGameState = GameState.Playing;
 
         SceneManager.LoadScene("Level");
-
         SceneManager.sceneLoaded += (scene, mode) =>
         {
             LevelLoader levelLoader = FindFirstObjectByType<LevelLoader>();
@@ -39,7 +38,6 @@ public class GameManager : MonoBehaviour
             {
                 levelLoader.LoadLevel(levelNumber);
             }
-        // scene management
         };
     } 
 
@@ -55,12 +53,12 @@ public class GameManager : MonoBehaviour
         CurrentGameState = GameState.MainMenu;
         Time.timeScale = 1f; // Resume the game
         SceneManager.LoadScene("Main Menu");
-        
+
     }
 
     public void GoToLevelSelection()
     {
-        CurrentGameState = GameState.LevelSlection;
+        CurrentGameState = GameState.LevelSelection;
         Time.timeScale = 1f; // Resume the game
         // scene management
     }
