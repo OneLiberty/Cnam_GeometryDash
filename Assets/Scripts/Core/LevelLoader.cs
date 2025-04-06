@@ -55,7 +55,14 @@ public class LevelLoader : MonoBehaviour
         LevelData levelData = JsonUtility.FromJson<LevelData>(json);
 
         AudioManager.Instance.StopMusic();
-        AudioManager.Instance.SetMusicClip(levelData.musicFile);
+
+        string musicName = levelData.musicFile;
+        if (string.IsNullOrEmpty(musicName))
+        {
+            musicName = "menuLoop"; // default music
+        }
+        
+        AudioManager.Instance.SetMusicClip(musicName);
         AudioManager.Instance.PlayMusic();
         
         foreach (var gameObj in levelData.levelObjects)
