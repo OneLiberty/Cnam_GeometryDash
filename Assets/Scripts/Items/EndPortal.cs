@@ -37,7 +37,10 @@ public class EndPortal : InteractiveObject
         SpriteRenderer spriteRenderer = player.GetComponentInChildren<SpriteRenderer>();
         ParticleSystem particleSystem = player.GetComponentInChildren<ParticleSystem>();
 
-        particleSystem.Stop(true);
+        if (particleSystem != null) // some don't have particles
+        {
+            particleSystem.Stop(true);
+        }
 
         while (Vector2.Distance(player.transform.position, targetPosition) > 0.1f)
         {
@@ -60,5 +63,7 @@ public class EndPortal : InteractiveObject
         spriteRenderer.enabled = false;
 
         GameManager.Instance.ReturnToMainMenu();
+        GameManager.Instance.audioManager.SetMusicClip("menuLoop");
+
     }
 }

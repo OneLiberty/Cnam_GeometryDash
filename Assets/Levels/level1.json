@@ -1,7 +1,7 @@
 {
   "name": "Test Level",
   "difficulty": 1,
-  "musicFile": "Electrodinamix",
+  "musicFile": "Electrodynamix",
   "groundColor": "#00FF00",
   "backgroundColor": "#0000FF",
   "levelObjects": [

@@ -13,7 +13,7 @@ public class AudioManager : MonoBehaviour
     private float sfxVolume = 1f;
 
     [Header("Audio Clips")]
-    private AudioClip menuMusic;
+    [SerializeField] private AudioClip menuMusic;
 
     public void Awake()
     {
@@ -45,16 +45,6 @@ public class AudioManager : MonoBehaviour
         musicSource.Play();
     }
 
-    public void SetMusicClip(AudioClip clip)
-    {
-        if (clip != null)
-        {
-            musicSource.clip = clip;
-            musicSource.Play();
-        }
-    }
-
-
     public void PlayMusic()
     {
         musicSource.Play();
@@ -80,9 +70,35 @@ public class AudioManager : MonoBehaviour
         sfxSource.PlayOneShot(clip);
     }
 
-    public void SetMusicVolume(float volume)
+/// <summary>
+/// Sets the music clip to be played. The clip should be located in the Resources/Audio folder.
+/// The clip name should not include the file extension (e.g., "menuLoop" instead of "menuLoop.mp3").
+/// If a audio clip is curently playing, it will be stopped and replaced with the new one.
+/// It will also directly play the new clip.
+/// </summary>
+/// <param name="clipName"> name of the audio clip </param>
+/// <param name="stopCurrent"> if true, the current clip will be stopped before playing the new one </param>
+/// <param name="playImmediately"> if true, the new clip will be played immediately </param>
+    public void SetMusicClip(string clipName, bool stopCurrent = true, bool playImmediately = true)
     {
-        musicSource.volume = volume;
+        if (stopCurrent && musicSource.isPlaying)
+        {
+            musicSource.Stop();
+        }
+
+        AudioClip clip = Resources.Load<AudioClip>("Audio/" + clipName);
+        if (clip != null)
+        {
+            musicSource.clip = clip;
+            if (playImmediately)
+            {
+                musicSource.Play();
+            }
+        }
+        else
+        {
+            Debug.LogError("Audio clip not found: " + clipName);
+        }
     }
 
     public void SetSFXVolume(float volume)
