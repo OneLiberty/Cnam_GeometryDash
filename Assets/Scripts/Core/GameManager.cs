@@ -4,8 +4,10 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+
     public enum GameState { MainMenu, LevelSelection, Playing, Paused, GameOver, Victory }
     public GameState CurrentGameState { get; private set; } = GameState.MainMenu;
+
     public AudioManager AudioManager { get { return AudioManager.Instance; } }
     public UIManager UIManager { get { return UIManager.Instance; } }
 
@@ -26,7 +28,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
+    
     public void StartLevel(int levelNumber)
     {
         CurrentLevel = levelNumber;
@@ -41,6 +43,7 @@ public class GameManager : MonoBehaviour
                 levelLoader.LoadLevel(levelNumber);
             }
         };
+
     } 
 
     public void PauseGame()
@@ -54,9 +57,12 @@ public class GameManager : MonoBehaviour
     {
         CurrentGameState = GameState.MainMenu;
         Time.timeScale = 1f; // Resume the game
+        
         SceneManager.LoadScene("Main Menu");
         SceneManager.sceneLoaded += (scene, mode) =>
         {
+            UIManager.ReinitializePanels();
+            UIManager.ShowMainMenu();
             AudioManager.SetMusicClip("menuLoop");
         };
     }
