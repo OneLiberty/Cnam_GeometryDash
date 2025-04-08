@@ -63,7 +63,5 @@ public class EndPortal : InteractiveObject
         spriteRenderer.enabled = false;
 
         GameManager.Instance.ReturnToMainMenu();
-        GameManager.Instance.audioManager.SetMusicClip("menuLoop");
-
     }
 }
