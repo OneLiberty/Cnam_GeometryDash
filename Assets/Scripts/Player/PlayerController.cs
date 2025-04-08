@@ -127,6 +127,16 @@ public class PlayerController : MonoBehaviour
         } 
         else { isButtonPressed = false; }
 
+        if (Input.GetKeyDown(inputSettings.pauseButton))
+        {
+            GameManager.Instance.PauseGame();
+        }
+
+        if (Input.GetKeyDown(inputSettings.restartButton))
+        {
+            Die();
+        }
+
         currentController.Update();
     }
 

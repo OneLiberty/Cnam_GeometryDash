@@ -48,9 +48,15 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame()
     {
-        CurrentGameState = GameState.Paused;
-        Time.timeScale = 0f; // Pause the game
-        // scene management
+        if (CurrentGameState == GameState.Paused) {
+            Time.timeScale = 1f; // Resume the game
+            CurrentGameState = GameState.Playing;
+            //levelUIManager.ShowPausePanel(false);
+        } else {
+            Time.timeScale = 0f; // Pause the game
+            CurrentGameState = GameState.Paused;
+            //levelUIManager.ShowPausePanel(true);
+        }
     }
 
     public void ReturnToMainMenu()
@@ -61,8 +67,6 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Main Menu");
         SceneManager.sceneLoaded += (scene, mode) =>
         {
-            UIManager.ReinitializePanels();
-            UIManager.ShowMainMenu();
             AudioManager.SetMusicClip("menuLoop");
         };
     }

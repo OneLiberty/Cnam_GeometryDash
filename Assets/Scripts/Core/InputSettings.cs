@@ -6,6 +6,7 @@ public class InputSettings : MonoBehaviour
     [SerializeField] public KeyCode jumpButton_0 { get ; private set; } = KeyCode.Space;
     [SerializeField] public KeyCode jumpButton_1 { get ; private set; } = KeyCode.Mouse0;
     [SerializeField] public  KeyCode pauseButton { get ; private set; } = KeyCode.Escape;
+    [SerializeField] public KeyCode restartButton { get ; private set; } = KeyCode.R;
     
 
     public void SetJumpBtn(int index, KeyCode key)
@@ -17,5 +18,10 @@ public class InputSettings : MonoBehaviour
     public void SetPauseBtn(KeyCode key)
     {
         pauseButton = key;
+    }
+
+    public void SetRestartBtn(KeyCode key)
+    {
+        restartButton = key;
     }
 }
