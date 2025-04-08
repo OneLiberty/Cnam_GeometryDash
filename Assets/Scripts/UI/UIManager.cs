@@ -84,6 +84,7 @@ public class MainMenuManager : UIManager
         TextMeshProUGUI button0text = button0.GetComponentInChildren<TextMeshProUGUI>();
         button0text.text = GameManager.Instance.inputSettings.jumpButton_0.ToString();
         button0.onClick.AddListener(() => {
+            // TODO : 
             // Open key binding menu for jump button 0
             // Set the key binding to GameManager.Instance.inputSettings.jumpButton_0
         });
@@ -94,10 +95,21 @@ public class MainMenuManager : UIManager
         TextMeshProUGUI button1text = button1.GetComponentInChildren<TextMeshProUGUI>();
         button1text.text = GameManager.Instance.inputSettings.jumpButton_1.ToString();
 
-        // button1.onClick.AddListener(() => {
-        //     // Open key binding menu for jump button 0
-        //     // Set the key binding to GameManager.Instance.inputSettings.jumpButton_0
-        // });
+        button1.onClick.AddListener(() => {
+            // TODO :
+            // Open key binding menu for jump button 1
+            // Set the key binding to GameManager.Instance.inputSettings.jumpButton_1
+        });
+
+        Slider musicSlider = settingsPanel.transform.Find("MusicSlider").GetComponent<Slider>();
+        Slider sfxSlider = settingsPanel.transform.Find("SfxSlider").GetComponent<Slider>();
+        
+        musicSlider.onValueChanged.AddListener((value) => {
+            GameManager.Instance.AudioManager.SetMusicVolume(value);
+        });
+        sfxSlider.onValueChanged.AddListener((value) => {
+            GameManager.Instance.AudioManager.SetSFXVolume(value);
+        });
     }
 
     private void InitializeMainMenu() {
