@@ -24,10 +24,22 @@ public class CameraController : MonoBehaviour
     private Vector3 lastPosition;
     private Vector2 endPosition;
 
+    private bool isRestarting = false;
+
     private void Start()
     {
         startingPosition = lastPosition = transform.position;
-        endPosition = GameObject.Find("EndPortal(Clone)").transform.position;
+
+        GameObject endPortal = GameObject.Find("EndPortal(Clone)");
+        if (endPortal != null)
+        {
+            endPosition = endPortal.transform.position;
+        }
+        else
+        {
+            endPosition = new Vector2(1000f, 0f); // default value if not found
+        }
+
         Camera.main.orthographicSize = DefaultCameraZoom;
     }
 
@@ -40,11 +52,16 @@ public class CameraController : MonoBehaviour
 
         if (playerController.isDead)
         {
-            // if player is dead, move the camera to the starting position
-            Invoke(nameof(HandlePlayerDeath), 1f);
+            if (!isRestarting) { 
+                // if player is dead, move the camera to the starting position
+                isRestarting = true;
+                Invoke(nameof(HandlePlayerDeath), 1f);
+                return;
+            }
             return;
         }
-
+        isRestarting = false;
+        
         // follow only if player is beyond startFollowingX and stop when beyond endPosition
         if (player.position.x >= endPosition.x - offsetX)
         {
@@ -80,13 +97,7 @@ public class CameraController : MonoBehaviour
 
     private void HandlePlayerDeath()
     {
-        transform.position = Vector3.SmoothDamp(
-            transform.position,
-            startingPosition,
-            ref velocity,
-            new Vector2(0, 0).magnitude
-        );
-
+        transform.position = startingPosition;
         Camera.main.orthographicSize = DefaultCameraZoom;
     }
 
