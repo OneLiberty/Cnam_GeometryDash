@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class WaveController : IPlayerMode
@@ -19,12 +20,16 @@ public class WaveController : IPlayerMode
     }
 
     public void Initialize(GameObject characterInstance) {
+        rb.gravityScale = baseGravity;
+        playerController.transform.rotation = Quaternion.Euler(0, 0, 0);
+        characterInstance.transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
     public void FixedUpdate()
     {
         rb.linearVelocityX = baseSpeed * speedModifier;
         rb.linearVelocityY = _movementDirection * baseSpeed * speedModifier;
+        AlignToDirection();
     }
 
     public void Update()
@@ -41,6 +46,12 @@ public class WaveController : IPlayerMode
         {
             _movementDirection = 1;
         } 
+    }
+
+    private void AlignToDirection() 
+    {
+        float angle = Mathf.Atan2(rb.linearVelocityY, rb.linearVelocityX) * Mathf.Rad2Deg;
+        playerController.transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 }
 
