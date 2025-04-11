@@ -10,6 +10,13 @@ public interface IPlayerMode
     void OnClick();
 }
 
+[Serializable]
+public class DeathAnimations
+{
+    public string animationName; 
+    public Sprite[] frames;
+}
+
 public class PlayerController : MonoBehaviour
 {
     public enum GameMode { Cube, Ship, Wave }
@@ -22,6 +29,11 @@ public class PlayerController : MonoBehaviour
     [Header("Settings")]
     [SerializeField] public GameMode currentGameMode { get; private set; } = GameMode.Cube;
     [SerializeField] private const float defaultStartingX = -18f;
+
+    [Header("Death Animations")]
+    [SerializeField] private List<DeathAnimations> deathAnimations; 
+    [SerializeField] private SpriteRenderer deathSpriteRenderer; 
+    [SerializeField] private float animationFrameDelay = 0.05f; 
 
     [Header("Input Settings")]
     [SerializeField] private InputSettings inputSettings;
