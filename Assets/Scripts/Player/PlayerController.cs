@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
+using System;
 
 public interface IPlayerMode
 {
@@ -43,6 +45,7 @@ public class PlayerController : MonoBehaviour
     private IPlayerMode currentController;
     private GameObject currentCharacterInstance;
     private Dictionary<GameMode, IPlayerMode> controllers;
+    private Coroutine currentDeathAnimation;
 
     public bool isDead { get; private set; } = false;
     public bool isButtonPressed { get ; private set; } = false;
@@ -78,9 +81,17 @@ public class PlayerController : MonoBehaviour
 
         rb.linearVelocity = Vector2.zero;
         Destroy(currentCharacterInstance);
-        // play death animation or sound here
-        // animator.SetTrigger("Die");
-        // maybe play a sound
+
+        if (deathAnimations.Count > 0)
+        {
+            if (currentDeathAnimation != null)
+            {
+                StopCoroutine(currentDeathAnimation);
+            }
+
+            currentDeathAnimation = StartCoroutine(PlayRandomDeathAnimation());
+        }
+
         Invoke(nameof(Respawn), 1f);
         AudioManager.Instance.StopMusic();
         AudioManager.Instance.PlaySFX("deathSfx");
@@ -123,7 +134,6 @@ public class PlayerController : MonoBehaviour
             currentCharacterInstance.transform.SetParent(transform);
 
             currentController.Initialize(currentCharacterInstance);
-
         }
     }
 
@@ -165,5 +175,18 @@ public class PlayerController : MonoBehaviour
         if (isDead) return;
 
         currentController.OnClick();
+    }
+
+    private IEnumerator PlayRandomDeathAnimation() 
+    {
+        DeathAnimations selectedAnimation = deathAnimations[UnityEngine.Random.Range(0, deathAnimations.Count)];
+        deathSpriteRenderer.enabled = true;
+
+        foreach (Sprite frame in selectedAnimation.frames)
+        {
+            deathSpriteRenderer.sprite = frame;
+            yield return new WaitForSeconds(animationFrameDelay);
+        }
+        deathSpriteRenderer.enabled = false;
     }
 }
