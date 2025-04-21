@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,6 +31,7 @@ public class MainMenuManager : UIManager
     private GameObject mainMenuPanel;
     private GameObject levelSelectionPanel;
     private GameObject settingsPanel;
+    private GameObject askInputPanel;
     
     public override void InitializePanels()
     {
@@ -46,12 +46,13 @@ public class MainMenuManager : UIManager
         mainMenuPanel = uiCanvas.transform.Find("MainMenu")?.gameObject;
         levelSelectionPanel = uiCanvas.transform.Find("LevelSelection")?.gameObject;
         settingsPanel = uiCanvas.transform.Find("Settings")?.gameObject;
+        askInputPanel = uiCanvas.transform.Find("AskInput")?.gameObject;
     
         // it's easier to edit them in the editor when they are not stacked on top of each other
         // so we just reset their position to 0,0,0 here
-        if (mainMenuPanel != null) { InitializeMainMenu(); mainMenuPanel.transform.position = Vector3.zero ;} 
-        if (levelSelectionPanel != null) { InitializeLevelSelection(); levelSelectionPanel.transform.position = Vector3.zero ;} 
-        if (settingsPanel != null) { InitializeSettings(); settingsPanel.transform.position = Vector3.zero ;}
+        if (mainMenuPanel != null) { InitializeMainMenu();} 
+        if (levelSelectionPanel != null) { InitializeLevelSelection();} 
+        if (settingsPanel != null) { InitializeSettings();}
 
         if (mainMenuPanel != null) {
             ShowMainMenu();
@@ -103,24 +104,30 @@ public class MainMenuManager : UIManager
         });
 
         // Jump button 0
-        Button button0 = settingsPanel.transform.Find("Jump/JumpInput1").GetComponent<Button>();
+        Button button0 = settingsPanel.transform.Find("Jump/JumpInput0").GetComponent<Button>();
         TextMeshProUGUI button0text = button0.GetComponentInChildren<TextMeshProUGUI>();
         button0text.text = GameManager.Instance.inputSettings.jumpButton_0.ToString();
         button0.onClick.AddListener(() => {
-            // TODO : 
-            // Open key binding menu for jump button 0
-            // Set the key binding to GameManager.Instance.inputSettings.jumpButton_0
+            askInputPanel.SetActive(true);
+            GameManager.Instance.inputSettings.ListenForInput(key => {
+                GameManager.Instance.inputSettings.SetJumpBtn(0, key);
+                button0text.text = key.ToString();
+                askInputPanel.SetActive(false);
+            });
         });
 
 
         // Jump button 1
-        Button button1 = settingsPanel.transform.Find("Jump/JumpInput2").GetComponent<Button>();
+        Button button1 = settingsPanel.transform.Find("Jump/JumpInput1").GetComponent<Button>();
         TextMeshProUGUI button1text = button1.GetComponentInChildren<TextMeshProUGUI>();
         button1text.text = GameManager.Instance.inputSettings.jumpButton_1.ToString();
         button1.onClick.AddListener(() => {
-            // TODO :
-            // Open key binding menu for jump button 1
-            // Set the key binding to GameManager.Instance.inputSettings.jumpButton_1
+            askInputPanel.SetActive(true);
+            GameManager.Instance.inputSettings.ListenForInput(key => {
+                GameManager.Instance.inputSettings.SetJumpBtn(1, key);
+                button1text.text = key.ToString();
+                askInputPanel.SetActive(false);
+            });
         });
 
         // Restart button
@@ -128,9 +135,12 @@ public class MainMenuManager : UIManager
         TextMeshProUGUI restartButtonText = restartButton.GetComponentInChildren<TextMeshProUGUI>();
         restartButtonText.text = GameManager.Instance.inputSettings.restartButton.ToString();
         restartButton.onClick.AddListener(() => {
-            // TODO :
-            // Open key binding menu for restart button
-            // Set the key binding to GameManager.Instance.inputSettings.restartButton
+            askInputPanel.SetActive(true);
+            GameManager.Instance.inputSettings.ListenForInput(key => {
+                GameManager.Instance.inputSettings.SetRestartBtn(key);
+                restartButtonText.text = key.ToString();
+                askInputPanel.SetActive(false);
+            });
         });
 
         // Pause button
@@ -138,9 +148,12 @@ public class MainMenuManager : UIManager
         TextMeshProUGUI pauseButtonText = pauseButton.GetComponentInChildren<TextMeshProUGUI>();
         pauseButtonText.text = GameManager.Instance.inputSettings.pauseButton.ToString();
         pauseButton.onClick.AddListener(() => {
-            // TODO :
-            // Open key binding menu for pause button
-            // Set the key binding to GameManager.Instance.inputSettings.pauseButton
+            askInputPanel.SetActive(true);
+            GameManager.Instance.inputSettings.ListenForInput(key => {
+                GameManager.Instance.inputSettings.SetPauseBtn(key);
+                pauseButtonText.text = key.ToString();
+                askInputPanel.SetActive(false);
+            });
         });
 
         Slider musicSlider = settingsPanel.transform.Find("Music&Sfx/MusicSlider").GetComponent<Slider>();
