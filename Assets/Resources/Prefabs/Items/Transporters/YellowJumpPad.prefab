@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5608607677911280836}
-  - component: {fileID: 6248061879332731019}
   - component: {fileID: 5375241075431715526}
   - component: {fileID: 6337955878648615909}
+  - component: {fileID: 6248061879332731019}
   m_Layer: 0
   m_Name: YellowJumpPad
   m_TagString: Untagged
@@ -34,19 +34,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6248061879332731019
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 412801289072475051}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d5b5085a1a6d4533a6f094f3a90c526, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jumpPadType: NormalPad
 --- !u!212 &5375241075431715526
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -148,3 +135,17 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.99, y: 0.16}
   m_EdgeRadius: 0
+--- !u!114 &6248061879332731019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412801289072475051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d5b5085a1a6d4533a6f094f3a90c526, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpForce: 0
+  transporterType: NormalPad
