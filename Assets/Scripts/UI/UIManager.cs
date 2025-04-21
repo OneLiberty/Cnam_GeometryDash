@@ -110,7 +110,7 @@ public class MainMenuManager : UIManager
         button0.onClick.AddListener(() => {
             askInputPanel.SetActive(true);
             GameManager.Instance.inputSettings.ListenForInput(key => {
-                GameManager.Instance.inputSettings.SetJumpBtn(0, key);
+                GameManager.Instance.inputSettings.jumpButton_0 = key;
                 button0text.text = key.ToString();
                 askInputPanel.SetActive(false);
             });
@@ -124,7 +124,7 @@ public class MainMenuManager : UIManager
         button1.onClick.AddListener(() => {
             askInputPanel.SetActive(true);
             GameManager.Instance.inputSettings.ListenForInput(key => {
-                GameManager.Instance.inputSettings.SetJumpBtn(1, key);
+                GameManager.Instance.inputSettings.jumpButton_1 = key;
                 button1text.text = key.ToString();
                 askInputPanel.SetActive(false);
             });
@@ -137,7 +137,7 @@ public class MainMenuManager : UIManager
         restartButton.onClick.AddListener(() => {
             askInputPanel.SetActive(true);
             GameManager.Instance.inputSettings.ListenForInput(key => {
-                GameManager.Instance.inputSettings.SetRestartBtn(key);
+                GameManager.Instance.inputSettings.restartButton = key;
                 restartButtonText.text = key.ToString();
                 askInputPanel.SetActive(false);
             });
@@ -150,7 +150,7 @@ public class MainMenuManager : UIManager
         pauseButton.onClick.AddListener(() => {
             askInputPanel.SetActive(true);
             GameManager.Instance.inputSettings.ListenForInput(key => {
-                GameManager.Instance.inputSettings.SetPauseBtn(key);
+                GameManager.Instance.inputSettings.pauseButton = key;
                 pauseButtonText.text = key.ToString();
                 askInputPanel.SetActive(false);
             });
