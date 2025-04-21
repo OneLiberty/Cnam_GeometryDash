@@ -14,11 +14,11 @@ public class LevelLoader : MonoBehaviour
     [SerializeField] private string backgroundColor = "#000000"; // default color
     [SerializeField] private string groundColor = "#FFFFFF"; // default color
 
-    [SerializeField] private float offsetX = 10f;
-
     [Header("Ending Settings")]
     [SerializeField] private float endPosition = 1000f; // this is the default value for the end position
     [SerializeField] private string endingObject = "EndPortal";
+
+    private float offsetX = 20f;
 
     private void Awake()
     {
@@ -101,7 +101,7 @@ public class LevelLoader : MonoBehaviour
             groundWidth = 100;
         }
 
-        GameObject ground = Instantiate(groundPrefab, new Vector3(center - offsetX, -2.5f, 0), Quaternion.identity);
+        GameObject ground = Instantiate(groundPrefab, new Vector3(center, -2.5f, 0), Quaternion.identity);
         SpriteRenderer renderer = ground.GetComponentInChildren<SpriteRenderer>();
 
         Color color;
@@ -109,7 +109,6 @@ public class LevelLoader : MonoBehaviour
         {
             renderer.color = color;
         }
-
 
         if (renderer != null)
         {
@@ -138,7 +137,7 @@ public class LevelLoader : MonoBehaviour
         }
 
         SpriteRenderer renderer = backgroundObject.GetComponentInChildren<SpriteRenderer>();
-        backgroundObject.transform.position = new Vector3(center - offsetX * 3, 5, 10);
+        backgroundObject.transform.position = new Vector3(center, 5, 10);
 
         Color color;
         if (ColorUtility.TryParseHtmlString(backgroundColor, out color))
