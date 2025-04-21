@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1291419159375417124}
   - component: {fileID: 6138670787048814612}
-  - component: {fileID: 4575658812242935268}
-  - component: {fileID: 5197826157413382542}
+  - component: {fileID: 3819100918922532324}
+  - component: {fileID: 3920533860792292883}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Player
@@ -81,7 +81,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 0.9337392}
   m_EdgeRadius: 0
---- !u!199 &4575658812242935268
+--- !u!199 &3819100918922532324
 ParticleSystemRenderer:
   serializedVersion: 6
   m_ObjectHideFlags: 0
@@ -159,7 +159,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!198 &5197826157413382542
+--- !u!198 &3920533860792292883
 ParticleSystem:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

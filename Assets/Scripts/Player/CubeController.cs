@@ -6,11 +6,12 @@ public class CubeController : IPlayerMode
     private GameObject characterInstance;
     private Rigidbody2D rb;
     private ParticleSystem particleSystem;
+    private SpriteRenderer spriteRenderer;
 
     private const float baseSpeed = 10.4f; // this is the default speed in GD (10.4 blocks per second)
     private const float baseGravityScale = 12.41067f;
     private bool isGrounded = false;
-    private float jumpForce = 26.6581f;
+    public float jumpForce = 26.6581f;
     public float speedModifier = 1f;
 
     public CubeController(PlayerController playerController, Rigidbody2D rb)
@@ -24,6 +25,7 @@ public class CubeController : IPlayerMode
     {
         this.characterInstance = characterInstance;
         particleSystem = characterInstance.GetComponentInChildren<ParticleSystem>();
+        spriteRenderer = characterInstance.transform.Find("SpriteRenderer").GetComponent<SpriteRenderer>();
         rb.gravityScale = baseGravityScale;
 
         if (particleSystem != null)
@@ -84,8 +86,6 @@ public class CubeController : IPlayerMode
 
     private void RotateSprite()
     {
-        SpriteRenderer spriteRenderer = rb.GetComponentInChildren<SpriteRenderer>();
-
         if (!CheckGrounded())
         {
             float rotationAmount = 360 * Time.deltaTime;
