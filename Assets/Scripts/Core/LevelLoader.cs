@@ -155,7 +155,7 @@ public class LevelLoader : MonoBehaviour
         }
     }
 
-    private void PlaceObjectWithAnchor(GameObject prefab, Vector3Int cellPosition, float rotation, string anchor)
+    private void PlaceObjectWithAnchor(GameObject prefab, Vector3Int cellPosition, float rotation, AnchorType anchor)
     {
         Vector3 cellCenter = grid.GetCellCenterWorld(cellPosition);
         SpriteRenderer spriteRenderer = prefab.GetComponentInChildren<SpriteRenderer>();
@@ -165,12 +165,12 @@ public class LevelLoader : MonoBehaviour
         float objectHeight = spriteRenderer.bounds.size.y;
         float cellHeight = grid.cellSize.y;
 
-        switch (anchor.ToLower())
+        switch (anchor)
         {
-            case "bottom":
+            case AnchorType.Bottom:
                 finalPosition.y -= (cellHeight - objectHeight) * 0.5f;
                 break;
-            case "top":
+            case AnchorType.Top:
                 finalPosition.y += (cellHeight - objectHeight) * 0.5f;
                 break;
         }
