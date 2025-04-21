@@ -1,10 +1,10 @@
-using System.Linq;
 using UnityEngine;
 
 public class WaveController : IPlayerMode
 {
     private PlayerController playerController;
     private Rigidbody2D rb;
+    private SpriteRenderer spriteRenderer;
 
     private const float baseSpeed = 10.4f;
     private const float baseGravity = 0f; // Wave mode has no gravity
@@ -23,6 +23,7 @@ public class WaveController : IPlayerMode
         rb.gravityScale = baseGravity;
         playerController.transform.rotation = Quaternion.Euler(0, 0, 0);
         characterInstance.transform.rotation = Quaternion.Euler(0, 0, 0);
+        spriteRenderer = characterInstance.transform.Find("SpriteRenderer").GetComponent<SpriteRenderer>();
     }
 
     public void FixedUpdate()
@@ -51,7 +52,7 @@ public class WaveController : IPlayerMode
     private void AlignToDirection() 
     {
         float angle = Mathf.Atan2(rb.linearVelocityY, rb.linearVelocityX) * Mathf.Rad2Deg;
-        playerController.transform.rotation = Quaternion.Euler(0, 0, angle);
+        spriteRenderer.transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 }
 
