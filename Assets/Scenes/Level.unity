@@ -299,7 +299,7 @@ MonoBehaviour:
   backgroundObject: {fileID: 811559478}
   backgroundColor: '#000000'
   groundColor: '#FFFFFF'
-  offsetX: 10
+  offsetX: 20
   endPosition: 1000
   endingObject: EndPortal
 --- !u!4 &715637952
@@ -419,7 +419,6 @@ GameObject:
   - component: {fileID: 1164645477}
   - component: {fileID: 1164645480}
   - component: {fileID: 1164645481}
-  - component: {fileID: 1164645482}
   - component: {fileID: 1164645484}
   m_Layer: 0
   m_Name: Player
@@ -497,6 +496,55 @@ MonoBehaviour:
     - {fileID: 222296791, guid: ca742e9bb2a2aeb4994c1486ebf5dd62, type: 3}
     - {fileID: -63871091, guid: ca742e9bb2a2aeb4994c1486ebf5dd62, type: 3}
     - {fileID: 1688240246, guid: ca742e9bb2a2aeb4994c1486ebf5dd62, type: 3}
+  - animationName: death_04
+    frames:
+    - {fileID: 60573552, guid: 12307ef48757c5f49b268b194ba237e6, type: 3}
+    - {fileID: 1944800313, guid: 12307ef48757c5f49b268b194ba237e6, type: 3}
+    - {fileID: 1927667566, guid: 12307ef48757c5f49b268b194ba237e6, type: 3}
+    - {fileID: -1207075369, guid: 12307ef48757c5f49b268b194ba237e6, type: 3}
+    - {fileID: 190069932, guid: 12307ef48757c5f49b268b194ba237e6, type: 3}
+    - {fileID: -270914298, guid: 12307ef48757c5f49b268b194ba237e6, type: 3}
+    - {fileID: -553379658, guid: 12307ef48757c5f49b268b194ba237e6, type: 3}
+    - {fileID: -369165953, guid: 12307ef48757c5f49b268b194ba237e6, type: 3}
+    - {fileID: 993938189, guid: 12307ef48757c5f49b268b194ba237e6, type: 3}
+  - animationName: death_05
+    frames:
+    - {fileID: 2121297656, guid: 4df90f769425316438f0f4de726ea809, type: 3}
+    - {fileID: -2013628118, guid: 4df90f769425316438f0f4de726ea809, type: 3}
+    - {fileID: -1205025343, guid: 4df90f769425316438f0f4de726ea809, type: 3}
+    - {fileID: 2057921586, guid: 4df90f769425316438f0f4de726ea809, type: 3}
+    - {fileID: -1333165909, guid: 4df90f769425316438f0f4de726ea809, type: 3}
+    - {fileID: 1414656145, guid: 4df90f769425316438f0f4de726ea809, type: 3}
+    - {fileID: 1933573341, guid: 4df90f769425316438f0f4de726ea809, type: 3}
+    - {fileID: 322123633, guid: 4df90f769425316438f0f4de726ea809, type: 3}
+    - {fileID: 990710681, guid: 4df90f769425316438f0f4de726ea809, type: 3}
+    - {fileID: 32118209, guid: 4df90f769425316438f0f4de726ea809, type: 3}
+  - animationName: death_07
+    frames:
+    - {fileID: 1912974940, guid: 136eefd0ef3a04e4eaae7f6ffec54b91, type: 3}
+    - {fileID: -1207182703, guid: 136eefd0ef3a04e4eaae7f6ffec54b91, type: 3}
+    - {fileID: 666903640, guid: 136eefd0ef3a04e4eaae7f6ffec54b91, type: 3}
+    - {fileID: -82890100, guid: 136eefd0ef3a04e4eaae7f6ffec54b91, type: 3}
+    - {fileID: 1512642033, guid: 136eefd0ef3a04e4eaae7f6ffec54b91, type: 3}
+    - {fileID: 924953358, guid: 136eefd0ef3a04e4eaae7f6ffec54b91, type: 3}
+    - {fileID: -1262596959, guid: 136eefd0ef3a04e4eaae7f6ffec54b91, type: 3}
+    - {fileID: 904725630, guid: 136eefd0ef3a04e4eaae7f6ffec54b91, type: 3}
+    - {fileID: 1485079237, guid: 136eefd0ef3a04e4eaae7f6ffec54b91, type: 3}
+    - {fileID: 1019104684, guid: 136eefd0ef3a04e4eaae7f6ffec54b91, type: 3}
+    - {fileID: 277933709, guid: 136eefd0ef3a04e4eaae7f6ffec54b91, type: 3}
+  - animationName: death_08
+    frames:
+    - {fileID: -2021648546, guid: c1b0dcd599e97ac45b0d9e468502178a, type: 3}
+    - {fileID: 451226914, guid: c1b0dcd599e97ac45b0d9e468502178a, type: 3}
+    - {fileID: 1947229905, guid: c1b0dcd599e97ac45b0d9e468502178a, type: 3}
+    - {fileID: -1226641482, guid: c1b0dcd599e97ac45b0d9e468502178a, type: 3}
+    - {fileID: 883639341, guid: c1b0dcd599e97ac45b0d9e468502178a, type: 3}
+    - {fileID: 1912411263, guid: c1b0dcd599e97ac45b0d9e468502178a, type: 3}
+    - {fileID: -142542816, guid: c1b0dcd599e97ac45b0d9e468502178a, type: 3}
+    - {fileID: -1570831542, guid: c1b0dcd599e97ac45b0d9e468502178a, type: 3}
+    - {fileID: -1438626388, guid: c1b0dcd599e97ac45b0d9e468502178a, type: 3}
+    - {fileID: 957043026, guid: c1b0dcd599e97ac45b0d9e468502178a, type: 3}
+    - {fileID: -1518535110, guid: c1b0dcd599e97ac45b0d9e468502178a, type: 3}
   deathSpriteRenderer: {fileID: 1164645484}
   animationFrameDelay: 0.05
   inputSettings: {fileID: 0}
@@ -527,113 +575,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!96 &1164645482
-TrailRenderer:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1164645473}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 0
-  m_LightProbeUsage: 0
-  m_ReflectionProbeUsage: 0
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Time: 5
-  m_PreviewTimeScale: 1
-  m_Parameters:
-    serializedVersion: 3
-    widthMultiplier: 1
-    widthCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0.092199326
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    colorGradient:
-      serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
-      key3: {r: 0, g: 0, b: 0, a: 0}
-      key4: {r: 0, g: 0, b: 0, a: 0}
-      key5: {r: 0, g: 0, b: 0, a: 0}
-      key6: {r: 0, g: 0, b: 0, a: 0}
-      key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 0
-      ctime1: 65535
-      ctime2: 0
-      ctime3: 0
-      ctime4: 0
-      ctime5: 0
-      ctime6: 0
-      ctime7: 0
-      atime0: 0
-      atime1: 65535
-      atime2: 0
-      atime3: 0
-      atime4: 0
-      atime5: 0
-      atime6: 0
-      atime7: 0
-      m_Mode: 0
-      m_ColorSpace: -1
-      m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
-    numCornerVertices: 0
-    numCapVertices: 0
-    alignment: 0
-    textureMode: 0
-    textureScale: {x: 1, y: 1}
-    shadowBias: 0.5
-    generateLightingData: 0
-  m_MinVertexDistance: 0.1
-  m_MaskInteraction: 0
-  m_Autodestruct: 0
-  m_Emitting: 1
-  m_ApplyActiveColorSpace: 1
 --- !u!212 &1164645484
 SpriteRenderer:
   m_ObjectHideFlags: 0
