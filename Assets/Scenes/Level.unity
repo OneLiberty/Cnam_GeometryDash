@@ -175,6 +175,7 @@ GameObject:
   - component: {fileID: 569309540}
   - component: {fileID: 569309539}
   - component: {fileID: 569309538}
+  - component: {fileID: 569309542}
   m_Layer: 5
   m_Name: UICanvas
   m_TagString: Untagged
@@ -265,6 +266,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &569309542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 569309537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d61b692d23d4d1147876d0dedaba80b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &715637950
 GameObject:
   m_ObjectHideFlags: 0
@@ -299,7 +312,6 @@ MonoBehaviour:
   backgroundObject: {fileID: 811559478}
   backgroundColor: '#000000'
   groundColor: '#FFFFFF'
-  offsetX: 20
   endPosition: 1000
   endingObject: EndPortal
 --- !u!4 &715637952
