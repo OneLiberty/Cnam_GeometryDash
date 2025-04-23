@@ -54,7 +54,7 @@ public class LevelLoader : MonoBehaviour
         string json = File.ReadAllText(LevelPath);
         LevelData levelData = JsonUtility.FromJson<LevelData>(json);
 
-        AudioManager.Instance.StopMusic();
+        AudioManager.Instance.musicSource.Stop();
 
         string musicName = levelData.musicFile;
         if (string.IsNullOrEmpty(musicName))
@@ -63,7 +63,7 @@ public class LevelLoader : MonoBehaviour
         }
         
         AudioManager.Instance.SetMusicClip(musicName);
-        AudioManager.Instance.PlayMusic();
+        AudioManager.Instance.musicSource.Play();
         
         foreach (var gameObj in levelData.levelObjects)
         {

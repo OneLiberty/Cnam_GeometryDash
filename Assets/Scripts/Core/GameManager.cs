@@ -64,16 +64,18 @@ public class GameManager : MonoBehaviour
         if (CurrentGameState == GameState.Paused) {
             Time.timeScale = 1f; // Resume the game
             CurrentGameState = GameState.Playing;
+            AudioManager.Instance.musicSource.Pause();
         } else {
             Time.timeScale = 0f; // Pause the game
             CurrentGameState = GameState.Paused;
+            AudioManager.Instance.musicSource.UnPause();
         }
     }
 
     public void ReturnToMainMenu()
     {
         CurrentGameState = GameState.MainMenu;
-        Time.timeScale = 1f; // Resume the game
+        Time.timeScale = 1f;
         
         SceneManager.LoadScene("Main Menu");
         SceneManager.sceneLoaded += (scene, mode) =>

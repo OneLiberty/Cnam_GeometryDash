@@ -137,10 +137,10 @@ public class MainMenuManager : UIManager
         Slider sfxSlider = settingsPanel.transform.Find("Music&Sfx/SfxSlider").GetComponent<Slider>();
             
         musicSlider.onValueChanged.AddListener((value) => {
-            // GameManager.Instance.AudioManager.SetMusicVolume(value);
+            AudioManager.Instance.musicSource.volume = value;
         });
         sfxSlider.onValueChanged.AddListener((value) => {
-            // GameManager.Instance.AudioManager.SetSFXVolume(value);
+            AudioManager.Instance.sfxSource.volume = value;
         });
     }
 
