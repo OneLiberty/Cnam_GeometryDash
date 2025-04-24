@@ -1,12 +1,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Transporter : InteractiveObject {
+public abstract class Transporter : InteractiveObject
+{
+    protected enum TransporterType
+    {
+        Pad,
+        Orb
+    }
 
-    [SerializeField] protected float jumpForce; 
-    [SerializeField] protected string transporterType;
+    protected enum JumpForce
+    {
+        Low,
+        Normal,
+        High
+    }
 
-    protected Dictionary<string, float> jumpForcesMap = new Dictionary<string, float>();
+    [SerializeField] protected TransporterType transporterType;
+    [SerializeField] protected JumpForce jumpForceType;
+    protected float jumpForce;
+
+    protected Dictionary<JumpForce, float> jumpForcesMap = new Dictionary<JumpForce, float>()
+    {
+        { JumpForce.Low, 24f },
+        { JumpForce.Normal, 30f },
+        { JumpForce.High, 35f }
+    };
+
+    protected virtual void Awake()
+    {
+        if (jumpForcesMap.ContainsKey(jumpForceType))
+        {
+            jumpForce = jumpForcesMap[jumpForceType];
+        }
+    }
 
     protected void ApplyJumpForce(PlayerController player) {
         

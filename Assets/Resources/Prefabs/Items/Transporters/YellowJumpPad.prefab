@@ -147,5 +147,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d5b5085a1a6d4533a6f094f3a90c526, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 0
-  transporterType: NormalPad
+  transporterType: 0
+  jumpForceType: 1
