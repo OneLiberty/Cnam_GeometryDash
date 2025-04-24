@@ -9,5 +9,4 @@ public class Portal : InteractiveObject
 
         player.ChangeGameMode(targetMode);
     }
-    // I could add visual and audio effects here
 }

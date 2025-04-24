@@ -34,7 +34,7 @@ public class CubeController : IPlayerMode
 
     public void FixedUpdate()
     {
-        rb.linearVelocityX= baseSpeed * speedModifier;
+        rb.linearVelocityX= baseSpeed * playerController.speedModifier;
         // if (rb.linearVelocityY < -13.2f)
         // {
         //     rb.gravityScale = 0f;
