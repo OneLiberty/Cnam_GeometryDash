@@ -93,7 +93,7 @@ public class PlayerController : MonoBehaviour
         }
 
         Invoke(nameof(Respawn), 1f);
-        AudioManager.Instance.StopMusic();
+        AudioManager.Instance.musicSource.Stop();
         AudioManager.Instance.PlaySFX("deathSfx");
     }
 
@@ -102,7 +102,7 @@ public class PlayerController : MonoBehaviour
         isDead = false;
         rb.simulated = true;
         SpawnPlayerPrefab(currentGameMode);
-        AudioManager.Instance.PlayMusic();
+        AudioManager.Instance.musicSource.Play();
     }
 
     private void SpawnPlayerPrefab(GameMode mode, float posX = defaultStartingX, float posY = 0)
