@@ -6,11 +6,12 @@ public class CubeController : IPlayerMode
     private GameObject characterInstance;
     private Rigidbody2D rb;
     private ParticleSystem particleSystem;
+    private SpriteRenderer spriteRenderer;
 
-    private const float baseSpeed = 10.4f; // this is the default speed in GD (10.4 blocks per second)
+    private const float baseSpeed = 10.3f; // this is the default speed (10.3 blocks per second)
     private const float baseGravityScale = 12.41067f;
     private bool isGrounded = false;
-    private float jumpForce = 26.6581f;
+    public float jumpForce = 25.6581f;
     public float speedModifier = 1f;
 
     public CubeController(PlayerController playerController, Rigidbody2D rb)
@@ -24,6 +25,7 @@ public class CubeController : IPlayerMode
     {
         this.characterInstance = characterInstance;
         particleSystem = characterInstance.GetComponentInChildren<ParticleSystem>();
+        spriteRenderer = characterInstance.transform.Find("SpriteRenderer").GetComponent<SpriteRenderer>();
         rb.gravityScale = baseGravityScale;
 
         if (particleSystem != null)
@@ -34,7 +36,13 @@ public class CubeController : IPlayerMode
 
     public void FixedUpdate()
     {
-        rb.linearVelocityX= baseSpeed * playerController.speedModifier;
+        rb.transform.Translate(new Vector2 (baseSpeed * playerController.speedModifier * Time.fixedDeltaTime, 0));
+
+        /* Dans GD, le saut du cube ne suit pas une courbe parfaite
+        en réalité, passé une certaine vélocité y, la gravité devient nulle
+        permettant au cube de finir son saut suivant une droite et non une courbe. 
+        */ 
+
         // if (rb.linearVelocityY < -13.2f)
         // {
         //     rb.gravityScale = 0f;
@@ -84,11 +92,9 @@ public class CubeController : IPlayerMode
 
     private void RotateSprite()
     {
-        SpriteRenderer spriteRenderer = rb.GetComponentInChildren<SpriteRenderer>();
-
         if (!CheckGrounded())
         {
-            float rotationAmount = 360 * Time.deltaTime;
+            float rotationAmount = 300 * Time.deltaTime;
             spriteRenderer.transform.Rotate(0, 0, -rotationAmount);
         }
         else // il faudrait un petit timer qu'on reset si on detect un saut pour pas snap tout de suite.
@@ -99,14 +105,6 @@ public class CubeController : IPlayerMode
 
             spriteRenderer.transform.rotation = Quaternion.Euler(0, 0, smoothedRotation);
         }
-    }
-
-    //Debug
-    protected virtual void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(rb.position + new Vector2(0.5f, 0), rb.position + new Vector2(0.5f, 0) + Vector2.down * 0.55f);
-        Gizmos.DrawLine(rb.position - new Vector2(0.47f, 0), rb.position - new Vector2(0.47f, 0) + Vector2.down * 0.55f);
     }
 
 }

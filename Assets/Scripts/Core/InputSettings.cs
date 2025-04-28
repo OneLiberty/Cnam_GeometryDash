@@ -1,27 +1,40 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 public class InputSettings : MonoBehaviour
 {
     [Header("Input Settings")]
-    [SerializeField] public KeyCode jumpButton_0 { get ; private set; } = KeyCode.Space;
-    [SerializeField] public KeyCode jumpButton_1 { get ; private set; } = KeyCode.Mouse0;
-    [SerializeField] public  KeyCode pauseButton { get ; private set; } = KeyCode.Escape;
-    [SerializeField] public KeyCode restartButton { get ; private set; } = KeyCode.R;
-    
+    [SerializeField] public KeyCode jumpButton_0 { get ; set; } = KeyCode.Space;
+    [SerializeField] public KeyCode jumpButton_1 { get ; set; } = KeyCode.Mouse0;
+    [SerializeField] public KeyCode pauseButton { get ; set; } = KeyCode.Escape;
+    [SerializeField] public KeyCode restartButton { get ; set; } = KeyCode.R;
 
-    public void SetJumpBtn(int index, KeyCode key)
+    public void ListenForInput(Action<KeyCode> callback) 
     {
-        if (index == 0) { jumpButton_0 = key; }
-        else if (index == 1) { jumpButton_1 = key; }
+        StartCoroutine(WaitForNewInput(callback));
     }
 
-    public void SetPauseBtn(KeyCode key)
-    {
-        pauseButton = key;
-    }
+    private IEnumerator WaitForNewInput(Action<KeyCode> callback) {
+        bool keyPressed = false;
+        KeyCode key = KeyCode.None;
 
-    public void SetRestartBtn(KeyCode key)
-    {
-        restartButton = key;
+        yield return null;
+
+        while (!keyPressed)
+        {
+            foreach (KeyCode k in Enum.GetValues(typeof(KeyCode)))
+            {
+                if (Input.GetKeyDown(k))
+                {
+                    key = k;
+                    keyPressed = true;
+                    break;
+                }
+            }
+            yield return null;
+        }
+        
+        callback(key);
     }
 }

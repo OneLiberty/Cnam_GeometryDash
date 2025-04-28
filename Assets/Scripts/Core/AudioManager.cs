@@ -6,11 +6,11 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance { get; private set; }
 
     [Header("Audio Settings")]
-    private AudioSource musicSource;
-    private AudioSource sfxSource;
+    public AudioSource musicSource;
+    public AudioSource sfxSource;
 
-    private float musicVolume = 1f;
-    private float sfxVolume = 1f;
+    public float musicVolume = 1f;
+    public float sfxVolume = 1f;
 
     [Header("Audio Clips")]
     [SerializeField] private AudioClip menuMusic;
@@ -43,26 +43,6 @@ public class AudioManager : MonoBehaviour
 
         musicSource.clip = menuMusic;
         musicSource.Play();
-    }
-
-    public void PlayMusic()
-    {
-        musicSource.Play();
-    }
-
-    public void PauseMusic()
-    {
-        musicSource.Pause();
-    }
-
-    public void ResumeMusic()
-    {
-        musicSource.UnPause();
-    }
-
-    public void StopMusic()
-    {
-        musicSource.Stop();
     }
 
     public void PlaySFX(string clipName)
@@ -103,16 +83,6 @@ public class AudioManager : MonoBehaviour
         {
             Debug.LogError("Audio clip not found: " + clipName);
         }
-    }
-
-    public void SetSFXVolume(float volume)
-    {
-        sfxSource.volume = volume;
-    }
-
-    public void SetMusicVolume(float volume)
-    {
-        musicSource.volume = volume;
     }
 
 }

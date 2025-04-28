@@ -5,6 +5,7 @@ public class ShipController : IPlayerMode
     private PlayerController playerController;
     private Rigidbody2D rb;
     private ParticleSystem particleSystem;
+    private SpriteRenderer spriteRenderer;
 
     private const float baseSpeed = 10.4f; // this is the default speed in GD (10.4 blocks per second)
     private const float baseGravity = 4f;
@@ -18,6 +19,7 @@ public class ShipController : IPlayerMode
     public void Initialize(GameObject characterInstance) 
     {
         particleSystem = characterInstance.GetComponentInChildren<ParticleSystem>();
+        spriteRenderer = characterInstance.transform.Find("SpriteRenderer").GetComponent<SpriteRenderer>();
     }
 
     public void FixedUpdate()
@@ -58,7 +60,7 @@ public class ShipController : IPlayerMode
     private void AlignToDirection() 
     {
         float angle = Mathf.Atan2(rb.linearVelocityY, rb.linearVelocityX) * Mathf.Rad2Deg;
-        playerController.transform.rotation = Quaternion.Euler(0, 0, angle);
+        spriteRenderer.transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 }
 

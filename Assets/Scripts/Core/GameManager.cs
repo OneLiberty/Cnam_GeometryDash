@@ -8,12 +8,7 @@ public class GameManager : MonoBehaviour
 
     public enum GameState { MainMenu, LevelSelection, Playing, Paused, GameOver, Victory }
     public GameState CurrentGameState { get; private set; } = GameState.MainMenu;
-private UnityAction<Scene, LoadSceneMode> onSceneLoaded;
-
-[Header("Managers")]
-    public AudioManager AudioManager { get { return AudioManager.Instance; } }
-    private MainMenuManager mainMenuManager;
-    private LevelUIManager levelUIManager;
+    private UnityAction<Scene, LoadSceneMode> onSceneLoaded;
 
     [Header("Input Settings")]
     public InputSettings inputSettings;
@@ -33,19 +28,6 @@ private UnityAction<Scene, LoadSceneMode> onSceneLoaded;
         }
     }
     
-    private void Start()
-    {
-        // we should always start on the main menu but just in case... 
-        if (SceneManager.GetActiveScene().name == "Main Menu")
-        {
-            mainMenuManager = gameObject.AddComponent<MainMenuManager>();
-        } 
-        else if (SceneManager.GetActiveScene().name == "Level")
-        {
-            levelUIManager = gameObject.AddComponent<LevelUIManager>();
-        }
-    }
-    
     public void StartLevel(int levelNumber)
     {
         Debug.Log($"Starting level {levelNumber}");
@@ -61,18 +43,13 @@ private UnityAction<Scene, LoadSceneMode> onSceneLoaded;
         {
             if (scene.name == "Level")
             {
-                if (levelUIManager == null) 
-                {
-                    levelUIManager = gameObject.AddComponent<LevelUIManager>();
-                }
                 
-            LevelLoader levelLoader = FindFirstObjectByType<LevelLoader>();
-            if (levelLoader != null)
-            {
-                levelLoader.LoadLevel(levelNumber);
-            }
-
-                levelUIManager.InitializePanels();
+                LevelLoader levelLoader = FindFirstObjectByType<LevelLoader>();
+                if (levelLoader != null)
+                {
+                    levelLoader.LoadLevel(levelNumber);
+                }
+            
             }
 
             SceneManager.sceneLoaded -= onSceneLoaded;
@@ -87,31 +64,23 @@ private UnityAction<Scene, LoadSceneMode> onSceneLoaded;
         if (CurrentGameState == GameState.Paused) {
             Time.timeScale = 1f; // Resume the game
             CurrentGameState = GameState.Playing;
-            //levelUIManager.ShowPausePanel(false);
+            AudioManager.Instance.musicSource.Pause();
         } else {
             Time.timeScale = 0f; // Pause the game
             CurrentGameState = GameState.Paused;
-            //levelUIManager.ShowPausePanel(true);
+            AudioManager.Instance.musicSource.UnPause();
         }
     }
 
     public void ReturnToMainMenu()
     {
-        // detroy so we can create a new one when loading another level
-        if (levelUIManager != null)
-        {
-            Destroy(levelUIManager);
-            levelUIManager = null;
-        }
-
         CurrentGameState = GameState.MainMenu;
-        Time.timeScale = 1f; // Resume the game
+        Time.timeScale = 1f;
         
         SceneManager.LoadScene("Main Menu");
         SceneManager.sceneLoaded += (scene, mode) =>
         {
-            AudioManager.SetMusicClip("menuLoop");
-            mainMenuManager.InitializePanels();
+            AudioManager.Instance.SetMusicClip("menuLoop");
         };
     }
 

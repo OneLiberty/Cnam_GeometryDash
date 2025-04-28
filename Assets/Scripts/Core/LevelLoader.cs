@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -14,11 +15,11 @@ public class LevelLoader : MonoBehaviour
     [SerializeField] private string backgroundColor = "#000000"; // default color
     [SerializeField] private string groundColor = "#FFFFFF"; // default color
 
-    [SerializeField] private float offsetX = 10f;
-
     [Header("Ending Settings")]
     [SerializeField] private float endPosition = 1000f; // this is the default value for the end position
     [SerializeField] private string endingObject = "EndPortal";
+
+    private float offsetX = 20f;
 
     private void Awake()
     {
@@ -54,7 +55,7 @@ public class LevelLoader : MonoBehaviour
         string json = File.ReadAllText(LevelPath);
         LevelData levelData = JsonUtility.FromJson<LevelData>(json);
 
-        AudioManager.Instance.StopMusic();
+        AudioManager.Instance.musicSource.Stop();
 
         string musicName = levelData.musicFile;
         if (string.IsNullOrEmpty(musicName))
@@ -63,7 +64,7 @@ public class LevelLoader : MonoBehaviour
         }
         
         AudioManager.Instance.SetMusicClip(musicName);
-        AudioManager.Instance.PlayMusic();
+        AudioManager.Instance.musicSource.Play();
         
         foreach (var gameObj in levelData.levelObjects)
         {
@@ -88,7 +89,7 @@ public class LevelLoader : MonoBehaviour
         backgroundColor = levelData.backgroundColor;
 
         CreateGround(0 - offsetX, endPosition + offsetX, groundColor);
-        ModifyBackground(0 - offsetX / 5, (endPosition + offsetX) / 5, backgroundColor);
+        ModifyBackground(0 - offsetX, endPosition * 0.2f + offsetX * 0.2f, backgroundColor);
     }
 
     private void CreateGround(float start, float end, string groundColor)
@@ -101,7 +102,7 @@ public class LevelLoader : MonoBehaviour
             groundWidth = 100;
         }
 
-        GameObject ground = Instantiate(groundPrefab, new Vector3(center - offsetX, -2.5f, 0), Quaternion.identity);
+        GameObject ground = Instantiate(groundPrefab, new Vector3(center, -2.5f, 0), Quaternion.identity);
         SpriteRenderer renderer = ground.GetComponentInChildren<SpriteRenderer>();
 
         Color color;
@@ -109,7 +110,6 @@ public class LevelLoader : MonoBehaviour
         {
             renderer.color = color;
         }
-
 
         if (renderer != null)
         {
@@ -138,7 +138,7 @@ public class LevelLoader : MonoBehaviour
         }
 
         SpriteRenderer renderer = backgroundObject.GetComponentInChildren<SpriteRenderer>();
-        backgroundObject.transform.position = new Vector3(center - offsetX * 3, 5, 10);
+        backgroundObject.transform.position = new Vector3(center, 5, 10);
 
         Color color;
         if (ColorUtility.TryParseHtmlString(backgroundColor, out color))
@@ -152,11 +152,13 @@ public class LevelLoader : MonoBehaviour
             backgroundObject.transform.localScale = Vector3.one;
 
             renderer.size = new Vector2(backgroundWidth, 20);
+            renderer.transform.position = new Vector3(center, 5, 10);
         }
     }
 
     private void PlaceObjectWithAnchor(GameObject prefab, Vector3Int cellPosition, float rotation, string anchor)
     {
+        Debug.Log($"Placing {prefab.name} at {cellPosition} with rotation {rotation} and anchor {anchor}");
         Vector3 cellCenter = grid.GetCellCenterWorld(cellPosition);
         SpriteRenderer spriteRenderer = prefab.GetComponentInChildren<SpriteRenderer>();
 
