@@ -180,7 +180,6 @@ public class PlayerController : MonoBehaviour
     private IEnumerator PlayRandomDeathAnimation() 
     {
         DeathAnimations selectedAnimation = deathAnimations[UnityEngine.Random.Range(0, deathAnimations.Count - 1)];
-        Debug.Log(deathAnimations.Count);
         deathSpriteRenderer.enabled = true;
 
         foreach (Sprite frame in selectedAnimation.frames)
