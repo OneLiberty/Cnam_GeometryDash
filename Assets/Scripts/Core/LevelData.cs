@@ -2,13 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum AnchorType 
-{
-    Bottom, 
-    Center, 
-    Top
-}
-
 [Serializable]
 public class LevelData
 {
@@ -27,6 +20,6 @@ public class LevelObjectData
     public string type;
     public Vector2 position;
     public float rotation;
-    public AnchorType anchor = AnchorType.Bottom; // "bottom", "top", "center"
+    public string anchor = "bottom"; // "bottom", "top", "center"
     // maybe other properties, we'll see. 
 }
