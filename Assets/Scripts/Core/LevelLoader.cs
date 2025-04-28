@@ -88,7 +88,7 @@ public class LevelLoader : MonoBehaviour
         backgroundColor = levelData.backgroundColor;
 
         CreateGround(0 - offsetX, endPosition + offsetX, groundColor);
-        ModifyBackground(0 - offsetX / 5, (endPosition + offsetX) / 5, backgroundColor);
+        ModifyBackground(0 - offsetX, endPosition * 0.2f + offsetX * 0.2f, backgroundColor);
     }
 
     private void CreateGround(float start, float end, string groundColor)
@@ -151,6 +151,7 @@ public class LevelLoader : MonoBehaviour
             backgroundObject.transform.localScale = Vector3.one;
 
             renderer.size = new Vector2(backgroundWidth, 20);
+            renderer.transform.position = new Vector3(center, 5, 10);
         }
     }
 
