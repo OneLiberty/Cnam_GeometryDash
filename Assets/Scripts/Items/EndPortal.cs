@@ -22,6 +22,7 @@ public class EndPortal : InteractiveObject
     {
         player.rb.linearVelocity = Vector2.zero;
         player.rb.simulated = false;
+        player.speedModifier = 0f;
 
         StartCoroutine(AttractPlayer(player));
     }
