@@ -8,7 +8,7 @@ public class CubeController : IPlayerMode
     private ParticleSystem particleSystem;
     private SpriteRenderer spriteRenderer;
 
-    private const float baseSpeed = 10.3f; // this is the default speed in GD (10.4 blocks per second)
+    private const float baseSpeed = 10.3f; // this is the default speed (10.3 blocks per second)
     private const float baseGravityScale = 12.41067f;
     private bool isGrounded = false;
     public float jumpForce = 25.6581f;
@@ -36,7 +36,7 @@ public class CubeController : IPlayerMode
 
     public void FixedUpdate()
     {
-        rb.transform.Translate(new Vector2 (baseSpeed * speedModifier * Time.fixedDeltaTime, 0));
+        rb.transform.Translate(new Vector2 (baseSpeed * playerController.speedModifier * Time.fixedDeltaTime, 0));
 
         /* Dans GD, le saut du cube ne suit pas une courbe parfaite
         en réalité, passé une certaine vélocité y, la gravité devient nulle

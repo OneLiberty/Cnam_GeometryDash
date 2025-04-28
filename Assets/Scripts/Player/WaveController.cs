@@ -10,7 +10,6 @@ public class WaveController : IPlayerMode
     private const float baseGravity = 0f; // Wave mode has no gravity
 
     private float _movementDirection = 1f; // 1 for up, -1 for down 
-    public float speedModifier = 1f;
 
     public WaveController(PlayerController playerController, Rigidbody2D rb)
     {
@@ -28,8 +27,8 @@ public class WaveController : IPlayerMode
 
     public void FixedUpdate()
     {
-        rb.linearVelocityX = baseSpeed * speedModifier;
-        rb.linearVelocityY = _movementDirection * baseSpeed * speedModifier;
+        rb.linearVelocityX = baseSpeed * playerController.speedModifier;
+        rb.linearVelocityY = _movementDirection * baseSpeed * playerController.speedModifier;
         AlignToDirection();
     }
 

@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour
 
     public bool isDead { get; private set; } = false;
     public bool isButtonPressed { get ; private set; } = false;
+    public float speedModifier = 1f;
 
     private void Awake()
     {
