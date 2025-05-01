@@ -25,8 +25,6 @@ public class MainMenuManager : UIManager
         settingsPanel = uiCanvas.transform.Find("Settings")?.gameObject;
         askInputPanel = uiCanvas.transform.Find("AskInput")?.gameObject;
     
-        // it's easier to edit them in the editor when they are not stacked on top of each other
-        // so we just reset their position to 0,0,0 here
         if (mainMenuPanel != null) { InitializeMainMenu();} 
         if (levelSelectionPanel != null) { InitializeLevelSelection();} 
         if (settingsPanel != null) { InitializeSettings();}
@@ -36,6 +34,7 @@ public class MainMenuManager : UIManager
         }   
     }
 
+#region Main Menu
     private void InitializeMainMenu() 
     {
         Button playButton = mainMenuPanel.transform.Find("Start").GetComponent<Button>();
@@ -54,24 +53,18 @@ public class MainMenuManager : UIManager
             QuitGame();
         });
     }
-    
+#endregion
+#region Level Selection
     private void InitializeLevelSelection() 
     {
         Button backButton = levelSelectionPanel.transform.Find("Back").GetComponent<Button>();
         backButton.onClick.AddListener(() => {
             ShowMainMenu();
         });
-
-        Button level1Button = levelSelectionPanel.transform.Find("Level1").GetComponent<Button>();
-        level1Button.onClick.AddListener(() => {
-            GameManager.Instance.StartLevel(1);
-        });
-        Button level2Button = levelSelectionPanel.transform.Find("Level2").GetComponent<Button>();
-        level2Button.onClick.AddListener(() => {
-            GameManager.Instance.StartLevel(2);
-        });
     }
 
+#endregion
+#region Settings
     private void InitializeSettings() 
     {
         //Back to main menu button
@@ -92,7 +85,6 @@ public class MainMenuManager : UIManager
                 askInputPanel.SetActive(false);
             });
         });
-
 
         // Jump button 1
         Button button1 = settingsPanel.transform.Find("Jump/JumpInput1").GetComponent<Button>();
@@ -143,6 +135,8 @@ public class MainMenuManager : UIManager
             AudioManager.Instance.sfxSource.volume = value;
         });
     }
+#endregion
+#region View Management
 
     public void ShowMainMenu() {
         mainMenuPanel.SetActive(true);
@@ -166,3 +160,4 @@ public class MainMenuManager : UIManager
         Application.Quit();
     }
 }
+#endregion
