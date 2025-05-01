@@ -8,12 +8,14 @@ public class GameManager : MonoBehaviour
 
     public enum GameState { MainMenu, LevelSelection, Playing, Paused, GameOver, Victory }
     public GameState CurrentGameState { get; private set; } = GameState.MainMenu;
+    public int CurrentLevel { get; private set; }
+    public float completionPercentage = 0f;
+    public float endPosition = 0f;
+
     private UnityAction<Scene, LoadSceneMode> onSceneLoaded;
 
     [Header("Input Settings")]
     public InputSettings inputSettings;
-
-    public int CurrentLevel { get; private set; }
 
     private void Awake()
     {
@@ -27,10 +29,9 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    
+
     public void StartLevel(int levelNumber)
     {
-        Debug.Log($"Starting level {levelNumber}");
         CurrentLevel = levelNumber;
         CurrentGameState = GameState.Playing;
 
@@ -49,7 +50,8 @@ public class GameManager : MonoBehaviour
                 {
                     levelLoader.LoadLevel(levelNumber);
                 }
-            
+
+                endPosition = levelLoader.endPosition;
             }
 
             SceneManager.sceneLoaded -= onSceneLoaded;
@@ -61,16 +63,28 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame()
     {
+        // since we can't pause outside of a level, just get the levelUiManger here
+        LevelUIManager levelUi = FindFirstObjectByType<LevelUIManager>();
+
         if (CurrentGameState == GameState.Paused) {
+            levelUi.ShowPausePanel(false);
             Time.timeScale = 1f; // Resume the game
             CurrentGameState = GameState.Playing;
             AudioManager.Instance.musicSource.Pause();
         } else {
+            levelUi.ShowPausePanel(true);
             Time.timeScale = 0f; // Pause the game
             CurrentGameState = GameState.Paused;
             AudioManager.Instance.musicSource.UnPause();
         }
     }
+
+    public void RestartLevel()
+    {
+        Time.timeScale = 1f; // Resume the game
+        StartLevel(CurrentLevel);
+    }
+    
 
     public void ReturnToMainMenu()
     {
