@@ -51,7 +51,7 @@ public class WaveController : IPlayerMode
     private void AlignToDirection() 
     {
         float angle = Mathf.Atan2(rb.linearVelocityY, rb.linearVelocityX) * Mathf.Rad2Deg;
-        spriteRenderer.transform.rotation = Quaternion.Euler(0, 0, angle);
+        spriteRenderer.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
     }
 }
 
