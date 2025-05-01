@@ -25,6 +25,12 @@ public class LevelUIManager : UIManager
         if (winPanel != null) InitializeWinPanel();
     }
 
+    protected override void Start()
+    {
+        base.Start();
+        FindAnyObjectByType<PlayerController>().OnPlayerPositionChanged += UpdateCompletionBar;
+    }
+
     private void InitializePausePanel() {
         pausePanel.SetActive(false);
 
@@ -73,9 +79,9 @@ public class LevelUIManager : UIManager
         winPanel.SetActive(true);
     }
 
-    private void Update()
-    {
-        completionBar.value = Mathf.Clamp(GameManager.Instance.completionPercentage, 0, 100);
-        completionText.text = $"{Mathf.Clamp(GameManager.Instance.completionPercentage, 0,100):0}%";
+    private void UpdateCompletionBar(Vector2 playerPosition) {
+        float completionPercentage = Mathf.Clamp(playerPosition.x / GameManager.Instance.endPosition, 0, 100);
+        completionBar.value = completionPercentage * 100;
+        completionText.text = $"{(completionPercentage * 100).ToString("F0")}%";
     }
 }
