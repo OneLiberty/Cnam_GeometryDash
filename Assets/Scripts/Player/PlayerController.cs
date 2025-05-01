@@ -51,6 +51,9 @@ public class PlayerController : MonoBehaviour
     public bool isButtonPressed { get ; private set; } = false;
     public float speedModifier = 1f;
 
+    // experimental
+    public event Action<Vector2> OnPlayerPositionChanged;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -142,6 +145,8 @@ public class PlayerController : MonoBehaviour
     {
         // main loop, handles input and other updates
         if (isDead) return;
+        // notify listeners of player position
+        OnPlayerPositionChanged?.Invoke(transform.position);
 
         if (Input.GetKey(inputSettings.jumpButton_0) || Input.GetKey(inputSettings.jumpButton_1))
         {
@@ -157,7 +162,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(inputSettings.restartButton))
         {
-            Die();
+            GameManager.Instance.RestartLevel();
         }
 
         currentController.Update();

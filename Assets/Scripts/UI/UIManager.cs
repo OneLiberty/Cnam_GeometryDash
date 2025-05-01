@@ -12,7 +12,6 @@ public abstract class UIManager : MonoBehaviour
     }
 
     protected virtual void Start() {
-        Debug.Log("UIManager started.");
         InitializePanels();
     }
 
