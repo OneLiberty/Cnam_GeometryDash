@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public enum GameState { MainMenu, LevelSelection, Playing, Paused, GameOver, Victory }
+    public enum GameState { MainMenu, Playing, Paused, GameOver, Victory }
     public GameState CurrentGameState { get; private set; } = GameState.MainMenu;
     public int CurrentLevel { get; private set; }
     public float completionPercentage = 0f;
@@ -96,13 +96,6 @@ public class GameManager : MonoBehaviour
         {
             AudioManager.Instance.SetMusicClip("menuLoop");
         };
-    }
-
-    public void GoToLevelSelection()
-    {
-        CurrentGameState = GameState.LevelSelection;
-        Time.timeScale = 1f; // Resume the game
-        // scene management
     }
 
 }
