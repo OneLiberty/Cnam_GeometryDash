@@ -16,7 +16,7 @@ public class LevelLoader : MonoBehaviour
     [SerializeField] private string groundColor = "#FFFFFF"; // default color
 
     [Header("Ending Settings")]
-    [SerializeField] public float endPosition = 1000f; // this is the default value for the end position
+    [SerializeField] public float endPosition { get ; private set } = 1000f; // this is the default value for the end position
     [SerializeField] private string endingObject = "EndPortal";
 
     private float offsetX = 20f;
