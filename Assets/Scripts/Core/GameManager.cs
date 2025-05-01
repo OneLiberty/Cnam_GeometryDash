@@ -64,11 +64,11 @@ public class GameManager : MonoBehaviour
         if (CurrentGameState == GameState.Paused) {
             Time.timeScale = 1f; // Resume the game
             CurrentGameState = GameState.Playing;
-            AudioManager.Instance.musicSource.Pause();
+            AudioManager.Instance.musicSource.UnPause();
         } else {
             Time.timeScale = 0f; // Pause the game
             CurrentGameState = GameState.Paused;
-            AudioManager.Instance.musicSource.UnPause();
+            AudioManager.Instance.musicSource.Pause();
         }
     }
 
