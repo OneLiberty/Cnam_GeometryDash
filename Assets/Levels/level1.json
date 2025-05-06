@@ -1,5 +1,6 @@
 {
-  "name": "Test Level",
+  "levelNumber": 1,
+  "name": "Test Level1",
   "difficulty": 1,
   "musicFile": "Electrodynamix",
   "groundColor": "#00FF00",
@@ -7,17 +8,11 @@
   "levelObjects": [
     {
       "type": "ShipPortal",
-      "position": {
-        "x": 10,
-        "y": 2
-      }
+      "position": { "x": 10, "y": 2 }
     },
     {
       "type": "EndPortal",
-      "position": {
-        "x": 200,
-        "y": 2
-      }
+      "position": { "x": 200, "y": 2 }
     }
   ]
 }
