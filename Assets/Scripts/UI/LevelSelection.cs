@@ -1,3 +1,4 @@
+using System.Collections;
 using System.IO;
 using TMPro;
 using UnityEngine;
@@ -61,8 +62,7 @@ public class LevelSelection : MonoBehaviour
             
             Transform nextLevelPanel = levelPanel.transform.parent.Find("LevelPanel_" + nextID);
             if (nextLevelPanel != null) {
-                levelPanel.gameObject.SetActive(false);
-                nextLevelPanel.gameObject.SetActive(true);
+                StartCoroutine(LevelSelectionSlide(levelPanel, nextLevelPanel, 1));
             }
         });
 
@@ -73,14 +73,40 @@ public class LevelSelection : MonoBehaviour
 
             Transform prevLevelPanel = levelPanel.transform.parent.Find("LevelPanel_" + prevID);
             if (prevLevelPanel != null) {
-                levelPanel.gameObject.SetActive(false);
-                prevLevelPanel.gameObject.SetActive(true);
+                StartCoroutine(LevelSelectionSlide(levelPanel, prevLevelPanel, -1));
             }
         });
+
+        Slider completionSlider = levelPanel.transform.Find("CompletionSlider").GetComponent<Slider>();
+        TextMeshProUGUI completionText = completionSlider.transform.Find("CompletionText").GetComponent<TextMeshProUGUI>();
+        completionText.text = "Best Score : " + GameManager.Instance.userData.levelProgress[levelID].bestScore.ToString() + "%";
+        completionSlider.value = GameManager.Instance.userData.levelProgress[levelID].bestScore / 100f;
+
     }
 
-    private void UpdateLevelDisplay()
-    {
-        
+    IEnumerator LevelSelectionSlide(Transform levelPanel, Transform nextLevelPanel, int direction = 1) {
+        float duration = 0.5f;
+        float elapsedTime = 0f;
+
+        Vector3 startPos = levelPanel.localPosition;
+        float panelWidth = levelPanel.GetComponent<RectTransform>().rect.width;
+
+        // direction = 1 for next, -1 for previous
+        Vector3 nextPanelPos = new Vector3(startPos.x + direction * panelWidth, startPos.y, startPos.z);
+        Vector3 endPos = new Vector3(startPos.x - direction * panelWidth, startPos.y, startPos.z);
+
+        nextLevelPanel.localPosition = nextPanelPos;
+        nextLevelPanel.gameObject.SetActive(true);
+
+        while (elapsedTime < duration) {
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsedTime / duration);
+            levelPanel.localPosition = Vector3.Lerp(startPos, endPos, t);
+            nextLevelPanel.localPosition = Vector3.Lerp(nextPanelPos, startPos, t);
+            yield return null;
+        }
+
+        levelPanel.gameObject.SetActive(false);
+        nextLevelPanel.localPosition = startPos;
     }
 }
