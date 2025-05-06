@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
+using System.Linq;
 
 public class MainMenuManager : UIManager
 {
@@ -8,6 +10,7 @@ public class MainMenuManager : UIManager
     private GameObject mainMenuPanel;
     private GameObject levelSelectionPanel;
     private GameObject settingsPanel;
+    private GameObject statsPanel;
     private GameObject askInputPanel;
     
     public override void InitializePanels()
@@ -23,10 +26,12 @@ public class MainMenuManager : UIManager
         mainMenuPanel = uiCanvas.transform.Find("MainMenu")?.gameObject;
         levelSelectionPanel = uiCanvas.transform.Find("LevelSelection")?.gameObject;
         settingsPanel = uiCanvas.transform.Find("Settings")?.gameObject;
+        statsPanel = uiCanvas.transform.Find("Stats")?.gameObject;
         askInputPanel = uiCanvas.transform.Find("AskInput")?.gameObject;
     
         if (mainMenuPanel != null) { InitializeMainMenu();} 
         if (levelSelectionPanel != null) { InitializeLevelSelection();} 
+        if (statsPanel != null) { InitializeStats();}
         if (settingsPanel != null) { InitializeSettings();}
 
         if (mainMenuPanel != null) {
@@ -38,11 +43,16 @@ public class MainMenuManager : UIManager
     private void InitializeMainMenu() 
     {
         Button playButton = mainMenuPanel.transform.Find("Start").GetComponent<Button>();
+        Button statsButton = mainMenuPanel.transform.Find("Stats").GetComponent<Button>();
         Button settingsButton = mainMenuPanel.transform.Find("Settings").GetComponent<Button>();
         Button quitButton = mainMenuPanel.transform.Find("Quit").GetComponent<Button>();
 
         playButton.onClick.AddListener(() => {
             ShowLevelSelection();
+        });
+
+        statsButton.onClick.AddListener(() => {
+            ShowStats();
         });
 
         settingsButton.onClick.AddListener(() => {
@@ -64,6 +74,76 @@ public class MainMenuManager : UIManager
     }
 
 #endregion
+#region Stats
+    private void InitializeStats()
+    {
+        Button backButton = statsPanel.transform.Find("Back").GetComponent<Button>();
+        backButton.onClick.AddListener(() => {
+            ShowMainMenu();
+        });
+
+        TMP_Dropdown levelDropDown = statsPanel.transform.Find("LevelStats/LevelSelector").GetComponent<TMP_Dropdown>();
+        levelDropDown.ClearOptions();
+
+        List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>(); 
+        foreach (var levelData in GameManager.Instance.userData.levelProgress)
+        {
+            options.Add(new TMP_Dropdown.OptionData("Level " + levelData.Key.ToString()));
+        }
+        
+        levelDropDown.AddOptions(options);
+        levelDropDown.onValueChanged.AddListener((index) => {
+            if (index >= 0 && index < levelDropDown.options.Count) {
+                string text = levelDropDown.options[index].text;
+                string digits = new string(text.Where(char.IsDigit).ToArray());
+                int levelID = int.Parse(digits);
+                UpdateLevelStats(levelID);
+            }
+        });
+
+        UpdateGlobalStats();
+        
+        if (options.Count > 0) {
+            string text = levelDropDown.options[0].text;
+            string digits = new string(text.Where(char.IsDigit).ToArray());
+            int levelID = int.Parse(digits);
+            UpdateLevelStats(levelID);
+        }
+    }
+
+    private void UpdateGlobalStats() 
+    {
+        Transform globalStats = statsPanel.transform.Find("GlobalStats");
+        TextMeshProUGUI totalJumpsText = globalStats.transform.Find("TotalJumps").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI totalDeathsText = globalStats.transform.Find("TotalDeaths").GetComponent<TextMeshProUGUI>();
+
+        totalJumpsText.text = "Total Jumps: " + GameManager.Instance.userData.totalJumps.ToString();
+        totalDeathsText.text = "Total Deaths: " + GameManager.Instance.userData.totalDeath.ToString();
+    }
+
+    private void UpdateLevelStats(int levelID) 
+    {
+        Transform levelStats = statsPanel.transform.Find("LevelStats");
+        TextMeshProUGUI levelJumpsText = levelStats.transform.Find("LevelJumps").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI levelDeathsText = levelStats.transform.Find("LevelDeaths").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI bestScoreText = levelStats.transform.Find("BestScore").GetComponent<TextMeshProUGUI>();
+
+        if (GameManager.Instance.userData.levelProgress.ContainsKey(levelID)) 
+        {
+            LevelProgress progress = GameManager.Instance.userData.levelProgress[levelID];
+            levelJumpsText.text = "Level Jumps: " + progress.jumps.ToString();
+            levelDeathsText.text = "Level Deaths: " + progress.deaths.ToString();
+            bestScoreText.text = "Best Score: " + progress.bestScore.ToString() + "%";
+        }
+        else // nothing found, values are set to 0
+        {
+            levelJumpsText.text = "Level Jumps: 0";
+            levelDeathsText.text = "Level Deaths: 0";
+            bestScoreText.text = "Best Score: 0%";
+        }
+    }
+#endregion
+
 #region Settings
     private void InitializeSettings() 
     {
@@ -126,33 +206,60 @@ public class MainMenuManager : UIManager
         });
 
         Slider musicSlider = settingsPanel.transform.Find("Music&Sfx/MusicSlider").GetComponent<Slider>();
+        musicSlider.value = GameManager.Instance.userData.musicVolume;
         Slider sfxSlider = settingsPanel.transform.Find("Music&Sfx/SfxSlider").GetComponent<Slider>();
+        sfxSlider.value = GameManager.Instance.userData.sfxVolume;
             
         musicSlider.onValueChanged.AddListener((value) => {
-            AudioManager.Instance.musicSource.volume = value;
+            AudioManager.Instance.SetMusicVolume(value);
         });
         sfxSlider.onValueChanged.AddListener((value) => {
-            AudioManager.Instance.sfxSource.volume = value;
+            AudioManager.Instance.SetSFXVolume(value);
         });
     }
 #endregion
-#region View Management
 
+#region View Management
     public void ShowMainMenu() {
         mainMenuPanel.SetActive(true);
         levelSelectionPanel.SetActive(false);
         settingsPanel.SetActive(false);
+        statsPanel.SetActive(false);
     }
 
     public void ShowLevelSelection() {
         mainMenuPanel.SetActive(false);
         levelSelectionPanel.SetActive(true);
-        settingsPanel.SetActive(false);
+    }
+
+    public void ShowStats() {
+        mainMenuPanel.SetActive(false);
+        statsPanel.SetActive(true);
+
+        UpdateGlobalStats();
+
+        TMP_Dropdown levelDropDown = statsPanel.transform.Find("LevelStats/LevelSelector").GetComponent<TMP_Dropdown>();
+        levelDropDown.ClearOptions();
+
+        List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>(); 
+        foreach (var levelData in GameManager.Instance.userData.levelProgress)
+        {
+            options.Add(new TMP_Dropdown.OptionData("Level " + levelData.Key.ToString()));
+        }
+        levelDropDown.AddOptions(options);
+
+        levelDropDown.onValueChanged.AddListener((index) => {
+            if (index >= 0 && index < levelDropDown.options.Count) {
+                string text = levelDropDown.options[index].text;
+                string digits = new string(text.Where(char.IsDigit).ToArray());
+                int levelID = int.Parse(digits);
+                UpdateLevelStats(levelID);
+            }
+        });
     }
 
     public void ShowSettings() {
         mainMenuPanel.SetActive(false);
-        levelSelectionPanel.SetActive(false);
         settingsPanel.SetActive(true);
     }
 
