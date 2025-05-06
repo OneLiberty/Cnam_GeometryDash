@@ -62,7 +62,7 @@ public class EndPortal : InteractiveObject
         }
 
         spriteRenderer.enabled = false;
-
+        GameManager.Instance.RecordLevelCompleted();
         GameManager.Instance.ReturnToMainMenu();
     }
 }

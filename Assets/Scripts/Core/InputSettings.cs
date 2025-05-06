@@ -4,11 +4,47 @@ using UnityEngine;
 
 public class InputSettings : MonoBehaviour
 {
-    [Header("Input Settings")]
-    [SerializeField] public KeyCode jumpButton_0 { get ; set; } = KeyCode.Space;
-    [SerializeField] public KeyCode jumpButton_1 { get ; set; } = KeyCode.Mouse0;
-    [SerializeField] public KeyCode pauseButton { get ; set; } = KeyCode.Escape;
-    [SerializeField] public KeyCode restartButton { get ; set; } = KeyCode.R;
+    public KeyCode jumpButton_0
+    {
+        get => _jumpButton0;
+        set
+        {
+            _jumpButton0 = value;
+            GameManager.Instance?.SaveData();
+        }
+    }
+    public KeyCode jumpButton_1
+    {
+        get => _jumpButton1;
+        set
+        {
+            _jumpButton1 = value;
+            GameManager.Instance?.SaveData();
+        }
+    }
+    public KeyCode pauseButton
+    {
+        get => _pauseButton;
+        set
+        {
+            _pauseButton = value;
+            GameManager.Instance?.SaveData();
+        }
+    }
+    public KeyCode restartButton
+    {
+        get => _restartButton;
+        set
+        {
+            _restartButton = value;
+            GameManager.Instance?.SaveData();
+        }
+    }
+
+    private KeyCode _jumpButton0 = KeyCode.Space;
+    private KeyCode _jumpButton1 = KeyCode.Mouse0;
+    private KeyCode _pauseButton = KeyCode.Escape;
+    private KeyCode _restartButton = KeyCode.R;
 
     public void ListenForInput(Action<KeyCode> callback) 
     {
@@ -36,5 +72,12 @@ public class InputSettings : MonoBehaviour
         }
         
         callback(key);
+    }
+
+    public void LoadInputSettings(UserData userData) {
+        _jumpButton0 = userData.jumpButton_0;
+        _jumpButton1 = userData.jumpButton_1;
+        _pauseButton = userData.pauseButton;
+        _restartButton = userData.restartButton;
     }
 }

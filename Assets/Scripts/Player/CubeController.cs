@@ -72,6 +72,7 @@ public class CubeController : IPlayerMode
             isGrounded = false;
             // Jump
             rb.linearVelocityY = jumpForce;
+            GameManager.Instance?.RecordJump();
             
             if (particleSystem.isPlaying) {
                 particleSystem.Stop(true);
