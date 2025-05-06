@@ -8,7 +8,8 @@ using UnityEngine;
 /// LevelObjectData will contain the type of object, its position, rotation, and anchor point.
 /// </summary>
 
-/// A level is a JSON file structured like this:
+/// A level is a JSON file structured like this: 
+/// file : level+ID.json                                 // MANDATORY, ID is the level number, and should not the same as another level.
 /// /// {
 /// ///     "name": "Level 1",
 /// ///     "levelNumber": 1,
