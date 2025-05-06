@@ -2,6 +2,31 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Class to hold level data for the levels. This includes the level name, number, difficulty, music file, colors, and objects in the level.
+/// Each level will have a LevelData that will itself contain a list of LevelObjectData representing each object in the level.
+/// LevelObjectData will contain the type of object, its position, rotation, and anchor point.
+/// </summary>
+
+/// A level is a JSON file structured like this:
+/// /// {
+/// ///     "name": "Level 1",
+/// ///     "levelNumber": 1,
+/// ///     "difficulty": 5,
+/// ///     "musicFile": "level1.mp3",
+/// ///     "groundColor": "#FF0000",
+/// ///     "backgroundColor": "#00FF00",
+/// ///     "levelObjects": [
+/// ///         {
+/// ///             "type": "tile",
+/// ///             "position": { "x": 0, "y": 0 },
+/// ///             "rotation": 0,
+/// ///             "anchor": "bottom"                  // optional, default is "bottom"
+/// ///         }
+/// ///     ]
+/// /// }
+/// 
+
 [Serializable]
 public class LevelData
 {

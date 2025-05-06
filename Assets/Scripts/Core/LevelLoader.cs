@@ -16,7 +16,7 @@ public class LevelLoader : MonoBehaviour
     [SerializeField] private string groundColor = "#FFFFFF"; // default color
 
     [Header("Ending Settings")]
-    [SerializeField] public float endPosition { get ; private set } = 1000f; // this is the default value for the end position
+    [SerializeField] public float endPosition { get ; private set ;} = 1000f; // this is the default value for the end position
     [SerializeField] private string endingObject = "EndPortal";
 
     private float offsetX = 20f;
@@ -65,6 +65,8 @@ public class LevelLoader : MonoBehaviour
         
         AudioManager.Instance.SetMusicClip(musicName);
         AudioManager.Instance.musicSource.Play();
+
+        bool endFound = false;
         
         foreach (var gameObj in levelData.levelObjects)
         {
@@ -73,6 +75,7 @@ public class LevelLoader : MonoBehaviour
                 if (gameObj.type == endingObject)
                 {
                     endPosition = gameObj.position.x;
+                    endFound = true;
                 }
 
                 Vector3Int cellPosition = grid.WorldToCell(gameObj.position);
@@ -83,6 +86,17 @@ public class LevelLoader : MonoBehaviour
                     gameObj.anchor
                 );
             }
+        }
+
+        // FOOL PROOF: If we don't find an end object in the JSON, automatically place one at the default end position
+        if (!endFound)
+        {
+            PlaceObjectWithAnchor(
+                prefabsDictionnary[endingObject],
+                grid.WorldToCell(new Vector3(endPosition, 0, 0)),
+                0,
+                "bottom"
+            );
         }
 
         groundColor = levelData.groundColor;
