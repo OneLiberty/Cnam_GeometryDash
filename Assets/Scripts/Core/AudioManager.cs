@@ -36,8 +36,16 @@ public class AudioManager : MonoBehaviour
         musicSource.loop = true;
         sfxSource.loop = false;
 
-        musicSource.volume = musicVolume;
-        sfxSource.volume = sfxVolume;
+        if (GameManager.Instance != null && GameManager.Instance.userData != null)
+        {
+            musicSource.volume = GameManager.Instance.userData.musicVolume;
+            sfxSource.volume = GameManager.Instance.userData.sfxVolume;
+        }
+        else
+        {
+            musicSource.volume = musicVolume;
+            sfxSource.volume = sfxVolume;
+        }
 
         menuMusic = Resources.Load<AudioClip>("Audio/menuLoop");
 
@@ -52,6 +60,18 @@ public class AudioManager : MonoBehaviour
         {
             sfxSource.PlayOneShot(clip);
         }
+    }
+
+    public void SetMusicVolume(float volume)
+    {
+        musicSource.volume = volume;
+        GameManager.Instance?.SaveData();
+    }
+
+    public void SetSFXVolume(float volume)
+    {
+        sfxSource.volume = volume;
+        GameManager.Instance?.SaveData();
     }
 
 /// <summary>

@@ -76,3 +76,6 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+Assets/Settings/Build Profiles/New Windows Profile.asset
+Assets/Settings/Build Profiles/New Windows Profile.asset.meta
+Assets/Settings/Build Profiles.meta

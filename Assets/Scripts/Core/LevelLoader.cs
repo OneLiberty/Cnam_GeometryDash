@@ -45,6 +45,10 @@ public class LevelLoader : MonoBehaviour
 
     public void LoadLevel(int levelNumber)
     {
+        if (!GameManager.Instance.userData.levelProgress.ContainsKey(levelNumber))
+        {
+            GameManager.Instance.userData.levelProgress[levelNumber] = new LevelProgress();
+        }
         string LevelPath = Path.Combine(Application.dataPath, "Levels", $"level{levelNumber}.json");
         if (!File.Exists(LevelPath))
         {

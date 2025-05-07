@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -12,10 +13,16 @@ public class GameManager : MonoBehaviour
     public float completionPercentage = 0f;
     public float endPosition = 0f;
 
-    private UnityAction<Scene, LoadSceneMode> onSceneLoaded;
+    private float lastActionTime = 0f;
+    private const float actionCooldown = 0.1f;  
 
-    [Header("Input Settings")]
+    private UnityAction<Scene, LoadSceneMode> onSceneLoaded;
     public InputSettings inputSettings;
+    public UserData userData { get ; private set ;}
+
+    public event Action<int> OnJump;
+    public event Action<int> OnDeath;
+    public event Action<int> OnLevelComplete;
 
     private void Awake()
     {
@@ -23,6 +30,46 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
+            userData = SaveSystem.LoadUserData();
+            if (inputSettings != null)
+            {
+                inputSettings.LoadInputSettings(userData);
+                SaveData();
+            }
+            
+            // increments the total and level progress for jumps and deaths
+            OnJump += (level) => { 
+                userData.totalJumps++;
+                if (!userData.levelProgress.ContainsKey(level))
+                {
+                    userData.levelProgress[level] = new LevelProgress();
+                }
+                userData.levelProgress[level].jumps++;
+                SaveData();
+            };
+
+            OnDeath += (level) => { 
+                userData.totalDeath++;
+                if (!userData.levelProgress.ContainsKey(level))
+                {
+                    userData.levelProgress[level] = new LevelProgress();
+                }
+                userData.levelProgress[level].deaths++;
+                SaveData();
+             };
+
+             OnLevelComplete += (level) => {
+                if (!userData.levelProgress.ContainsKey(level))
+                {
+                    userData.levelProgress[level] = new LevelProgress();
+                }
+                LevelProgress progress = userData.levelProgress[level];
+                progress.isCompleted = true;
+                progress.bestScore = 100; // we can safely assume that if the player completed the level, they got 100%
+                SaveData();
+            };
+
         }
         else
         {
@@ -96,6 +143,59 @@ public class GameManager : MonoBehaviour
         {
             AudioManager.Instance.SetMusicClip("menuLoop");
         };
+    }
+
+    public void RecordJump()
+    {
+        if (Time.time - lastActionTime >= actionCooldown) {
+            lastActionTime = Time.time;
+            OnJump?.Invoke(CurrentLevel);
+        }
+    }
+
+    public void RecordDeath()
+    {
+        OnDeath?.Invoke(CurrentLevel);
+    }
+
+    public void RecordLevelCompleted()
+    {
+        OnLevelComplete?.Invoke(CurrentLevel);
+        CurrentGameState = GameState.Victory;
+    }
+
+    public void UpdateCompletion(float completion)
+    {
+        if (completion > userData.levelProgress[CurrentLevel].bestScore)
+        {
+            userData.levelProgress[CurrentLevel].bestScore = completion;
+        }
+        completionPercentage = completion;
+        if (!userData.levelProgress.ContainsKey(CurrentLevel))
+        {
+            userData.levelProgress[CurrentLevel] = new LevelProgress();
+        }
+        LevelProgress progress = userData.levelProgress[CurrentLevel];
+        if (completion > progress.bestScore)
+        {
+            progress.bestScore = completion;
+            SaveData();
+        }
+    }
+
+    public void SaveData()
+    {
+        userData.jumpButton_0 = inputSettings.jumpButton_0;
+        userData.jumpButton_1 = inputSettings.jumpButton_1;
+        userData.pauseButton = inputSettings.pauseButton;
+        userData.restartButton = inputSettings.restartButton;
+
+        if (AudioManager.Instance != null)
+        {
+            userData.musicVolume = AudioManager.Instance.musicSource.volume;
+            userData.sfxVolume = AudioManager.Instance.sfxSource.volume;
+        }
+        SaveSystem.SaveUserData(userData);
     }
 
 }

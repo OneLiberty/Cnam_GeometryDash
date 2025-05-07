@@ -79,9 +79,19 @@ public class LevelSelection : MonoBehaviour
 
         Slider completionSlider = levelPanel.transform.Find("CompletionSlider").GetComponent<Slider>();
         TextMeshProUGUI completionText = completionSlider.transform.Find("CompletionText").GetComponent<TextMeshProUGUI>();
-        completionText.text = "Best Score : " + GameManager.Instance.userData.levelProgress[levelID].bestScore.ToString() + "%";
-        completionSlider.value = GameManager.Instance.userData.levelProgress[levelID].bestScore / 100f;
+        float bestScore = 0; 
+        if (GameManager.Instance.userData.levelProgress.ContainsKey(levelID)) {
+            bestScore = GameManager.Instance.userData.levelProgress[levelID].bestScore;
+        }
+        bestScore = Mathf.Round(Mathf.Clamp(bestScore, 0, 100));
+        completionText.text = "Best Score : " + bestScore + "%";
+        completionSlider.value = bestScore / 100f;
 
+        if (bestScore == 100f) 
+        {
+            GameObject completionStar = levelPanel.transform.Find("BigStar").gameObject;
+            completionStar.SetActive(true);
+        }
     }
 
     IEnumerator LevelSelectionSlide(Transform levelPanel, Transform nextLevelPanel, int direction = 1) {

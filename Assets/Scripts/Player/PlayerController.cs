@@ -85,6 +85,7 @@ public class PlayerController : MonoBehaviour
 
         rb.linearVelocity = Vector2.zero;
         Destroy(currentCharacterInstance);
+        GameManager.Instance?.RecordDeath();
 
         if (deathAnimations.Count > 0)
         {
@@ -147,13 +148,21 @@ public class PlayerController : MonoBehaviour
         if (isDead) return;
         // notify listeners of player position
         OnPlayerPositionChanged?.Invoke(transform.position);
+        isButtonPressed = Input.GetKey(inputSettings.jumpButton_0) || Input.GetKey(inputSettings.jumpButton_1);
 
-        if (Input.GetKey(inputSettings.jumpButton_0) || Input.GetKey(inputSettings.jumpButton_1))
+        if (isButtonPressed)
         {
             OnClick();
-            isButtonPressed = true;
         } 
-        else { isButtonPressed = false; }
+
+        // record a jump only on key down for the ship and wave, cube is handled separatly to account for the ground check
+        if (Input.GetKeyDown(inputSettings.jumpButton_0) || Input.GetKeyDown(inputSettings.jumpButton_1))
+        {
+            if (currentGameMode == GameMode.Ship || currentGameMode == GameMode.Wave)
+            {
+                GameManager.Instance?.RecordJump();
+            }
+        } 
 
         if (Input.GetKeyDown(inputSettings.pauseButton))
         {
