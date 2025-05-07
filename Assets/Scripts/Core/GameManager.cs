@@ -13,6 +13,9 @@ public class GameManager : MonoBehaviour
     public float completionPercentage = 0f;
     public float endPosition = 0f;
 
+    private float lastActionTime = 0f;
+    private const float actionCooldown = 0.1f;  
+
     private UnityAction<Scene, LoadSceneMode> onSceneLoaded;
     public InputSettings inputSettings;
     public UserData userData { get ; private set ;}
@@ -38,6 +41,7 @@ public class GameManager : MonoBehaviour
             // increments the total and level progress for jumps and deaths
             OnJump += (level) => { 
                 userData.totalJumps++;
+                Debug.Log("Recording jump : " + userData.totalJumps);
                 if (!userData.levelProgress.ContainsKey(level))
                 {
                     userData.levelProgress[level] = new LevelProgress();
@@ -144,7 +148,10 @@ public class GameManager : MonoBehaviour
 
     public void RecordJump()
     {
-        OnJump?.Invoke(CurrentLevel);
+        if (Time.time - lastActionTime >= actionCooldown) {
+            lastActionTime = Time.time;
+            OnJump?.Invoke(CurrentLevel);
+        }
     }
 
     public void RecordDeath()

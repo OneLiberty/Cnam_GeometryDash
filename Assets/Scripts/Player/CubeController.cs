@@ -40,7 +40,7 @@ public class CubeController : IPlayerMode
 
         /* Dans GD, le saut du cube ne suit pas une courbe parfaite
         en réalité, passé une certaine vélocité y, la gravité devient nulle
-        permettant au cube de finir son saut suivant une droite et non une courbe. 
+        permettant au cube de finir son saut suivant une droite et non plus une courbe. 
         */ 
 
         // if (rb.linearVelocityY < -13.2f)
