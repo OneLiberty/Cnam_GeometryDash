@@ -59,12 +59,10 @@ public class LevelUIManager : UIManager
 
     private void InitializeGameOverPanel() {
         gameOverPanel.SetActive(false);
-
     }
 
     private void InitializeWinPanel() {
         winPanel.SetActive(false);
-        
     }
 
     public void ShowPausePanel(bool gamePaused) {
@@ -83,5 +81,6 @@ public class LevelUIManager : UIManager
         float completionPercentage = Mathf.Clamp(playerPosition.x / GameManager.Instance.endPosition, 0, 100);
         completionBar.value = completionPercentage * 100;
         completionText.text = $"{(completionPercentage * 100).ToString("F0")}%";
+        GameManager.Instance.UpdateCompletion(completionPercentage * 100);
     }
 }
