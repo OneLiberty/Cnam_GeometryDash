@@ -247,15 +247,6 @@ public class MainMenuManager : UIManager
             options.Add(new TMP_Dropdown.OptionData("Level " + levelData.Key.ToString()));
         }
         levelDropDown.AddOptions(options);
-
-        levelDropDown.onValueChanged.AddListener((index) => {
-            if (index >= 0 && index < levelDropDown.options.Count) {
-                string text = levelDropDown.options[index].text;
-                string digits = new string(text.Where(char.IsDigit).ToArray());
-                int levelID = int.Parse(digits);
-                UpdateLevelStats(levelID);
-            }
-        });
     }
 
     public void ShowSettings() {

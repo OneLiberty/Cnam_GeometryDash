@@ -41,7 +41,6 @@ public class GameManager : MonoBehaviour
             // increments the total and level progress for jumps and deaths
             OnJump += (level) => { 
                 userData.totalJumps++;
-                Debug.Log("Recording jump : " + userData.totalJumps);
                 if (!userData.levelProgress.ContainsKey(level))
                 {
                     userData.levelProgress[level] = new LevelProgress();
