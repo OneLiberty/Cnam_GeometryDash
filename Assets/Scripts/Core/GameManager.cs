@@ -160,6 +160,10 @@ public class GameManager : MonoBehaviour
 
     public void UpdateCompletion(float completion)
     {
+        if (completion > userData.levelProgress[CurrentLevel].bestScore)
+        {
+            userData.levelProgress[CurrentLevel].bestScore = completion;
+        }
         completionPercentage = completion;
         if (!userData.levelProgress.ContainsKey(CurrentLevel))
         {
@@ -185,7 +189,6 @@ public class GameManager : MonoBehaviour
             userData.musicVolume = AudioManager.Instance.musicSource.volume;
             userData.sfxVolume = AudioManager.Instance.sfxSource.volume;
         }
-
         SaveSystem.SaveUserData(userData);
     }
 
