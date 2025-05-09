@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class LevelSelection : MonoBehaviour
     [SerializeField] private Transform parentPanel;
     private bool isFirstLevel = true;
     private string[] levels;
+    private List<Transform> levelPanels = new List<Transform>();
 
     private void Start()
     {
@@ -20,20 +22,32 @@ public class LevelSelection : MonoBehaviour
     {
         // load all levels from the Levels Folder
         // Create a panel for each level.
+
+        // Reset when reloading
+        foreach (Transform child in parentPanel) {
+            Destroy(child.gameObject);
+        }
+        levelPanels.Clear();
+        isFirstLevel = true;
+        
         string levelsPath = Application.dataPath + "/Levels";
         levels = Directory.GetFiles(levelsPath, "*.json");
 
+        int panelIndex = 0;
         foreach (string levelPath in levels) {
             string json = File.ReadAllText(levelPath);
             LevelData levelData = JsonUtility.FromJson<LevelData>(json);
 
-            CreatePanel(levelData.name, levelData.levelNumber, levelData.difficulty, levelPath); 
+            CreatePanel(levelData.name, levelData.levelNumber, levelPath, panelIndex);
+            panelIndex++;
         }
     }
 
-    private void CreatePanel(string levelName, int levelID, int difficulty, string levelPath) 
+    private void CreatePanel(string levelName, int levelID, string levelPath, int panelIndex) 
     {
         Transform levelPanel = Instantiate(levelInfoPanel, parentPanel);
+        levelPanels.Add(levelPanel);
+        
         if (isFirstLevel) {
             levelPanel.gameObject.SetActive(true);
             isFirstLevel = false;
@@ -42,8 +56,7 @@ public class LevelSelection : MonoBehaviour
         {
             levelPanel.gameObject.SetActive(false);
         }
-
-        levelPanel.name = "LevelPanel_" + levelID;
+        levelPanel.name = "LevelPanel_" + panelIndex;
 
         TextMeshProUGUI levelNameText = levelPanel.transform.Find("LevelNameText").GetComponent<TextMeshProUGUI>();
         // Text difficultyText = levelPanel.GetComponentInChildren<Text>();
@@ -58,24 +71,14 @@ public class LevelSelection : MonoBehaviour
 
         Button nextBtn = levelPanel.transform.Find("NextBtn").GetComponent<Button>();
         nextBtn.onClick.AddListener(() => {
-            // show next level card
-            int nextID = (levelID + 1 > levels.Length) ? 1 : levelID + 1;
-            
-            Transform nextLevelPanel = levelPanel.transform.parent.Find("LevelPanel_" + nextID);
-            if (nextLevelPanel != null) {
-                StartCoroutine(LevelSelectionSlide(levelPanel, nextLevelPanel, 1));
-            }
+            int nextIndex = (panelIndex + 1) % levelPanels.Count;
+            StartCoroutine(LevelSelectionSlide(levelPanel, levelPanels[nextIndex], 1));
         });
 
         Button prevBtn = levelPanel.transform.Find("PrevBtn").GetComponent<Button>();
         prevBtn.onClick.AddListener(() => {
-            // show previous level card
-            int prevID = (levelID - 1 < 1) ? levels.Length : levelID - 1;
-
-            Transform prevLevelPanel = levelPanel.transform.parent.Find("LevelPanel_" + prevID);
-            if (prevLevelPanel != null) {
-                StartCoroutine(LevelSelectionSlide(levelPanel, prevLevelPanel, -1));
-            }
+            int prevIndex = (panelIndex - 1 + levelPanels.Count) % levelPanels.Count;
+            StartCoroutine(LevelSelectionSlide(levelPanel, levelPanels[prevIndex], -1));
         });
 
         Slider completionSlider = levelPanel.transform.Find("CompletionSlider").GetComponent<Slider>();
