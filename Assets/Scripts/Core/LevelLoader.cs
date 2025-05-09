@@ -43,21 +43,21 @@ public class LevelLoader : MonoBehaviour
         Debug.Log("All prefabs loaded: " + prefabsDictionnary.Count);
     }
 
-    public void LoadLevel(int levelNumber)
+    public void LoadLevel(string levelPath)
     {
-        if (!GameManager.Instance.userData.levelProgress.ContainsKey(levelNumber))
+        if (!File.Exists(levelPath))
         {
-            GameManager.Instance.userData.levelProgress[levelNumber] = new LevelProgress();
-        }
-        string LevelPath = Path.Combine(Application.dataPath, "Levels", $"level{levelNumber}.json");
-        if (!File.Exists(LevelPath))
-        {
-            Debug.LogError($"Level file not found: {LevelPath}");
+            Debug.LogError($"Level file not found: {levelPath}");
             return;
         }
-
-        string json = File.ReadAllText(LevelPath);
+        string json = File.ReadAllText(levelPath);
         LevelData levelData = JsonUtility.FromJson<LevelData>(json);
+
+        // Create a new level progress if it doesn't exist
+        if (!GameManager.Instance.userData.levelProgress.ContainsKey(levelData.levelNumber))
+        {
+            GameManager.Instance.userData.levelProgress[levelData.levelNumber] = new LevelProgress();
+        }
 
         AudioManager.Instance.musicSource.Stop();
 

@@ -23,22 +23,23 @@ public class LevelSelection : MonoBehaviour
         string levelsPath = Application.dataPath + "/Levels";
         levels = Directory.GetFiles(levelsPath, "*.json");
 
-        foreach (string level in levels) {
-            string json = File.ReadAllText(level);
+        foreach (string levelPath in levels) {
+            string json = File.ReadAllText(levelPath);
             LevelData levelData = JsonUtility.FromJson<LevelData>(json);
 
-            CreatePanel(levelData.name, levelData.levelNumber, levelData.difficulty); // maybe add more infos if needed. 
+            CreatePanel(levelData.name, levelData.levelNumber, levelData.difficulty, levelPath); 
         }
     }
 
-    private void CreatePanel(string levelName, int levelID, int difficulty) 
+    private void CreatePanel(string levelName, int levelID, int difficulty, string levelPath) 
     {
         Transform levelPanel = Instantiate(levelInfoPanel, parentPanel);
         if (isFirstLevel) {
             levelPanel.gameObject.SetActive(true);
             isFirstLevel = false;
         }
-        else {
+        else 
+        {
             levelPanel.gameObject.SetActive(false);
         }
 
@@ -52,7 +53,7 @@ public class LevelSelection : MonoBehaviour
 
         Button levelBtn = levelPanel.GetComponentInChildren<Button>();
         levelBtn.onClick.AddListener(() => {
-            GameManager.Instance.StartLevel(levelID);
+            GameManager.Instance.StartLevel(levelPath);
         });
 
         Button nextBtn = levelPanel.transform.Find("NextBtn").GetComponent<Button>();

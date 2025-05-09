@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -10,6 +11,7 @@ public class GameManager : MonoBehaviour
     public enum GameState { MainMenu, Playing, Paused, GameOver, Victory }
     public GameState CurrentGameState { get; private set; } = GameState.MainMenu;
     public int CurrentLevel { get; private set; }
+    public string CurrentLevelPath { get; private set; }
     public float completionPercentage = 0f;
     public float endPosition = 0f;
 
@@ -77,9 +79,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartLevel(int levelNumber)
+    public void StartLevel(string levelPath)
     {
-        CurrentLevel = levelNumber;
+        if (!File.Exists(levelPath))
+        {
+        Debug.LogError($"Level file not found: {levelPath}");
+        return;
+        }
+
+        CurrentLevelPath = levelPath;
+        CurrentLevel = JsonUtility.FromJson<LevelData>(File.ReadAllText(levelPath)).levelNumber;
         CurrentGameState = GameState.Playing;
 
         if (onSceneLoaded != null)
@@ -95,7 +104,7 @@ public class GameManager : MonoBehaviour
                 LevelLoader levelLoader = FindFirstObjectByType<LevelLoader>();
                 if (levelLoader != null)
                 {
-                    levelLoader.LoadLevel(levelNumber);
+                    levelLoader.LoadLevel(levelPath);
                 }
 
                 endPosition = levelLoader.endPosition;
@@ -129,7 +138,7 @@ public class GameManager : MonoBehaviour
     public void RestartLevel()
     {
         Time.timeScale = 1f; // Resume the game
-        StartLevel(CurrentLevel);
+        StartLevel(CurrentLevelPath);
     }
     
 
