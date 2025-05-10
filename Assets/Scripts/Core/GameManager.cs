@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public enum GameState { MainMenu, Playing, Paused, GameOver, Victory }
+    public enum GameState { MainMenu, Playing, Paused, GameOver, Victory, LevelEditor }
     public GameState CurrentGameState { get; private set; } = GameState.MainMenu;
     public int CurrentLevel { get; private set; }
     public string CurrentLevelPath { get; private set; }
@@ -154,6 +154,18 @@ public class GameManager : MonoBehaviour
         };
     }
 
+    public void LoadLevelEditor() 
+    {
+        CurrentGameState = GameState.LevelEditor;
+        Time.timeScale = 1f;
+        
+        SceneManager.LoadScene("Level Editor");
+        SceneManager.sceneLoaded += (scene, mode) =>
+        {
+            AudioManager.Instance.SetMusicClip("menuLoop");
+        };
+    }
+
     public void RecordJump()
     {
         if (Time.time - lastActionTime >= actionCooldown) {
@@ -198,6 +210,13 @@ public class GameManager : MonoBehaviour
         userData.jumpButton_1 = inputSettings.jumpButton_1;
         userData.pauseButton = inputSettings.pauseButton;
         userData.restartButton = inputSettings.restartButton;
+        userData.editorUpButton = inputSettings.editorUpButton;
+        userData.editorDownButton = inputSettings.editorDownButton;
+        userData.editorLeftButton = inputSettings.editorLeftButton;
+        userData.editorRightButton = inputSettings.editorRightButton;
+        userData.editorRotationButton = inputSettings.editorRotationButton;
+        userData.editorAnchorButton = inputSettings.editorAnchorButton;
+        userData.editorRemoveButton = inputSettings.editorRemoveButton;
 
         if (AudioManager.Instance != null)
         {
