@@ -4,47 +4,24 @@ using UnityEngine;
 
 public class InputSettings : MonoBehaviour
 {
-    public KeyCode jumpButton_0
-    {
-        get => _jumpButton0;
-        set
-        {
-            _jumpButton0 = value;
-            GameManager.Instance?.SaveData();
-        }
-    }
-    public KeyCode jumpButton_1
-    {
-        get => _jumpButton1;
-        set
-        {
-            _jumpButton1 = value;
-            GameManager.Instance?.SaveData();
-        }
-    }
-    public KeyCode pauseButton
-    {
-        get => _pauseButton;
-        set
-        {
-            _pauseButton = value;
-            GameManager.Instance?.SaveData();
-        }
-    }
-    public KeyCode restartButton
-    {
-        get => _restartButton;
-        set
-        {
-            _restartButton = value;
-            GameManager.Instance?.SaveData();
-        }
-    }
 
-    private KeyCode _jumpButton0 = KeyCode.Space;
-    private KeyCode _jumpButton1 = KeyCode.Mouse0;
-    private KeyCode _pauseButton = KeyCode.Escape;
-    private KeyCode _restartButton = KeyCode.R;
+    public event Action onInputChanged;
+
+    [Header("Game Controls")]
+    public KeyCode jumpButton_0 = KeyCode.Space;
+    public KeyCode jumpButton_1 = KeyCode.Mouse0;
+    public KeyCode pauseButton = KeyCode.Escape;
+    public KeyCode restartButton = KeyCode.R;
+
+    public void SetBinding(ref KeyCode key, KeyCode newKey)
+    {
+        if (key != newKey)
+        {
+            key = newKey;
+            onInputChanged?.Invoke();
+            GameManager.Instance?.SaveData();
+        }
+    }
 
     public void ListenForInput(Action<KeyCode> callback) 
     {
@@ -75,9 +52,9 @@ public class InputSettings : MonoBehaviour
     }
 
     public void LoadInputSettings(UserData userData) {
-        _jumpButton0 = userData.jumpButton_0;
-        _jumpButton1 = userData.jumpButton_1;
-        _pauseButton = userData.pauseButton;
-        _restartButton = userData.restartButton;
+        jumpButton_0 = userData.jumpButton_0;
+        jumpButton_1 = userData.jumpButton_1;
+        pauseButton = userData.pauseButton;
+        restartButton = userData.restartButton;
     }
 }
