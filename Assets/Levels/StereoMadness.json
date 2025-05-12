@@ -1,6 +1,6 @@
 {
   "name": "StereoMadness",
-  "levelNumber": 2,
+  "levelNumber": 1,
   "difficulty": 1,
   "musicFile": "StereoMadness",
   "groundColor": "#FFFFFF",
@@ -8447,6 +8447,33 @@
       },
       "rotation": 0.0,
       "anchor": "top"
+    },
+    {
+      "type": "Tile",
+      "position": {
+        "x": 284.0,
+        "y": 10.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Tile",
+      "position": {
+        "x": 286.0,
+        "y": 10.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "SmallTile",
+      "position": {
+        "x": 649.0,
+        "y": 1.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
     }
   ]
 }
