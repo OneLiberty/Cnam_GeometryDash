@@ -32,12 +32,16 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-
             userData = SaveSystem.LoadUserData();
-            if (inputSettings != null)
+            
+            if (userData == null)
+            {
+                userData = new UserData();
+                inputSettings.ExportToUserData(userData);
+            }
+            else if (inputSettings != null)
             {
                 inputSettings.LoadInputSettings(userData);
-                SaveData();
             }
             
             // increments the total and level progress for jumps and deaths
@@ -162,7 +166,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Level Editor");
         SceneManager.sceneLoaded += (scene, mode) =>
         {
-            AudioManager.Instance.SetMusicClip("menuLoop");
+            AudioManager.Instance.SetMusicClip("StayInsideMe");
         };
     }
 
@@ -206,24 +210,14 @@ public class GameManager : MonoBehaviour
 
     public void SaveData()
     {
-        userData.jumpButton_0 = inputSettings.jumpButton_0;
-        userData.jumpButton_1 = inputSettings.jumpButton_1;
-        userData.pauseButton = inputSettings.pauseButton;
-        userData.restartButton = inputSettings.restartButton;
-        userData.editorUpButton = inputSettings.editorUpButton;
-        userData.editorDownButton = inputSettings.editorDownButton;
-        userData.editorLeftButton = inputSettings.editorLeftButton;
-        userData.editorRightButton = inputSettings.editorRightButton;
-        userData.editorRotationButton = inputSettings.editorRotationButton;
-        userData.editorAnchorButton = inputSettings.editorAnchorButton;
-        userData.editorRemoveButton = inputSettings.editorRemoveButton;
-
+        inputSettings.ExportToUserData(userData);
+        
         if (AudioManager.Instance != null)
         {
             userData.musicVolume = AudioManager.Instance.musicSource.volume;
             userData.sfxVolume = AudioManager.Instance.sfxSource.volume;
         }
+        
         SaveSystem.SaveUserData(userData);
     }
-
 }
