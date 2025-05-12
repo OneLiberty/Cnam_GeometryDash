@@ -81,7 +81,7 @@ public class LevelLoader : MonoBehaviour
                     endFound = true;
                 }
 
-                Vector3Int cellPosition = grid.WorldToCell(gameObj.position);
+                Vector3Int cellPosition = grid.WorldToCell(new Vector3(gameObj.position.x, gameObj.position.y, 0));
                 PlaceObjectWithAnchor(
                     prefab,
                     cellPosition,
