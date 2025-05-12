@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 public class MainMenuManager : UIManager
 {
@@ -133,7 +134,7 @@ public class MainMenuManager : UIManager
             LevelProgress progress = GameManager.Instance.userData.levelProgress[levelID];
             levelJumpsText.text = "Level Jumps: " + progress.jumps.ToString();
             levelDeathsText.text = "Level Deaths: " + progress.deaths.ToString();
-            bestScoreText.text = "Best Score: " + progress.bestScore.ToString() + "%";
+            bestScoreText.text = "Best Score: " + Math.Round(progress.bestScore).ToString() + "%";
         }
         else // nothing found, values are set to 0
         {
