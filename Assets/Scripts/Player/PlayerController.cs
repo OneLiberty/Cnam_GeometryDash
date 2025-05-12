@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject wavePrefab;
 
     [Header("Settings")]
+    [SerializeField] private GameMode initialGameMode = GameMode.Cube;
     [SerializeField] public GameMode currentGameMode { get; private set; } = GameMode.Cube;
     [SerializeField] private const float defaultStartingX = -18f;
 
@@ -106,6 +107,10 @@ public class PlayerController : MonoBehaviour
     {
         isDead = false;
         rb.simulated = true;
+        if (currentGameMode != initialGameMode)
+        {
+            ChangeGameMode(initialGameMode);
+        }
         SpawnPlayerPrefab(currentGameMode);
         AudioManager.Instance.musicSource.Play();
     }
