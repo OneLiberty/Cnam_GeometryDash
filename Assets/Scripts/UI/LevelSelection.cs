@@ -25,6 +25,7 @@ public class LevelSelection : MonoBehaviour
 
         // Reset when reloading
         foreach (Transform child in parentPanel) {
+            if (child.name == "Back") continue;
             Destroy(child.gameObject);
         }
         levelPanels.Clear();
