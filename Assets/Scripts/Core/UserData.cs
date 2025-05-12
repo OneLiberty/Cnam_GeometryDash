@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 /// <summary>
 /// Class that holds user data. This doesn't account for multiple user, so it will be a single user data file.
 /// It contains informations about the input binding, and small data such as total jumps/death. 
@@ -16,12 +15,21 @@ public class UserData
 
     public Dictionary<int, LevelProgress> levelProgress = new Dictionary<int, LevelProgress>();
 
-    public KeyCode jumpButton_0 = KeyCode.Space;
-    public KeyCode jumpButton_1 = KeyCode.Mouse0;
-    public KeyCode pauseButton = KeyCode.Escape;
-    public KeyCode restartButton = KeyCode.R;
+    // No default values - just storage
+    public KeyCode jumpButton_0;
+    public KeyCode jumpButton_1;
+    public KeyCode pauseButton;
+    public KeyCode restartButton;
 
-    public float musicVolume =  1f;
+    public KeyCode editorUpButton;
+    public KeyCode editorDownButton;
+    public KeyCode editorLeftButton;
+    public KeyCode editorRightButton;
+    public KeyCode editorRotationButton;
+    public KeyCode editorAnchorButton;
+    public KeyCode editorRemoveButton;
+
+    public float musicVolume = 1f;
     public float sfxVolume = 1f;
 }
 

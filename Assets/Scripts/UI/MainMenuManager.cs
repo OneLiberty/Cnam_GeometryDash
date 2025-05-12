@@ -46,6 +46,7 @@ public class MainMenuManager : UIManager
         Button playButton = mainMenuPanel.transform.Find("Start").GetComponent<Button>();
         Button statsButton = mainMenuPanel.transform.Find("Stats").GetComponent<Button>();
         Button settingsButton = mainMenuPanel.transform.Find("Settings").GetComponent<Button>();
+        Button levelEditorButton = mainMenuPanel.transform.Find("LevelEditor").GetComponent<Button>();
         Button quitButton = mainMenuPanel.transform.Find("Quit").GetComponent<Button>();
 
         playButton.onClick.AddListener(() => {
@@ -58,6 +59,10 @@ public class MainMenuManager : UIManager
 
         settingsButton.onClick.AddListener(() => {
             ShowSettings();
+        });
+
+        levelEditorButton.onClick.AddListener(() => {
+            GameManager.Instance.LoadLevelEditor();
         });
 
         quitButton.onClick.AddListener(() => {

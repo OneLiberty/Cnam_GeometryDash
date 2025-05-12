@@ -44,8 +44,39 @@ public class LevelData
 public class LevelObjectData
 {
     public string type;
-    public Vector2 position;
+    public CustomVector2 position;
     public float rotation;
     public string anchor = "bottom"; // "bottom", "top", "center"
     // maybe other properties, we'll see. 
+
+    public LevelObjectData(string type, Vector2 pos, float rotation, string anchor)
+    {
+        this.type = type;
+        position = new CustomVector2(pos);
+        this.rotation = rotation;
+        this.anchor = anchor;
+    }
+
+    public LevelObjectData() { }
+}
+
+[Serializable]
+public class CustomVector2
+{
+    public float x;
+    public float y;
+
+    public CustomVector2() { }
+    
+    public CustomVector2(float x, float y)
+    {
+        this.x = x;
+        this.y = y;
+    }
+    
+    public CustomVector2(Vector2 vector)
+    {
+        x = vector.x;
+        y = vector.y;
+    }
 }
