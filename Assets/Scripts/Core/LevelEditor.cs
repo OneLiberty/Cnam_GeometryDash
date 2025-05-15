@@ -15,8 +15,7 @@ public class LevelEditor : MonoBehaviour
     [SerializeField] private GameObject propertiesPanel;
 
     [Header("Prefabs")]
-    [SerializeField] private GameObject previewPrefab;
-    [SerializeField] private Button buttonPrefab;
+    [SerializeField] private GameObject viewItem;
 
     [Header("Ground Settings")]
     [SerializeField] private GameObject groundPrefab;
@@ -79,19 +78,31 @@ public class LevelEditor : MonoBehaviour
 
     private void InitializeUI() 
     {
+        viewItem.SetActive(false);
+
         foreach (var prefab in prefabDictionary)
         {
-            Button button = Instantiate(buttonPrefab, objectsPanel.transform);
-            button.GetComponentInChildren<TMP_Text>().text = prefab.Key;
-            button.onClick.AddListener(() => SelectObjectType(prefab.Key));
+            GameObject newViewItem = Instantiate(viewItem, objectsPanel.transform);
+
+            Transform itemImage = newViewItem.transform.Find("Img");
+            itemImage.GetComponent<Image>().sprite = prefab.Value.GetComponentInChildren<SpriteRenderer>().sprite;
+            itemImage.GetComponent<Image>().preserveAspect = true;
+
+            Button button = newViewItem.AddComponent<Button>();
+            string prefabName = prefab.Key;
+            button.onClick.AddListener(() => { SelectObjectType(prefabName); });
+            newViewItem.SetActive(true);
         }
 
     }
 
     private void Update()
     {
+        if (!IsPointerOverUI())
+        {
+            HandleCameraZoom();
+        }
         HandleCameraMovement();
-        HandleCameraZoom();
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {

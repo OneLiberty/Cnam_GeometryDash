@@ -9,7 +9,7 @@ public class LevelEditorUI : MonoBehaviour
     [SerializeField] private LevelEditor levelEditor;
 
     [Header("Panels")]
-    [SerializeField] private GameObject prefabsPanel;
+    [SerializeField] private GameObject verticalView;
     [SerializeField] private GameObject propertiesPanel;
 
     [Header("Buttons")]
