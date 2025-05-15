@@ -151,6 +151,8 @@ public class LevelEditor : MonoBehaviour
     {
         if (Input.mouseScrollDelta.y != 0)
             editorCamera.orthographicSize = Mathf.Clamp(editorCamera.orthographicSize - Input.mouseScrollDelta.y, 4f, 20f);
+        
+        editorCamera.transform.Find("Background").localScale = new Vector3(editorCamera.orthographicSize/5f, editorCamera.orthographicSize/5f, 1);
     }
 
     private void ClearSelection()
