@@ -1,0 +1,415 @@
+{
+  "name": "Jumpy Jumps",
+  "levelNumber": 2,
+  "difficulty": 1,
+  "musicFile": "BackOnTrack",
+  "groundColor": "#FFFFFF",
+  "backgroundColor": "#0000FF",
+  "levelObjects": [
+    {
+      "type": "Tile",
+      "position": {
+        "x": 5.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Tile",
+      "position": {
+        "x": 6.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Tile",
+      "position": {
+        "x": 8.0,
+        "y": 1.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Tile",
+      "position": {
+        "x": 9.0,
+        "y": 1.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Tile",
+      "position": {
+        "x": 11.0,
+        "y": 2.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Tile",
+      "position": {
+        "x": 12.0,
+        "y": 2.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Spike",
+      "position": {
+        "x": 7.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Spike",
+      "position": {
+        "x": 10.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Spike",
+      "position": {
+        "x": 13.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Spike",
+      "position": {
+        "x": 14.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Spike",
+      "position": {
+        "x": 15.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Spike",
+      "position": {
+        "x": 16.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Spike",
+      "position": {
+        "x": 17.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "SmallSpike",
+      "position": {
+        "x": 18.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "SmallSpike",
+      "position": {
+        "x": 19.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "SmallSpike",
+      "position": {
+        "x": 20.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "SmallSpike",
+      "position": {
+        "x": 21.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Spike",
+      "position": {
+        "x": 22.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Spike",
+      "position": {
+        "x": 23.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Spike",
+      "position": {
+        "x": 24.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Spike",
+      "position": {
+        "x": 25.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Spike",
+      "position": {
+        "x": 26.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Spike",
+      "position": {
+        "x": 28.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Spike",
+      "position": {
+        "x": 27.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Spike",
+      "position": {
+        "x": 29.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Spike",
+      "position": {
+        "x": 31.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Spike",
+      "position": {
+        "x": 30.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Spike",
+      "position": {
+        "x": 32.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Spike",
+      "position": {
+        "x": 33.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "YellowJumpPad",
+      "position": {
+        "x": 12.0,
+        "y": 3.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "RedJumpOrb",
+      "position": {
+        "x": 16.0,
+        "y": 5.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "MagentaJumpOrb",
+      "position": {
+        "x": 23.0,
+        "y": 5.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "MagentaJumpOrb",
+      "position": {
+        "x": 26.0,
+        "y": 5.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "MagentaJumpOrb",
+      "position": {
+        "x": 29.0,
+        "y": 5.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Tile",
+      "position": {
+        "x": 34.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Tile",
+      "position": {
+        "x": 34.0,
+        "y": 2.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Tile",
+      "position": {
+        "x": 34.0,
+        "y": 4.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Tile",
+      "position": {
+        "x": 33.0,
+        "y": 4.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Tile",
+      "position": {
+        "x": 35.0,
+        "y": 4.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Tile",
+      "position": {
+        "x": 36.0,
+        "y": 4.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "SmallSpike",
+      "position": {
+        "x": 34.0,
+        "y": 1.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "SmallSpike",
+      "position": {
+        "x": 34.0,
+        "y": 3.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Spike",
+      "position": {
+        "x": 35.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Spike",
+      "position": {
+        "x": 36.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    },
+    {
+      "type": "Spike",
+      "position": {
+        "x": 37.0,
+        "y": 0.0
+      },
+      "rotation": 0.0,
+      "anchor": "bottom"
+    }
+  ]
+}
