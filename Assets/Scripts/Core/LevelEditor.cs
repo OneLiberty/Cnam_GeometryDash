@@ -37,6 +37,7 @@ public class LevelEditor : MonoBehaviour
 
     private LevelObjectData selectedObjectData;
     private GameObject selectedObject;
+    private Vector3Int lastPlacedPosition;
 
     private float cameraSpeed = 20f;
 
@@ -46,6 +47,8 @@ public class LevelEditor : MonoBehaviour
         InitializeNewLevel();
         InitializeUI();
         CreateGround(groundWidth);
+
+        lastPlacedPosition = new Vector3Int(int.MinValue, int.MinValue, 0);
     } 
 
     private void LoadAllPrefabs()
@@ -89,7 +92,11 @@ public class LevelEditor : MonoBehaviour
     {
         HandleCameraMovement();
         HandleCameraZoom();
-        HandleEscapeKey();
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ClearSelection();
+        }
         
         if (!IsPointerOverUI())
         {
@@ -103,7 +110,7 @@ public class LevelEditor : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(GameManager.Instance.inputSettings.editorRemoveButton))
+        if (Input.GetKey(GameManager.Instance.inputSettings.editorRemoveButton))
         {
             HandleObjectRemoval();
         }
@@ -121,7 +128,8 @@ public class LevelEditor : MonoBehaviour
             movement += Vector3.left;
         if (Input.GetKey(GameManager.Instance.inputSettings.editorRightButton) || Input.GetKey(KeyCode.RightArrow))
             movement += Vector3.right;
-            
+        
+        // speed boost
         cameraSpeed = Input.GetKey(KeyCode.LeftShift) ? 100f : 20f;
         
         if (movement != Vector3.zero)
@@ -132,14 +140,6 @@ public class LevelEditor : MonoBehaviour
     {
         if (Input.mouseScrollDelta.y != 0)
             editorCamera.orthographicSize = Mathf.Clamp(editorCamera.orthographicSize - Input.mouseScrollDelta.y, 4f, 20f);
-    }
-
-    private void HandleEscapeKey()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            ClearSelection();
-        }
     }
 
     private void ClearSelection()
@@ -167,11 +167,6 @@ public class LevelEditor : MonoBehaviour
         {
             UpdatePreviewPosition(cellPosition);
             
-            if (Input.GetMouseButtonDown(0))
-            {
-                PlaceObject(cellPosition);
-            }
-
             if (Input.GetKeyDown(GameManager.Instance.inputSettings.editorRotationButton))
             {
                 selectedRotationIndex = (selectedRotationIndex + 1) % 4;
@@ -183,7 +178,30 @@ public class LevelEditor : MonoBehaviour
                 CycleAnchor();
                 UpdatePreviewPosition(cellPosition);
             }
+            
+            if (Input.GetMouseButton(0))
+            {
+                if (!BlockExistsAtPosition(cellPosition))
+                {
+                    PlaceObject(cellPosition);
+                    lastPlacedPosition = cellPosition;
+                }
+            }
+            
         }
+    }
+
+    private bool BlockExistsAtPosition(Vector3Int cellPosition)
+    {
+        foreach (var obj in placedObjects)
+        {
+            Vector3Int objCellPos = grid.WorldToCell(obj.transform.position);
+            if (cellPosition == objCellPos)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void HandleObjectSelection()
