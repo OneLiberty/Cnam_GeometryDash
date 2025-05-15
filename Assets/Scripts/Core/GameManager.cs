@@ -34,12 +34,7 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             userData = SaveSystem.LoadUserData();
             
-            if (userData == null)
-            {
-                userData = new UserData();
-                inputSettings.ExportToUserData(userData);
-            }
-            else if (inputSettings != null)
+            if (inputSettings != null)
             {
                 inputSettings.LoadInputSettings(userData);
             }
@@ -75,7 +70,7 @@ public class GameManager : MonoBehaviour
                 progress.bestScore = 100; // we can safely assume that if the player completed the level, they got 100%
                 SaveData();
             };
-
+            SaveData();
         }
         else
         {

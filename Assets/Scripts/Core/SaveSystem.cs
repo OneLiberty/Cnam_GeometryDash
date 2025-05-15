@@ -19,8 +19,11 @@ public class SaveSystem : MonoBehaviour
         if (!File.Exists(SavePath))
         {
             Debug.LogWarning($"Save file not found. Creating a new one at {SavePath}.");
-            return new UserData(); 
+            UserData newUserData = new UserData();
+            newUserData.InitializeDefaultValues();
+            return newUserData;
         }
+        
         Debug.Log($"Loading user data from {SavePath}.");
         string data = File.ReadAllText(SavePath);
         UserData userData = JsonConvert.DeserializeObject<UserData>(data);
