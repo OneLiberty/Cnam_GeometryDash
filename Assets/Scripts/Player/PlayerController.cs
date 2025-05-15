@@ -111,6 +111,7 @@ public class PlayerController : MonoBehaviour
         {
             ChangeGameMode(initialGameMode);
         }
+        speedModifier = 1f;
         SpawnPlayerPrefab(currentGameMode);
         AudioManager.Instance.musicSource.Play();
     }
