@@ -1037,7 +1037,6 @@ MonoBehaviour:
   backgroundObject: {fileID: 811559478}
   backgroundColor: '#000000'
   groundColor: '#FFFFFF'
-  endPosition: 1000
   endingObject: EndPortal
 --- !u!4 &715637952
 Transform:
@@ -1409,6 +1408,7 @@ MonoBehaviour:
   cubePrefab: {fileID: 1726968030067801148, guid: 0b3cec8e22a48457ea71104dd6ee35d9, type: 3}
   shipPrefab: {fileID: 1726968030067801148, guid: 0286ca76bda5b4f0e9e320f3703eae19, type: 3}
   wavePrefab: {fileID: 1726968030067801148, guid: 5c899ff9ff3d14dd38b3324decb072c5, type: 3}
+  initialGameMode: 0
   deathAnimations:
   - animationName: death_01
     frames:
@@ -1883,7 +1883,7 @@ Transform:
   m_GameObject: {fileID: 1511043366}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: -10}
+  m_LocalPosition: {x: 0, y: 2.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

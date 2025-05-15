@@ -17,10 +17,10 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float parallaxFactor = 0.9f;
     [SerializeField] private Transform backgroundTransform;
 
-    private const float DefaultCameraZoom = 5f;
+    private const float DefaultCameraZoom = 5.5f;
 
     private Vector3 velocity = Vector3.zero;
-    private float lowestY = 2f;
+    private float lowestY = 2.5f;
     private Vector3 lastPosition;
     private Vector2 endPosition;
 
