@@ -148,85 +148,71 @@ public class MainMenuManager : UIManager
             bestScoreText.text = "Best Score: 0%";
         }
     }
-#endregion
+    #endregion
 
-#region Settings
-    private void InitializeSettings() 
+    #region Settings
+    private void InitializeSettings()
     {
         //Back to main menu button
         Button backButton = settingsPanel.transform.Find("Back").GetComponent<Button>();
-        backButton.onClick.AddListener(() => {
+        backButton.onClick.AddListener(() =>
+        {
             ShowMainMenu();
         });
 
-        // Jump button 0
-        Button button0 = settingsPanel.transform.Find("Jump/JumpInput0").GetComponent<Button>();
-        TextMeshProUGUI button0text = button0.GetComponentInChildren<TextMeshProUGUI>();
-        button0text.text = GameManager.Instance.inputSettings.jumpButton_0.ToString();
-        button0.onClick.AddListener(() => {
-            askInputPanel.SetActive(true);
-            GameManager.Instance.inputSettings.ListenForInput(key => {
-                GameManager.Instance.inputSettings.SetBinding(ref GameManager.Instance.inputSettings.jumpButton_0, key);
-                button0text.text = key.ToString();
-                askInputPanel.SetActive(false);
-            });
-        });
+        // Gameplay Inputs
+        SetupInputButton("Gameplay/Jump/JumpInput0", GameManager.Instance.inputSettings.jumpButton_0);
+        SetupInputButton("Gameplay/Jump/JumpInput1", GameManager.Instance.inputSettings.jumpButton_1);
+        SetupInputButton("Gameplay/Restart/RestartInput", GameManager.Instance.inputSettings.restartButton);
+        SetupInputButton("Gameplay/Pause/PauseInput", GameManager.Instance.inputSettings.pauseButton);
 
-        // Jump button 1
-        Button button1 = settingsPanel.transform.Find("Jump/JumpInput1").GetComponent<Button>();
-        TextMeshProUGUI button1text = button1.GetComponentInChildren<TextMeshProUGUI>();
-        button1text.text = GameManager.Instance.inputSettings.jumpButton_1.ToString();
-        button1.onClick.AddListener(() => {
-            askInputPanel.SetActive(true);
-            GameManager.Instance.inputSettings.ListenForInput(key => {
-                GameManager.Instance.inputSettings.SetBinding(ref GameManager.Instance.inputSettings.jumpButton_1, key);
-                button1text.text = key.ToString();
-                askInputPanel.SetActive(false);
-            });
-        });
-
-        // Restart button
-        Button restartButton = settingsPanel.transform.Find("Restart/RestartInput").GetComponent<Button>();
-        TextMeshProUGUI restartButtonText = restartButton.GetComponentInChildren<TextMeshProUGUI>();
-        restartButtonText.text = GameManager.Instance.inputSettings.restartButton.ToString();
-        restartButton.onClick.AddListener(() => {
-            askInputPanel.SetActive(true);
-            GameManager.Instance.inputSettings.ListenForInput(key => {
-                GameManager.Instance.inputSettings.SetBinding(ref GameManager.Instance.inputSettings.restartButton, key);
-                restartButtonText.text = key.ToString();
-                askInputPanel.SetActive(false);
-            });
-        });
-
-        // Pause button
-        Button pauseButton = settingsPanel.transform.Find("Pause/PauseInput").GetComponent<Button>();
-        TextMeshProUGUI pauseButtonText = pauseButton.GetComponentInChildren<TextMeshProUGUI>();
-        pauseButtonText.text = GameManager.Instance.inputSettings.pauseButton.ToString();
-        pauseButton.onClick.AddListener(() => {
-            askInputPanel.SetActive(true);
-            GameManager.Instance.inputSettings.ListenForInput(key => {
-                GameManager.Instance.inputSettings.SetBinding(ref GameManager.Instance.inputSettings.pauseButton, key);
-                pauseButtonText.text = key.ToString();
-                askInputPanel.SetActive(false);
-            });
-        });
+        // Editor Inputs
+        SetupInputButton("Editor/EditorUp/EditorUpInput", GameManager.Instance.inputSettings.editorUpButton);
+        SetupInputButton("Editor/EditorDown/EditorDownInput", GameManager.Instance.inputSettings.editorDownButton);
+        SetupInputButton("Editor/EditorLeft/EditorLeftInput", GameManager.Instance.inputSettings.editorLeftButton);
+        SetupInputButton("Editor/EditorRight/EditorRightInput", GameManager.Instance.inputSettings.editorRightButton);
+        SetupInputButton("Editor/EditorRotation/EditorRotationInput", GameManager.Instance.inputSettings.editorRotationButton);
+        SetupInputButton("Editor/EditorAnchor/EditorAnchorInput", GameManager.Instance.inputSettings.editorAnchorButton);
+        SetupInputButton("Editor/EditorRemove/EditorRemoveInput", GameManager.Instance.inputSettings.editorRemoveButton);
 
         Slider musicSlider = settingsPanel.transform.Find("Music&Sfx/MusicSlider").GetComponent<Slider>();
         musicSlider.value = GameManager.Instance.userData.musicVolume;
         Slider sfxSlider = settingsPanel.transform.Find("Music&Sfx/SfxSlider").GetComponent<Slider>();
         sfxSlider.value = GameManager.Instance.userData.sfxVolume;
-            
-        musicSlider.onValueChanged.AddListener((value) => {
+
+        musicSlider.onValueChanged.AddListener((value) =>
+        {
             AudioManager.Instance.SetMusicVolume(value);
         });
-        sfxSlider.onValueChanged.AddListener((value) => {
+        sfxSlider.onValueChanged.AddListener((value) =>
+        {
             AudioManager.Instance.SetSFXVolume(value);
         });
+        
     }
+    
+    private void SetupInputButton(string path, KeyCode key)
+    {
+        Button button = settingsPanel.transform.Find(path).GetComponent<Button>();
+        TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
+        buttonText.text = key.ToString();
+        button.onClick.AddListener(() =>
+        {
+            askInputPanel.SetActive(true);
+            GameManager.Instance.inputSettings.ListenForInput(newKey =>
+            {
+                GameManager.Instance.inputSettings.SetBinding(ref key, newKey);
+                buttonText.text = newKey.ToString();
+                askInputPanel.SetActive(false);
+            });
+        });
+    }
+
 #endregion
 
-#region View Management
-    public void ShowMainMenu() {
+    #region View Management
+    public void ShowMainMenu()
+    {
         mainMenuPanel.SetActive(true);
         levelSelectionPanel.SetActive(false);
         settingsPanel.SetActive(false);
