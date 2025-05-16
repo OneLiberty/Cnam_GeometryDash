@@ -4,11 +4,61 @@
 
 ### Planification
 
-Diagramme de Gantt
+Le projet à débuté le 26 mars 2025 et doit être livré le 17 mai 2025. Le planning est divisé en plusieurs étapes, chacune correspondant à une fonctionnalité ou un ensemble de fonctionnalités. Chaque étape est représentée par un milestone dans le diagramme de Gantt prévisionnel ci-dessous.
 
-Backlog [Github](https://github.com/users/OneLiberty/projects/3/views/4)
+```mermaid 
+%%{init: { 'gantt': {'leftPadding': 100} } }%%
 
-Trello [Github](https://github.com/users/OneLiberty/projects/3/views/5)
+gantt
+    title Planning du développement de Geometry Dash
+    section Définition <br>du besoin <br> et conception
+    Modélisation Architecture (Diagramme de classes)        :t1, 2025-03-26, 1d
+    Modélisation du Gameplay (Diagramme d'activités)        :t2, 2025-03-26, 1d
+    Modélisation du Gameplay (Diagramme d'états)            :t3, 2025-03-26, 1d
+    Définition des cas d'utilisation                        :t4, 2025-03-26, 1d
+    Milestone 1 - Définition du besoin et conception        :crit, milestone,ML1, after t1 t2 t3 t4, 0d
+    section Menu Principal
+    Menu Principal                                          :t5, after ML1, 1d
+    Selection de niveau                                     :t6, after t5, 3d
+    Options - Editions des touches de jeu                   :t7, after t5, 4d
+    Options - Editions des touches de l'éditeur             :t8, after t7, 1d
+    Options - Gestion de l'audio                            :t9, after t5, 3d
+    Milestone 2 - Menu principal                            :crit, milestone,ML2, after t5 t6 t7 t8 t9, 0d
+    section Niveau
+    Mode de jeu - Cube                                      :t10, after ML2, 5d
+    Gestion du niveau, serialisation, deserialisation       :t11, after t10, 6d
+    Gestion des obstacles                                   :t12, after t11, 2d
+    Mode de jeu - Ship                                      :t13, after t12, 2d
+    Mode de jeu - Wave                                      :t14, after t12, 2d
+    Gestion des bonus                                       :t15, after t13 t14, 3d
+    Milestone 3 - Niveau                                    :crit, milestone,ML3, after t10 t11 t12 t13 t14 t15, 0d
+    section Statistiques
+    Statitistiques des niveaux                              :t16, after ML3, 2d
+    Statitistiques générales                                :t17, after ML3, 2d
+    Milestone 4 - Statistiques                              :crit, milestone,ML4, after t16 t17, 0d
+    section Editeur de niveaux
+    Editeur - Creation de niveau                            :t18, after ML4, 4d
+    Editeur - Placement/Gestion des objets                  :t19, after t18, 2d
+    Editeur - Gérer les métadonnées du niveau               :t20, after t19, 1d
+    Editeur - Chargement/Export des niveaux                 :t21, after t20, 2d
+    Milestone 5 - Editeur de niveaux                        :crit, milestone,ML5, after t18 t19 t20 t21, 0d
+    section Intelligence Artificielle
+    IA - Cube                                               :t22, after ML5, 6d
+    IA - Ship                                               :t23, after t22, 3d
+    IA - Wave                                               :t24, after t22, 3d
+    Milestone 6 - IA                                        :crit, milestone,ML6, after t22 t23 t24, 0d
+    section Documention et livraison
+    Rédaction du rapport                                    :t25, after ML6, 1d
+    Livraison                                               :t26, after ML6, 1d
+    Milestone 7 - Livraison                                 :crit, milestone, ML7, 2025-05-17, 0d
+```
+
+#### Outils de gestion de projet
+Le projet est géré par le biais de la section Projects de Github. Ci dessous les liens vers le backlog et le tableau de gestion de projet.
+
+- Backlog : [Github](https://github.com/users/OneLiberty/projects/3/views/4)
+- Trello : [Github](https://github.com/users/OneLiberty/projects/3/views/5)
+
 
 ### Gestion de code source
 
@@ -43,80 +93,6 @@ Les bugs sont gérés par le biais d'issues sur Github. Chaque bug est décrit d
 ## Conception
 
 ### Use-case diagram
-
-```mermaid
-flowchart LR
-    title[<u>Diagramme de cas d'utilisation - GeomeTry</u>]
-
-    %% Actor
-    Joueur([Joueur])
-
-    %% Main menu use cases
-    subgraph MenuPrincipal["Menu principal"]
-        Jouer(["Jouer"])
-        ChoisirNiveau(["Choisir un niveau"])
-        CreerNiveau(["Créer un niveau"])
-        EditerNiveau(["Editer un niveau"])
-        ModifierOptions(["Modifier les options"])
-        ConsulterStats(["Consulter les stats"])
-        ConsulterStatsNiveau(["Consulter les stats d'un niveau"])
-        ConsulterStatsGlobales(["Consulter les stats globales"])
-        QuitterJeu(["Quitter le jeu"])
-
-        subgraph Options
-            ModifierControles(["Modifier les contrôles"])
-            ModifierControlesJeu(["Modifier les contrôles de jeu"])
-            ModifierControlesEditeur(["Modifier les contrôles de l'éditeur"])
-            ModifierVolume(["Modifier le volume"])
-        end
-    end
-
-    %% Gameplay use cases
-    subgraph Partie
-        MettrePause(["Mettre en pause"])
-        Interagir(["Intéragir"])
-
-        subgraph Gameplay
-            SauterCube(["Sauter avec le cube"])
-            VolerShip(["Voler avec le ship"])
-            MonterWave(["Monter avec la wave"])
-        end
-
-        subgraph Pause
-            ReprendrePartie(["Reprendre la partie"])
-            QuitterPartie(["Quitter la partie"])
-            RecommencerPartie(["Recommencer la partie"])
-        end
-    end
-
-    %% Relationships
-    Joueur --> Jouer
-    Jouer -.-> ChoisirNiveau
-    Joueur --> CreerNiveau
-    CreerNiveau <-. "<<extends>>" .-> EditerNiveau
-    Joueur --> ModifierOptions
-    Joueur --> ConsulterStats
-    Joueur --> QuitterJeu
-
-    ModifierOptions <-. "<<extends>>" .-> ModifierControles
-    ModifierControles <-. "<<extends>>" .-> ModifierControlesJeu
-    ModifierControles <-. "<<extends>>" .-> ModifierControlesEditeur
-    ModifierOptions <-. "<<extends>>" .-> ModifierVolume
-
-    ConsulterStats <-. "<<extends>>" .-> ConsulterStatsNiveau
-    ConsulterStats <-. "<<extends>>" .-> ConsulterStatsGlobales
-
-    Jouer <-. "<<extends>>" .-> MettrePause
-    Jouer <-. "<<extends>>" .-> Interagir
-
-    Interagir <-. "<<extends>>" .-> SauterCube
-    Interagir <-. "<<extends>>" .-> VolerShip
-    Interagir <-. "<<extends>>" .-> MonterWave
-
-    MettrePause <-. "<<extends>>" .-> ReprendrePartie
-    MettrePause <-. "<<extends>>" .-> QuitterPartie
-    MettrePause <-. "<<extends>>" .-> RecommencerPartie
-```
 
 ### Activity diagram
 
