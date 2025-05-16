@@ -72,12 +72,14 @@ public class LevelSelection : MonoBehaviour
 
         Button nextBtn = levelPanel.transform.Find("NextBtn").GetComponent<Button>();
         nextBtn.onClick.AddListener(() => {
+            if (levelPanels.Count == 1) return;
             int nextIndex = (panelIndex + 1) % levelPanels.Count;
             StartCoroutine(LevelSelectionSlide(levelPanel, levelPanels[nextIndex], 1));
         });
 
         Button prevBtn = levelPanel.transform.Find("PrevBtn").GetComponent<Button>();
         prevBtn.onClick.AddListener(() => {
+            if (levelPanels.Count == 1) return;
             int prevIndex = (panelIndex - 1 + levelPanels.Count) % levelPanels.Count;
             StartCoroutine(LevelSelectionSlide(levelPanel, levelPanels[prevIndex], -1));
         });
