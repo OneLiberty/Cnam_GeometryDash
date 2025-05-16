@@ -44,55 +44,78 @@ Les bugs sont gérés par le biais d'issues sur Github. Chaque bug est décrit d
 
 ### Use-case diagram
 
-```puml
-@startuml Usecase
-left to right direction
-title Diagramme de cas d'utilisation - GeomeTry
+```mermaid
+flowchart LR
+    title[<u>Diagramme de cas d'utilisation - GeomeTry</u>]
 
-actor Joueur
+    %% Actor
+    Joueur([Joueur])
 
-rectangle "Menu principal" {
+    %% Main menu use cases
+    subgraph MenuPrincipal["Menu principal"]
+        Jouer(["Jouer"])
+        ChoisirNiveau(["Choisir un niveau"])
+        CreerNiveau(["Créer un niveau"])
+        EditerNiveau(["Editer un niveau"])
+        ModifierOptions(["Modifier les options"])
+        ConsulterStats(["Consulter les stats"])
+        ConsulterStatsNiveau(["Consulter les stats d'un niveau"])
+        ConsulterStatsGlobales(["Consulter les stats globales"])
+        QuitterJeu(["Quitter le jeu"])
 
-    Joueur ---> (Jouer)
-    (Jouer) ..> (Choisir un niveau) : <<include>>
+        subgraph Options
+            ModifierControles(["Modifier les contrôles"])
+            ModifierControlesJeu(["Modifier les contrôles de jeu"])
+            ModifierControlesEditeur(["Modifier les contrôles de l'éditeur"])
+            ModifierVolume(["Modifier le volume"])
+        end
+    end
 
-    Joueur --> (Créer un niveau)
-    (Créer un niveau) <.. (Editer un niveau) : <<extends>>
+    %% Gameplay use cases
+    subgraph Partie
+        MettrePause(["Mettre en pause"])
+        Interagir(["Intéragir"])
 
-    Joueur --> (Modifier les options)
+        subgraph Gameplay
+            SauterCube(["Sauter avec le cube"])
+            VolerShip(["Voler avec le ship"])
+            MonterWave(["Monter avec la wave"])
+        end
 
-    rectangle Options {
-        (Modifier les options) <.left.. (Modifier les contrôles) : <<extends>>
-        (Modifier les contrôles) <... (Modifier les contrôles de jeu) : <<extends>>
-        (Modifier les contrôles) <... (Modifier les contrôles de l'éditeur) : <<extends>>
-        (Modifier les options) <... (Modifier le volume) : <<extends>>
-    }
+        subgraph Pause
+            ReprendrePartie(["Reprendre la partie"])
+            QuitterPartie(["Quitter la partie"])
+            RecommencerPartie(["Recommencer la partie"])
+        end
+    end
 
-    Joueur --> (Consulter les stats)
-    (Consulter les stats) <.. (Consulter les stats d'un niveau) : <<extends>>
-    (Consulter les stats) <.. (Consulter les stats globlales) : <<extends>>
+    %% Relationships
+    Joueur --> Jouer
+    Jouer -.-> ChoisirNiveau
+    Joueur --> CreerNiveau
+    CreerNiveau <-. "<<extends>>" .-> EditerNiveau
+    Joueur --> ModifierOptions
+    Joueur --> ConsulterStats
+    Joueur --> QuitterJeu
 
-    Joueur --> (Quitter le jeu)
-}
+    ModifierOptions <-. "<<extends>>" .-> ModifierControles
+    ModifierControles <-. "<<extends>>" .-> ModifierControlesJeu
+    ModifierControles <-. "<<extends>>" .-> ModifierControlesEditeur
+    ModifierOptions <-. "<<extends>>" .-> ModifierVolume
 
-rectangle Partie {
-    Jouer <.up. (Mettre en pause) : <<extends>>
-    Jouer <.up. (Intéragir) : <<extends>>
+    ConsulterStats <-. "<<extends>>" .-> ConsulterStatsNiveau
+    ConsulterStats <-. "<<extends>>" .-> ConsulterStatsGlobales
 
-    rectangle Gameplay {
-        (Intéragir) <.up. (Sauter avec le cube) : <<extends>>
-        (Intéragir) <.up. (Voler avec le ship) : <<extends>>
-        (Intéragir) <.up. (Monter avec la wave) : <<extends>>
-    }
+    Jouer <-. "<<extends>>" .-> MettrePause
+    Jouer <-. "<<extends>>" .-> Interagir
 
-    rectangle Pause {
-    (Mettre en pause) <.up. (Reprendre la partie) : <<extends>>
-    (Mettre en pause) <.up. (Quitter la partie) : <<extends>>
-    (Mettre en pause) .up.> (Recommencer la partie) : <<extends>>
-    }
-}
+    Interagir <-. "<<extends>>" .-> SauterCube
+    Interagir <-. "<<extends>>" .-> VolerShip
+    Interagir <-. "<<extends>>" .-> MonterWave
 
-@enduml
+    MettrePause <-. "<<extends>>" .-> ReprendrePartie
+    MettrePause <-. "<<extends>>" .-> QuitterPartie
+    MettrePause <-. "<<extends>>" .-> RecommencerPartie
 ```
 
 ### Activity diagram
