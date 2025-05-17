@@ -1,0 +1,48 @@
+@startuml Usecase
+left to right direction
+title Diagramme de cas d'utilisation - GeomeTry
+
+actor Joueur
+
+rectangle "Menu principal" {
+        
+    Joueur ---> (Jouer)
+    (Jouer) ..> (Choisir un niveau) : <<include>>
+
+    Joueur --> (Créer un niveau)
+    (Créer un niveau) <.. (Editer un niveau) : <<extends>>
+
+    Joueur --> (Modifier les options)
+
+    rectangle Options {
+        (Modifier les options) <.left.. (Modifier les contrôles) : <<extends>>
+        (Modifier les contrôles) <... (Modifier les contrôles de jeu) : <<extends>>
+        (Modifier les contrôles) <... (Modifier les contrôles de l'éditeur) : <<extends>>
+        (Modifier les options) <... (Modifier le volume) : <<extends>>
+    }
+
+    Joueur --> (Consulter les stats)
+    (Consulter les stats) <.. (Consulter les stats d'un niveau) : <<extends>>
+    (Consulter les stats) <.. (Consulter les stats globlales) : <<extends>>
+
+    Joueur --> (Quitter le jeu)
+}
+
+rectangle Partie {
+    Jouer <.up. (Mettre en pause) : <<extends>>
+    Jouer <.up. (Intéragir) : <<extends>>
+
+    rectangle Gameplay {
+        (Intéragir) <.up. (Sauter avec le cube) : <<extends>>
+        (Intéragir) <.up. (Voler avec le ship) : <<extends>>
+        (Intéragir) <.up. (Monter avec la wave) : <<extends>>
+    }
+
+    rectangle Pause {
+    (Mettre en pause) <.up. (Reprendre la partie) : <<extends>>
+    (Mettre en pause) <.up. (Quitter la partie) : <<extends>> 
+    (Mettre en pause) .up.> (Recommencer la partie) : <<extends>>
+    }
+}
+
+@enduml

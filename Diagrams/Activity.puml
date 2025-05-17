@@ -1,0 +1,37 @@
+@startuml
+title Diagramme d'activité - Jeu Géometry Dash
+start
+:Commencer le niveau;
+        repeat:Joueur avance automatiquement;
+        split
+            -[#blue]-> Cube;
+                if (Bouton pressé ?) then (Oui)
+                    :Cube saute;
+                else (Non)
+                    :Cube au sol;
+                endif
+        split again
+            -[#red]-> Ship;
+                if (Bouton pressé ?) then (Oui)
+                    :Ship vole;
+                else (Non)
+                    :Ship descend;
+                endif
+        split again
+            -[#green]-> Wave;
+                if (Bouton pressé ?) then (Oui)
+                    :Wave monte;
+                else (Non)
+                    :Wave descend;
+                endif
+        end split
+        
+        if (Collision détectée ?) then (Oui)
+                :Recommencer le niveau;
+                end
+        else (Non)
+        endif
+    repeat while (Fin du niveau ?) is (Non) not (Oui)
+    :Revenir au menu principal;
+stop
+@enduml
