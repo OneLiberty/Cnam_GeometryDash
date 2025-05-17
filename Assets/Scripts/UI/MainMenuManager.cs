@@ -180,6 +180,27 @@ public class MainMenuManager : UIManager
         Slider sfxSlider = settingsPanel.transform.Find("Music&Sfx/SfxSlider").GetComponent<Slider>();
         sfxSlider.value = GameManager.Instance.userData.sfxVolume;
 
+        Slider frameRateSlider = settingsPanel.transform.Find("Performances/FramerateSlider").GetComponent<Slider>();
+        frameRateSlider.value = GameManager.Instance.userData.targetFrameRate;
+        TextMeshProUGUI frameRateText = settingsPanel.transform.Find("Performances/Framerate Text").GetComponent<TextMeshProUGUI>();
+        frameRateText.text = "Framerate: " + (int)frameRateSlider.value + " FPS";
+        frameRateSlider.onValueChanged.AddListener((value) =>
+        {
+            GameManager.Instance.userData.targetFrameRate = (int)value;
+            Application.targetFrameRate = (int)value;
+            frameRateText.text = "Framerate: " + (int)value + " FPS";
+        });
+
+        Toggle vsyncToggle = settingsPanel.transform.Find("Performances/Toggle").GetComponent<Toggle>();
+        vsyncToggle.isOn = GameManager.Instance.userData.vSyncEnabled;
+        vsyncToggle.onValueChanged.AddListener((value) =>
+        {
+            GameManager.Instance.userData.vSyncEnabled = value;
+            QualitySettings.vSyncCount = value ? 1 : 0;
+
+            frameRateSlider.interactable = !value;
+        });
+
         musicSlider.onValueChanged.AddListener((value) =>
         {
             AudioManager.Instance.SetMusicVolume(value);

@@ -30,6 +30,8 @@ public class UserData
 
     public float musicVolume = 1f;
     public float sfxVolume = 1f;
+    public bool vSyncEnabled = false;
+    public int targetFrameRate = 60;
 
     public void InitializeDefaultValues()
     {

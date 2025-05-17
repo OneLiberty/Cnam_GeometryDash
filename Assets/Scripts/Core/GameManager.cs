@@ -34,6 +34,9 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             userData = SaveSystem.LoadUserData();
             
+            QualitySettings.vSyncCount = userData.vSyncEnabled ? 1 : 0;
+            Application.targetFrameRate = userData.vSyncEnabled ? -1 : userData.targetFrameRate;
+            
             if (inputSettings != null)
             {
                 inputSettings.LoadInputSettings(userData);
