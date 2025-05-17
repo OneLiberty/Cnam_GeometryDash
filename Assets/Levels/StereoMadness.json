@@ -1,7 +1,7 @@
 {
   "name": "StereoMadness",
   "levelNumber": 1,
-  "difficulty": 1,
+  "difficulty": 3,
   "musicFile": "StereoMadness",
   "groundColor": "#FFFFFF",
   "backgroundColor": "#0000FF",
