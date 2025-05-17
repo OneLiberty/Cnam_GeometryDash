@@ -1,0 +1,552 @@
+@startuml
+title Diagramme de classes - Jeu Géometry Dash
+
+package "Core" {
+
+    enum GameState {
+    MainMenu
+    Playing
+    Paused
+    GameOver
+    Victory
+    LevelEditor
+    }
+
+    class GameManager {
+    + CurrentLevel: int
+    + CurrentLevelPath: string
+    + completionPercentage: float
+    + endPosition: float
+    + userData: UserData
+    - lastActionTime: float
+    - const actionCooldown: float
+    - onSceneLoaded: UnityAction<Scene, LoadSceneMode>
+    + OnJump: Action<int>
+    + OnDeath: Action<int>
+    + OnLevelComplete: Action<int>
+    - Awake(): void
+    + StartLevel(levelPath: string): void
+    + PauseGame(): void
+    + RestartLevel(): void
+    + ReturnToMainMenu(): void
+    + LoadLevelEditor(): void
+    + RecordJump(): void
+    + RecordDeath(): void
+    + RecordLevelCompleted(): void
+    + UpdateCompletion(completion: float): void
+    + SaveData(): void
+    }
+
+    GameManager *--> GameManager : + {static} Instance: GameManager
+    GameManager --> GameState : + CurrentGameState: GameState
+    GameManager *--> InputSettings : + inputSettings: InputSettings
+    GameManager *--> UserData : + userData: UserData
+    GameManager ..> LevelLoader
+    GameManager ..> AudioManager
+    GameManager ..> SaveSystem
+    GameManager ..> LevelData
+    GameManager ..> LevelProgress
+
+    class AudioManager {
+    + musicSource: AudioSource
+    + sfxSource: AudioSource
+    + musicVolume: float
+    + sfxVolume: float
+    - menuMusic: AudioClip
+    + Awake(): void
+    + Start(): void
+    + PlaySFX(clipName: string): void
+    + SetMusicVolume(volume: float): void
+    + SetSFXVolume(volume: float): void
+    + SetMusicClip(clipName: string, stopCurrent: bool, playImmediately: bool): void
+    }
+
+    AudioManager *--> AudioManager : + {static} Instance: AudioManager
+
+    class InputSettings {
+    + onInputChanged: Action
+    + jumpButton_0: KeyCode
+    + jumpButton_1: KeyCode
+    + pauseButton: KeyCode
+    + restartButton: KeyCode
+    + editorUpButton: KeyCode
+    + editorDownButton: KeyCode
+    + editorLeftButton: KeyCode
+    + editorRightButton: KeyCode
+    + editorRotationButton: KeyCode
+    + editorAnchorButton: KeyCode
+    + editorRemoveButton: KeyCode
+
+    + SetBinding(ref key: KeyCode, newKey: KeyCode): void
+    + ListenForInput(callback: Action<KeyCode>): void
+    - WaitForNewInput(callback: Action<KeyCode>): IEnumerator
+    + LoadInputSettings(userData: UserData): void
+    + ExportToUserData(userData: UserData): void
+    }
+
+    class LevelData {
+    + name: string
+    + levelNumber: int
+    + difficulty: int
+    + musicFile: string
+    + groundColor: string
+    + backgroundColor: string
+    }
+
+    LevelData *--> LevelObjectData : + levelObjects: List<LevelObjectData>
+
+    class LevelObjectData {
+    + type: string
+    + rotation: float
+    + anchor: string
+    
+    + LevelObjectData()
+    + LevelObjectData(type: string, pos: Vector2, rotation: float, anchor: string)
+    }
+
+    LevelObjectData --> CustomVector2 : + position: CustomVector2
+
+    class CustomVector2 {
+    + x: float
+    + y: float
+    
+    + CustomVector2()
+    + CustomVector2(x: float, y: float)
+    + CustomVector2(vector: Vector2)
+    }
+
+    class LevelEditor {
+    - grid: Grid
+    - editorCamera: Camera
+    - objectsPanel: GameObject
+    - propertiesPanel: GameObject
+    - previewPrefab: GameObject
+    - buttonPrefab: Button
+    - groundPrefab: GameObject
+    - backgroundObject: GameObject
+    - groundWidth: float
+    - offsetX: float
+    - groundObject: GameObject
+    - prefabDictionary: Dictionary<string, GameObject>
+    - currentPreview: GameObject
+    - selectedObjectName: string
+    - selectedRotationIndex: int
+    - selectedAnchor: string
+    - placedObjects: List<GameObject>
+    - selectedObject: GameObject
+    - cameraSpeed: float
+    
+    - Start(): void
+    - LoadAllPrefabs(): void
+    - InitializeNewLevel(): void
+    - InitializeUI(): void
+    - Update(): void
+    - HandleCameraMovement(): void
+    - HandleCameraZoom(): void
+    - HandleEscapeKey(): void
+    - ClearSelection(): void
+    - HandleObjectPlacement(): void
+    - HandleObjectSelection(): void
+    - HandleObjectRemoval(): void
+    - IsPointerOverUI(): bool
+    - RemoveObject(obj: GameObject): void
+    - UpdatePreviewPosition(cellPosition: Vector3Int): void
+    - SelectObjectType(objectName: string): void
+    - PlaceObject(cellPosition: Vector3Int): void
+    - CalculateObjectPosition(cellCenter: Vector3, prefab: GameObject): Vector3
+    - CycleAnchor(): void
+    - CreateGround(endPos: float): void
+    + LoadLevel(levelPath: string): void
+    + SaveLevel(levelName: string, levelNumber: int, difficulty: int, musicFile: string): void
+    }
+
+    LevelEditor *--> LevelData : - currentLevel: LevelData
+    LevelEditor --> LevelObjectData : - selectedObjectData: LevelObjectData
+    LevelEditor ..> GameManager
+
+    class LevelLoader {
+    - prefabsDictionnary: Dictionary<string, GameObject>
+    - grid: Grid
+    - groundPrefab: GameObject
+    - backgroundObject: GameObject
+    - backgroundColor: string
+    - groundColor: string
+    + endPosition: float
+    - endingObject: string
+    - offsetX: float
+    - Awake(): void
+    - LoadAllPrefabs(): void
+    + LoadLevel(levelPath: string): void
+    - CreateGround(start: float, end: float, groundColor: string): void
+    - ModifyBackground(start: float, end: float, backgroundColor: string): void
+    - PlaceObjectWithAnchor(prefab: GameObject, cellPosition: Vector3Int, rotation: float, anchor: string): void
+    }
+
+    LevelLoader --> GameManager
+    LevelLoader ..> LevelData
+    LevelLoader ..> LevelObjectData
+    LevelLoader ..> CustomVector2
+    LevelLoader ..> AudioManager
+
+    class SaveSystem {
+    - {static} SAVE_FILENAME: string
+    - {static} SavePath: string
+
+    + {static} SaveUserData(userData: UserData): void
+    + {static} LoadUserData(): UserData
+    }
+
+    SaveSystem ..> UserData : uses
+
+    class UserData {
+    + totalJumps: int
+    + totalDeath: int
+    + jumpButton_0: KeyCode
+    + jumpButton_1: KeyCode
+    + pauseButton: KeyCode
+    + restartButton: KeyCode
+    + editorUpButton: KeyCode
+    + editorDownButton: KeyCode
+    + editorLeftButton: KeyCode
+    + editorRightButton: KeyCode
+    + editorRotationButton: KeyCode
+    + editorAnchorButton: KeyCode
+    + editorRemoveButton: KeyCoded
+    + musicVolume: float
+    + sfxVolume: float
+    }
+
+    UserData --> LevelProgress : + levelProgress: Dictionary<int, LevelProgress>
+
+    class LevelProgress {
+    + isCompleted: bool
+    + jumps: int
+    + deaths: int
+    + bestScore: float
+    }
+}
+
+package "Items" {
+    abstract class InteractiveObject {
+    # OnTriggerEnter2D(other: Collider2D): void
+    + {abstract} Interact(player: PlayerController): void
+    }
+
+    class DeathZone {
+    + Interact(player: PlayerController): void
+    }
+
+    DeathZone --|> InteractiveObject
+
+    class Portal {
+    + Interact(player: PlayerController): void
+    }
+
+    Portal --|> InteractiveObject
+
+    class SpeedPortal {
+    - speedMultipliers: Dictionary<SpeedPortalType, float>
+    + Interact(player: PlayerController): void
+    }
+
+    SpeedPortal --|> InteractiveObject
+    SpeedPortal --> SpeedPortalType : - speedPortalType: SpeedPortalType
+
+    enum SpeedPortalType {
+    Slow
+    Normal
+    Fast
+    VeryFast
+    UltraFast
+    }
+
+    class EndPortal {
+    - attractionRadius: float
+    - attractionSpeed: float
+    - OnTriggerEnter2D(collision: Collider2D): void
+    + Interact(player: PlayerController): void
+    - AttractPlayer(player: PlayerController): IEnumerator
+    }
+
+    EndPortal -u-|> InteractiveObject
+
+    package "Transporters" {
+        abstract class Transporter {
+        # jumpForce: float
+        # jumpForcesMap: Dictionary<JumpForce, float>
+        # {abstract} Interact(player: PlayerController): void
+        # Awake(): void
+        # ApplyJumpForce(player: PlayerController): void
+        }
+
+        Transporter --> TransporterType : # transporterType: TransporterType        
+        Transporter --> JumpForce : # jumpForceType: JumpForce
+        Transporter --|> InteractiveObject
+
+        class JumpPad {
+        # Awake(): void
+        + Interact(player: PlayerController): void
+        }
+
+        JumpPad --|> Transporter
+
+        class JumpOrbs {
+        - playerInRange: bool
+        # Awake(): void
+        - Update(): void
+        + Interact(player: PlayerController): void
+        - OnTriggerExit2D(other: Collider2D): void
+        }
+
+        JumpOrbs --|> Transporter
+
+        enum TransporterType {
+        Pad
+        Orb
+        }
+
+        enum JumpForce {
+        Low
+        Normal
+        High
+        }
+    }
+}
+
+package "Player" {
+    interface IPlayerMode {
+    + Initialize(characterInstance: GameObject): void
+    + Update(): void
+    + FixedUpdate(): void
+    + OnClick(): void
+    }
+
+    class DeathAnimations {
+    + animationName: string
+    + frames: Sprite[]
+    }
+
+    enum GameMode {
+    Cube
+    Ship
+    Wave
+    }
+
+    GameMode <-- Portal : + targetMode : GameMode
+
+    class PlayerController {
+    - cubePrefab: GameObject
+    - shipPrefab: GameObject
+    - wavePrefab: GameObject
+    - const defaultStartingX: float
+    - deathAnimations: List<DeathAnimations>
+    - deathSpriteRenderer: SpriteRenderer
+    - animationFrameDelay: float
+    + rb: Rigidbody2D
+    - currentCharacterInstance: GameObject
+    - controllers: Dictionary<GameMode, IPlayerMode>
+    - currentDeathAnimation: Coroutine
+    + isDead: bool
+    + isButtonPressed: bool
+    + speedModifier: float
+
+    + OnPlayerPositionChanged: Action<Vector2>
+    - Awake(): void
+    + ChangeGameMode(newGameMode: GameMode): void
+    + Die(): void
+    + Respawn(): void
+    - SpawnPlayerPrefab(mode: GameMode, posX: float, posY: float): void
+    - Update(): void
+    - FixedUpdate(): void
+    + OnClick(): void
+    - PlayRandomDeathAnimation(): IEnumerator
+    }
+
+    PlayerController -d-> GameMode : + currentGameMode: GameMode ; - initialGameMode: GameMode
+    PlayerController --> GameManager
+    PlayerController --> InputSettings : - inputSettings: InputSettings
+    PlayerController -r-* IPlayerMode : - currentController: IPlayerMode
+    PlayerController -d-> DeathAnimations
+
+    PlayerController <-- EndPortal : - player: PlayerController
+    PlayerController <-- JumpOrbs : - player: PlayerController
+    PlayerController <.. InteractiveObject
+
+    class CubeController {
+    - characterInstance: GameObject
+    - rb: Rigidbody2D
+    - particleSystem: ParticleSystem
+    - spriteRenderer: SpriteRenderer
+    - const baseSpeed: float
+    - const baseGravityScale: float
+    - isGrounded: bool
+    + jumpForce: float
+    + speedModifier: float
+    
+    + CubeController(playerController: PlayerController, rb: Rigidbody2D)
+    ' IPlayerMode implementation
+    + Initialize(characterInstance: GameObject): void
+    + Update(): void
+    + FixedUpdate(): void
+    + OnClick(): void
+    - CheckGrounded(): bool
+    - RotateSprite(): void
+    }
+
+    CubeController --> PlayerController : - playerController: PlayerController
+    CubeController ..|> IPlayerMode
+
+    class ShipController {
+    - rb: Rigidbody2D
+    - particleSystem: ParticleSystem
+    - spriteRenderer: SpriteRenderer
+    - const baseSpeed: float
+    - const baseGravity: float
+    
+    + ShipController(playerController: PlayerController, rb: Rigidbody2D)
+    + Initialize(characterInstance: GameObject): void
+    + Update(): void
+    + FixedUpdate(): void
+    + OnClick(): void
+    - AlignToDirection(): void
+    }
+
+    ShipController --> PlayerController : - playerController: PlayerController
+    ShipController ..|> IPlayerMode
+
+    class WaveController {
+    - rb: Rigidbody2D
+    - spriteRenderer: SpriteRenderer
+    - const baseSpeed: float
+    - const baseGravity: float
+    - _movementDirection: float
+    
+    + WaveController(playerController: PlayerController, rb: Rigidbody2D)
+    + Initialize(characterInstance: GameObject): void
+    + Update(): void
+    + FixedUpdate(): void
+    + OnClick(): void
+    - AlignToDirection(): void
+    }
+
+    WaveController --> PlayerController : - playerController: PlayerController
+    WaveController ..|> IPlayerMode
+
+    class CameraController {
+    - player: Transform
+    - backgroundTransform: Transform
+    - offsetX: float
+    - smoothTimeX: float
+    - smoothTimeY: float
+    - startFollowingX: float
+    - startingPosition: Vector3
+    - parallaxFactor: float
+    - const DefaultCameraZoom: float
+    - velocity: Vector3
+    - lowestY: float
+    - lastPosition: Vector3
+    - endPosition: Vector2
+    - isRestarting: bool
+    
+    - Start(): void
+    - FixedUpdate(): void
+    - HandlePlayerDeath(): void
+    }
+
+    CameraController ..> PlayerController : uses
+}
+
+package UI {
+    abstract class UIManager {
+    # uiCanvas: Canvas
+    
+    # Awake(): void
+    # Start(): void
+    + {abstract} InitializePanels(): void
+    }
+
+    class MainMenuManager {
+    - mainMenuPanel: GameObject
+    - levelSelectionPanel: GameObject
+    - settingsPanel: GameObject
+    - statsPanel: GameObject
+    - askInputPanel: GameObject
+    + InitializePanels(): void
+    - InitializeMainMenu(): void
+    - InitializeLevelSelection(): void
+    - InitializeStats(): void
+    - InitializeSettings(): void
+    - UpdateGlobalStats(): void
+    - UpdateLevelStats(levelID: int): void
+    + ShowMainMenu(): void
+    + ShowLevelSelection(): void
+    + ShowStats(): void
+    + ShowSettings(): void
+    - QuitGame(): void
+    }
+
+    MainMenuManager --|> UIManager
+    MainMenuManager ..> GameManager : use 
+    MainMenuManager ..> UserData : use
+    MainMenuManager ..> LevelSelection : use
+
+    class LevelUIManager {
+    - pausePanel: GameObject
+    - gameOverPanel: GameObject
+    - winPanel: GameObject
+    - levelUI: GameObject
+    - completionBar: Slider
+    - completionText: TextMeshProUGUI
+    + InitializePanels(): void
+    # Start(): void
+    - InitializePausePanel(): void
+    - InitializeUiPanel(): void
+    - InitializeGameOverPanel(): void
+    - InitializeWinPanel(): void
+    + ShowPausePanel(gamePaused: bool): void
+    + ShowGameOverPanel(): void
+    + ShowWinPanel(): void
+    - UpdateCompletionBar(playerPosition: Vector2): void
+    }
+
+    LevelUIManager --|> UIManager
+    LevelUIManager ..> GameManager : use
+    LevelUIManager ..> PlayerController : use
+
+    class LevelSelection {
+    - levelInfoPanel: Transform
+    - parentPanel: Transform
+    - isFirstLevel: bool
+    - levels: string[]
+    - levelPanels: List<Transform>
+    - Start(): void
+    + LoadAllLevels(): void
+    - CreatePanel(levelName: string, levelID: int, levelPath: string, panelIndex: int): void
+    - LevelSelectionSlide(levelPanel: Transform, nextLevelPanel: Transform, direction: int): IEnumerator
+    }
+
+    LevelSelection ..> GameManager : use
+
+    class LevelEditorUI {
+
+    - prefabsPanel: GameObject
+    - propertiesPanel: GameObject
+    - saveButton: Button
+    - loadButton: Button
+    - quitButton: Button
+    - levelNameInput: TMP_InputField
+    - levelNumberInput: TMP_InputField
+    - difficultySlider: Slider
+    - difficultyText: TextMeshProUGUI
+    - musicDropdown: TMP_Dropdown
+    - levelsDropdown: TMP_Dropdown
+    - Start(): void
+    - InitializeUI(): void
+    - RefreshLevelDropdown(): void
+    }
+
+    LevelEditorUI --> LevelEditor : - levelEditor: LevelEditor
+    LevelEditorUI ..> GameManager : use
+}
+
+@enduml
