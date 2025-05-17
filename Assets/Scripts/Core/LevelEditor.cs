@@ -70,8 +70,16 @@ public class LevelEditor : MonoBehaviour
             GameObject newViewItem = Instantiate(viewItem, objectsPanel.transform);
 
             Transform itemImage = newViewItem.transform.Find("Img");
-            itemImage.GetComponent<Image>().sprite = prefab.Value.GetComponentInChildren<SpriteRenderer>().sprite;
+            if (prefab.Key == "EndPortal")
+            {
+                itemImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Items/EndPortal");
+            }
+            else
+            {
+                itemImage.GetComponent<Image>().sprite = prefab.Value.GetComponentInChildren<SpriteRenderer>().sprite;
+            }
             itemImage.GetComponent<Image>().preserveAspect = true;
+
 
             Button button = newViewItem.AddComponent<Button>();
             string prefabName = prefab.Key;
