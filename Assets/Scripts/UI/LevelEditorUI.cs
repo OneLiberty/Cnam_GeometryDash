@@ -29,42 +29,54 @@ public class LevelEditorUI : MonoBehaviour
     {
         InitializeUI();
 
-        difficultySlider.onValueChanged.AddListener(value => {
+        difficultySlider.onValueChanged.AddListener(value =>
+        {
             difficultyText.text = $"Difficulty: {value:0} / 10";
         });
 
-        saveButton.onClick.AddListener(() => {
+        saveButton.onClick.AddListener(() =>
+        {
             if (string.IsNullOrEmpty(levelNameInput.text))
             {
                 Debug.LogWarning("Level name cannot be empty");
                 return;
             }
-            
+
             int levelNum = 1;
             if (!int.TryParse(levelNumberInput.text, out levelNum))
             {
                 Debug.LogWarning("Invalid level number");
                 return;
             }
-            
+
             int difficulty = Mathf.RoundToInt(difficultySlider.value);
             string music = musicDropdown.options[musicDropdown.value].text;
-            
+
             levelEditor.SaveLevel(levelNameInput.text, levelNum, difficulty, music);
             RefreshLevelDropdown();
         });
-        
-        loadButton.onClick.AddListener(() => {
+
+        loadButton.onClick.AddListener(() =>
+        {
             if (levelsDropdown.options.Count > 0)
             {
                 string levelName = levelsDropdown.options[levelsDropdown.value].text;
-                string levelPath =  Application.dataPath + "/Levels/" + levelName + ".json";
+                string levelPath = Application.dataPath + "/Levels/" + levelName + ".json";
                 levelEditor.LoadLevel(levelPath);
-                
+
                 levelNameInput.text = levelName;
+                string music = levelEditor.currentLevel.musicFile;
+                for (int i = 0; i < musicDropdown.options.Count; i++)
+                {
+                    if (musicDropdown.options[i].text == music)
+                    {
+                        musicDropdown.value = i;
+                        break;
+                    }
+                }
             }
         });
-
+        
         quitButton.onClick.AddListener(() => {
             GameManager.Instance.ReturnToMainMenu();
         });

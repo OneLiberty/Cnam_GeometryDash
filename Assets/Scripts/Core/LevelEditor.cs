@@ -20,7 +20,7 @@ public class LevelEditor : MonoBehaviour
     private string selectedObjectName;
     private int selectedRotationIndex = 0;
     private string selectedAnchor = "bottom";
-    private LevelData currentLevel = new LevelData();
+    public LevelData currentLevel { get; private set; } = new LevelData();
     private List<GameObject> placedObjects = new List<GameObject>();
     private Vector3Int lastPlacedPosition;
     private float cameraSpeed = 20f;
@@ -474,15 +474,20 @@ public class LevelEditor : MonoBehaviour
 
             string anchor = "bottom";
             SpriteRenderer sr = obj.GetComponentInChildren<SpriteRenderer>();
-            if (sr != null)
+            if (sr != null && type != "Tile" && type != "Spike")
             {
                 float objectHeight = sr.bounds.size.y;
                 float cellHeight = grid.cellSize.y;
                 float offsetY = obj.transform.position.y - grid.GetCellCenterWorld(cellPos).y;
 
-                if (Mathf.Approximately(offsetY, (cellHeight - objectHeight) * 0.5f))
+                // small error margin
+                float epsilon = 0.01f;
+                float topOffset = (cellHeight - objectHeight) * 0.5f;
+                float bottomOffset = -(cellHeight - objectHeight) * 0.5f;
+
+                if (Mathf.Abs(offsetY - topOffset) < epsilon)
                     anchor = "top";
-                else if (Mathf.Approximately(offsetY, -(cellHeight - objectHeight) * 0.5f))
+                else if (Mathf.Abs(offsetY - bottomOffset) < epsilon)
                     anchor = "bottom";
                 else
                     anchor = "center";
