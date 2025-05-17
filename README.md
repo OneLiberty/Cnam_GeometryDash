@@ -154,7 +154,23 @@ La plus grosse difficulté fut la prise en main du moteur de jeu, à savoir Unit
 
 ## Livraison
 
-Lien vers la release
+### Installation
+
+#### Depuis une Release
+Vous pouvez télécharger le projet depuis l'onglet `Releases` de la page Github du projet. Le projet est disponible sous forme d'archive ZIP contenant le projet Unity et les fichiers nécessaires au lancement du jeu.
+Il est précompilé pour Windows et MacOS (ARM, Intel et Universal). Il est possible de le lancer directement sans avoir besoin d'installer Unity.
+
+Rendez-vous [ici](https://github.com/OneLiberty/Cnam_GeometryDash/releases) pour télécharger la dernière version du projet.
+
+#### Depuis le code source
+
+Récupérer le code source du projet : 
+```bash
+git clone https://github.com/OneLiberty/Cnam_GeometryDash
+cd Cnam_GeometryDash
+```
+
+Ajouter le projet dans le Unity Hub, puis ouvrir le projet dans Unity. Le projet à été réalisé avec la version 6000.0.27f1 de Unity. Il est recommandé d'utiliser cette version pour éviter les problèmes de compatibilité.
 
 ### Comment jouer
 
