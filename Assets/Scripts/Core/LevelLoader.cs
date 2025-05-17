@@ -38,8 +38,6 @@ public class LevelLoader : MonoBehaviour
         {
             prefabsDictionnary[prefab.name] = prefab;
         }
-
-        Debug.Log("All prefabs loaded: " + prefabsDictionnary.Count);
     }
 
     public void LoadLevel(string levelPath)
@@ -175,7 +173,6 @@ public class LevelLoader : MonoBehaviour
 
     private void PlaceObjectWithAnchor(GameObject prefab, Vector3Int cellPosition, float rotation, string anchor)
     {
-        Debug.Log($"Placing {prefab.name} at {cellPosition} with rotation {rotation} and anchor {anchor}");
         Vector3 cellCenter = grid.GetCellCenterWorld(cellPosition);
         SpriteRenderer spriteRenderer = prefab.GetComponentInChildren<SpriteRenderer>();
 

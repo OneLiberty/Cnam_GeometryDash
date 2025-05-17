@@ -28,7 +28,6 @@ public class SaveSystem : MonoBehaviour
         string data = File.ReadAllText(SavePath);
         UserData userData = JsonConvert.DeserializeObject<UserData>(data);
 
-        Debug.Log($"Loaded user data: {JsonConvert.SerializeObject(userData, Formatting.Indented)}");
         if (userData.levelProgress == null)
         {
             userData.levelProgress = new Dictionary<int, LevelProgress>();

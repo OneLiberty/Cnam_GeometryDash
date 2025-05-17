@@ -80,7 +80,6 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
-        Debug.Log("Player died");
         isDead = true;
         rb.simulated = false;
 
