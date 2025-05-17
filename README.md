@@ -10,7 +10,7 @@ Membre de l'équipe :
 
 ### Planification
 
-Le projet à débuté le 26 mars 2025 et doit être livré le 17 mai 2025. Le planning est divisé en plusieurs étapes, chacune correspondant à une fonctionnalité ou un ensemble de fonctionnalités. Chaque étape est représentée par un milestone dans le diagramme de Gantt prévisionnel ci-dessous.
+Le projet à débuté le 26 mars 2025 et livré le 17 mai 2025. Le planning est divisé en plusieurs étapes, chacune correspondant à une fonctionnalité ou un ensemble de fonctionnalités. Chaque étape est représentée par un milestone dans le diagramme de Gantt prévisionnel ci-dessous.
 
 ```mermaid
 %%{init: { 'gantt': {'leftPadding': 100} } }%%
@@ -107,6 +107,7 @@ Les pull requests sont reviewées par d'autres membres de l'équipe, a défaut c
 Les bugs sont gérés par le biais d'issues sur Github. Chaque bug est décrit de manière précise afin de faciliter la compréhension du problème, comment le reproduire et de proposer une solution. Les bugs sont ensuite assignés à un membre de l'équipe qui est responsable de la résolution du bug. L'issue peut être cloturée par un commit de type FIX en précisant le numéro de l'issue dans le message de commit, il est aussi possible de cloturer l'issue manuellement en ajoutant un commentaire précisant les commits qui ont permis de résoudre le bug.
 
 ## Conception
+Tous les diagrammes de conception sont disponibles dans le dossier `Diagrams` du projet.
 
 ### Use-case diagram
 
@@ -122,7 +123,7 @@ Les bugs sont gérés par le biais d'issues sur Github. Chaque bug est décrit d
 
 ### Class diagram
 
-diagrammes (usecase, activity, state, class)
+![Class](./Diagrams/Class.svg)
 
 ## Réalisation
 
@@ -168,7 +169,7 @@ Dans un niveau :
 Dans l'éditeur de niveaux :
 
 - **Clic gauche** : Placer un objet
-- **Clic droit** : Supprimer un objet
+- **Clic droit** : Supprimer un objet - _**Modifiable**_
 - **Molette de souris** : Zoomer/Dézoomer la caméra
 - **R** : Rotation de l'objet selectionné - _**Modifiable**_
 - **A** : Modifier le point d'ancrage de l'objet selectionné (valable pour les petits objets (small tile, small spike)) - _**Modifiable**_
@@ -192,7 +193,14 @@ L'éditeur de niveaux est accessible depuis le menu principal. Le joueur peut cr
 
 L'édition d'un niveau déjà existant est possible, il suffit de le selectionner depuis le menu déroulant dans l'éditeur de niveaux et de le charger.
 
-## Rermerciements
+***
+### FAQ
+#### J'ai fini de jouer, puis-je simplement supprimer le jeu ?
+Oui, cependant le jeu stocke les données du joueur dans le dossier `C:/Users/<NomUtilisateur>/AppData/LocalLow/Quentin_BRENNER/Cnam_GeometryDash/`. Il est donc recommandé de supprimer ce dossier si vous ne souhaitez pas conserver vos données de jeu.
+
+Sous MacOS, le dossier se trouve dans `~/Library/Application Support/Quentin_BRENNER/Cnam_GeometryDash/`.
+
+## Remerciements
 
 Je remercie mes camarades de promo pour leur aide et leurs conseils tout au long du projet.
 
