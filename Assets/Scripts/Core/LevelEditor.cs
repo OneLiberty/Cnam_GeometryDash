@@ -502,9 +502,9 @@ public class LevelEditor : MonoBehaviour
             });
         }
 
-        string levelsPath = Path.Combine(Application.dataPath, "Levels");
+        string levelsPath = Path.Combine(Application.streamingAssetsPath, "Levels");
         Directory.CreateDirectory(levelsPath);
-
+        
         string json = JsonConvert.SerializeObject(currentLevel, Formatting.Indented);
         string filePath = Path.Combine(levelsPath, $"{levelName}.json");
         File.WriteAllText(filePath, json);

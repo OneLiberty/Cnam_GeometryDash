@@ -61,7 +61,7 @@ public class LevelEditorUI : MonoBehaviour
             if (levelsDropdown.options.Count > 0)
             {
                 string levelName = levelsDropdown.options[levelsDropdown.value].text;
-                string levelPath = Application.dataPath + "/Levels/" + levelName + ".json";
+                string levelPath = Path.Combine(Application.streamingAssetsPath, "Levels", levelName + ".json");
                 levelEditor.LoadLevel(levelPath);
 
                 levelNameInput.text = levelName;
@@ -115,7 +115,7 @@ public class LevelEditorUI : MonoBehaviour
     {
         levelsDropdown.ClearOptions();
         
-        string levelsPath = Application.dataPath + "/Levels";
+        string levelsPath = Path.Combine(Application.streamingAssetsPath, "Levels");
         if (Directory.Exists(levelsPath))
         {
             string[] levels = Directory.GetFiles(levelsPath, "*.json");

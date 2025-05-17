@@ -31,7 +31,7 @@ public class LevelSelection : MonoBehaviour
         levelPanels.Clear();
         isFirstLevel = true;
         
-        string levelsPath = Application.dataPath + "/Levels";
+        string levelsPath = Path.Combine(Application.streamingAssetsPath, "Levels");
         levels = Directory.GetFiles(levelsPath, "*.json");
 
         int panelIndex = 0;
